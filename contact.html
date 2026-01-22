@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get In Touch — Katie P</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating Nav -->
+    <nav class="nav">
+        <a href="/" class="logo">katie p.</a>
+        <a href="/" class="nav-cta">Back to Home</a>
+    </nav>
+
+    <!-- Contact Form Page -->
+    <section class="contact-page">
+        <div class="contact-form-container">
+            <!-- Step 1: Name -->
+            <div class="form-step active" data-step="1">
+                <h2>What's your name?</h2>
+                <div class="input-wrapper">
+                    <input type="text" id="user-name" placeholder="Your name" autocomplete="name" />
+                </div>
+                <button class="continue-btn" data-next="2">Continue</button>
+            </div>
+
+            <!-- Step 2: Email -->
+            <div class="form-step" data-step="2">
+                <h2>What's your email?</h2>
+                <div class="input-wrapper">
+                    <input type="email" id="user-email" placeholder="your@email.com" autocomplete="email" />
+                </div>
+                <button class="continue-btn" data-next="3">Continue</button>
+                <button class="back-btn" data-prev="1">← Back</button>
+            </div>
+
+            <!-- Step 3: Project Idea -->
+            <div class="form-step" data-step="3">
+                <h2>What's the project or idea you'd love to bring to life?</h2>
+
+                <div class="voice-input-container">
+                    <button class="mic-btn" id="mic-btn">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
+                        <span class="mic-label">Tap to speak</span>
+                    </button>
+                    <div class="recording-indicator" id="recording-indicator">
+                        <span class="pulse"></span>
+                        <span>Listening...</span>
+                    </div>
+                </div>
+
+                <button class="type-instead-btn" id="type-instead-btn">Type instead</button>
+
+                <div class="text-input-container hidden" id="text-input-container">
+                    <textarea id="project-idea" placeholder="Tell me about your project or idea..."></textarea>
+                </div>
+
+                <div class="transcription-preview hidden" id="transcription-preview">
+                    <p id="transcription-text"></p>
+                    <button class="edit-transcription-btn" id="edit-transcription-btn">Edit</button>
+                </div>
+
+                <button class="continue-btn submit-btn" id="submit-btn">Send Message</button>
+                <button class="back-btn" data-prev="2">← Back</button>
+            </div>
+
+            <!-- Step 4: Success -->
+            <div class="form-step" data-step="4">
+                <div class="success-message">
+                    <span class="success-icon">✓</span>
+                    <h2>Thanks!</h2>
+                    <p>I'll get back to you soon.</p>
+                    <a href="/" class="back-home-link">← Back to home</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="contact.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "framework": null,
+  "projectSettings": {
+    "projectName": "katiep-portfolio"
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" }
+  ]
+}
