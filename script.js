@@ -35,9 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(centerCarousels, 100);
     setTimeout(centerCarousels, 500);
 
-    // Update scale/opacity on scroll
+    // Update scale/opacity on scroll + mouse drag support
     const carousels = document.querySelectorAll('.carousel-track');
     carousels.forEach(carousel => {
+        // Scale/opacity on scroll
         carousel.addEventListener('scroll', () => {
             const slides = carousel.querySelectorAll('.carousel-slide');
             const carouselRect = carousel.getBoundingClientRect();
@@ -59,6 +60,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+
+        // Mouse drag support for desktop
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        carousel.addEventListener('mousedown', (e) => {
+            isDown = true;
+            carousel.style.cursor = 'grabbing';
+            startX = e.pageX - carousel.offsetLeft;
+            scrollLeft = carousel.scrollLeft;
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+            isDown = false;
+            carousel.style.cursor = 'grab';
+        });
+
+        carousel.addEventListener('mouseup', () => {
+            isDown = false;
+            carousel.style.cursor = 'grab';
+        });
+
+        carousel.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - carousel.offsetLeft;
+            const walk = (x - startX) * 2;
+            carousel.scrollLeft = scrollLeft - walk;
+        });
+
+        // Set initial cursor
+        carousel.style.cursor = 'grab';
     });
 
     // Intersection Observer for fade-in animations
