@@ -172,13 +172,13 @@ body::before {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 5rem;
+    padding: 1.25rem 2.5rem;
     background: var(--coral);
     color: white;
     text-decoration: none;
     font-weight: 600;
-    font-size: 2rem;
-    border-radius: 16px;
+    font-size: 1.25rem;
+    border-radius: 12px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
 }
