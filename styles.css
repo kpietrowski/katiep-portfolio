@@ -966,6 +966,24 @@ body::before {
     color: var(--ink);
 }
 
+.use-voice-btn {
+    display: block;
+    margin: var(--space-sm) auto 0;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    background: transparent;
+    color: var(--ink-muted);
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.use-voice-btn:hover {
+    color: var(--ink);
+}
+
 .text-input-container {
     margin-bottom: var(--space-md);
 }

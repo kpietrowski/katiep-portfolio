@@ -97,6 +97,15 @@ document.addEventListener('DOMContentLoaded', () => {
         projectIdeaTextarea.focus();
     });
 
+    // Toggle back to voice
+    const useVoiceBtn = document.getElementById('use-voice-btn');
+    useVoiceBtn.addEventListener('click', () => {
+        textInputContainer.classList.add('hidden');
+        typeInsteadBtn.style.display = 'block';
+        document.querySelector('.voice-input-container').style.display = 'block';
+        projectIdeaTextarea.value = '';
+    });
+
     // Edit transcription
     editTranscriptionBtn.addEventListener('click', () => {
         projectIdeaTextarea.value = transcriptionText.textContent;
