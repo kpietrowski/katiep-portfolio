@@ -781,6 +781,11 @@ body::before {
 /* Instagram Section */
 .instagram-section {
     margin-top: var(--space-lg);
+    padding: var(--space-lg) var(--space-md);
+    background: white;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    width: 100vw;
     text-align: center;
 }
 
