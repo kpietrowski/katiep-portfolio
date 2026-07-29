@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide — Contraction Timer & Labor Log | Join the Waitlist</title>
+    <meta name="description" content="Tide is an aesthetic contraction timer and labor log. Time contractions with one big tap, share your progress with your birth team through a single link, and save your birth story. Join the waitlist." />
+
+    <!-- Social preview -->
+    <meta property="og:title" content="Tide — Contraction Timer & Labor Log" />
+    <meta property="og:description" content="An aesthetic contraction timer and labor log. Join the waitlist for early access." />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* ============================================
+           Tide waitlist page — builds on styles.css
+           ============================================ */
+        :root{
+            --tide: #4ECDC4;              /* mint from your palette, as Tide's accent */
+            --tide-deep: #2FA8A0;
+            --tide-wash: #E8F8F6;
+        }
+
+        .tide-hero{
+            min-height: auto;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            text-align:center;
+            padding: 130px var(--space-md) var(--space-lg);
+            position:relative;
+        }
+        .tide-badge{
+            display:inline-block;
+            padding:0.5rem 1.1rem;
+            background:var(--tide-wash);
+            color:var(--tide-deep);
+            border-radius:100px;
+            font-size:0.8rem;
+            font-weight:600;
+            letter-spacing:0.05em;
+            text-transform:uppercase;
+            margin-bottom:var(--space-md);
+        }
+        .tide-hero h1{
+            font-family:var(--font-display);
+            font-size:clamp(2.75rem, 7vw, 5rem);
+            font-weight:500;
+            line-height:1.05;
+            letter-spacing:-0.03em;
+            margin-bottom:var(--space-sm);
+        }
+        .tide-hero .tagline{
+            font-size:clamp(1.15rem,2.5vw,1.5rem);
+            color:var(--ink-light);
+            max-width:560px;
+            margin:0 auto var(--space-md);
+        }
+        .hero-buttons{
+            display:flex;
+            gap:var(--space-sm);
+            justify-content:center;
+            flex-wrap:wrap;
+            margin-top:var(--space-sm);
+        }
+        .btn-ghost{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            padding:1.25rem 2.25rem;
+            background:transparent;
+            color:var(--ink);
+            border:2px solid var(--ink);
+            text-decoration:none;
+            font-weight:600;
+            font-size:1.15rem;
+            border-radius:12px;
+            transition:all 0.3s ease;
+        }
+        .btn-ghost:hover{ background:var(--ink); color:var(--cream); }
+
+        /* Phone mockup preview of the app */
+        .tide-preview{ margin-top:var(--space-lg); }
+        .tide-phone{
+            width:230px; height:470px;
+            background:#1A1A1A;
+            border-radius:44px;
+            padding:10px;
+            box-shadow:var(--shadow-card);
+            position:relative;
+            margin:0 auto;
+        }
+        .tide-phone .notch{
+            position:absolute; top:16px; left:50%; transform:translateX(-50%);
+            width:90px; height:24px; background:#1A1A1A; border-radius:14px; z-index:3;
+        }
+        .tide-screen{
+            width:100%; height:100%; border-radius:34px; overflow:hidden;
+            background:linear-gradient(160deg, #E8F8F6 0%, #CFEFEC 55%, #BDE7F0 100%);
+            display:flex; flex-direction:column; align-items:center;
+            padding:54px 18px 22px;
+        }
+        .tide-screen .app-name{
+            font-family:var(--font-display); font-size:1.15rem; color:var(--tide-deep);
+            font-weight:600; letter-spacing:0.02em; margin-bottom:22px;
+        }
+        .timer-ring{
+            width:150px; height:150px; border-radius:50%;
+            background:radial-gradient(circle at 50% 40%, #ffffff 0%, #EAF9F7 70%);
+            border:6px solid var(--tide);
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            box-shadow:0 10px 30px rgba(79,205,196,0.35);
+            margin-bottom:8px;
+        }
+        .timer-ring .time{ font-family:var(--font-display); font-size:1.9rem; color:var(--ink); font-weight:500; }
+        .timer-ring .lbl{ font-size:0.65rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--tide-deep); margin-top:2px;}
+        .tap-hint{ font-size:0.7rem; color:var(--ink-muted); margin:6px 0 18px; }
+        .contraction-row{
+            width:100%; background:rgba(255,255,255,0.85); border-radius:12px;
+            padding:9px 14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;
+        }
+        .contraction-row .cr-time{ font-size:0.72rem; color:var(--ink-muted); }
+        .contraction-row .cr-dur{ font-size:0.8rem; font-weight:600; color:var(--ink); }
+
+        /* Features */
+        .tide-features{ padding:var(--space-lg) var(--space-md); max-width:1000px; margin:0 auto; }
+        .features-grid{
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+            gap:var(--space-md); margin-top:var(--space-lg);
+        }
+        .feature-card{
+            background:white; border-radius:var(--radius-lg); padding:var(--space-md);
+            box-shadow:var(--shadow-soft); transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .feature-card:hover{ transform:translateY(-6px) rotate(-1deg); box-shadow:var(--shadow-medium); }
+        .feature-icon{
+            width:52px; height:52px; border-radius:14px; background:var(--tide-wash);
+            display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin-bottom:var(--space-sm);
+        }
+        .feature-card h3{ font-family:var(--font-display); font-size:1.3rem; font-weight:500; margin-bottom:0.4rem; letter-spacing:-0.01em; }
+        .feature-card p{ color:var(--ink-light); line-height:1.6; }
+
+        /* Founder note */
+        .founder{ background:var(--cream-dark); padding:var(--space-xl) var(--space-md); }
+        .founder-inner{
+            max-width:760px; margin:0 auto; display:flex; gap:var(--space-lg); align-items:center;
+        }
+        .founder-photo{
+            flex:0 0 180px; width:180px; height:180px; border-radius:24px; overflow:hidden;
+            border:3px solid var(--ink); box-shadow:var(--shadow-card); transform:rotate(-3deg);
+        }
+        .founder-photo img{ width:100%; height:100%; object-fit:cover; }
+        .founder-text h2{ font-family:var(--font-display); font-size:clamp(1.6rem,3vw,2.2rem); font-weight:500; margin-bottom:var(--space-sm); letter-spacing:-0.02em; }
+        .founder-text p{ color:var(--ink-light); font-size:1.08rem; line-height:1.75; margin-bottom:0.75rem; }
+        .founder-text .sig{ font-family:var(--font-display); font-style:italic; color:var(--ink); font-size:1.15rem; }
+
+        /* Signup */
+        .tide-signup{ padding:var(--space-xl) var(--space-md); text-align:center; }
+        .signup-card{
+            max-width:560px; margin:0 auto; background:white; border-radius:var(--radius-xl);
+            padding:var(--space-lg) var(--space-md); box-shadow:var(--shadow-medium);
+        }
+        .signup-card h2{ font-family:var(--font-display); font-size:clamp(1.8rem,4vw,2.6rem); font-weight:500; letter-spacing:-0.02em; margin-bottom:0.5rem; }
+        .signup-card .sub{ color:var(--ink-light); font-size:1.1rem; margin-bottom:var(--space-md); }
+        .signup-form{ display:flex; gap:0.6rem; max-width:440px; margin:0 auto; flex-wrap:wrap; justify-content:center; }
+        .signup-form input{
+            flex:1; min-width:220px; padding:1.1rem 1.4rem; font-size:1.05rem; font-family:var(--font-body);
+            border:2px solid var(--ink); border-radius:12px; background:white; color:var(--ink); text-align:center;
+            transition:all 0.3s ease;
+        }
+        .signup-form input:focus{ outline:none; border-color:var(--tide); box-shadow:0 0 0 4px rgba(79,205,196,0.2); }
+        .signup-form button{
+            padding:1.1rem 2rem; font-size:1.05rem; font-weight:600; font-family:var(--font-body);
+            background:var(--coral); color:white; border:none; border-radius:12px; cursor:pointer;
+            box-shadow:0 4px 20px rgba(255,107,107,0.3); transition:all 0.3s ease; white-space:nowrap;
+        }
+        .signup-form button:hover{ transform:translateY(-2px); box-shadow:0 6px 25px rgba(255,107,107,0.4); }
+        .signup-form button:disabled{ opacity:0.6; cursor:default; transform:none; }
+        .form-note{ font-size:0.85rem; color:var(--ink-muted); margin-top:var(--space-sm); }
+        .signup-success{ display:none; padding:var(--space-sm) 0; }
+        .signup-success .success-icon{ width:64px; height:64px; font-size:2rem; background:var(--tide); margin-bottom:var(--space-sm); }
+        .signup-success h3{ font-family:var(--font-display); font-size:1.6rem; font-weight:500; margin-bottom:0.4rem; }
+        .signup-success p{ color:var(--ink-light); }
+
+        /* Pre-order */
+        .preorder-note{
+            max-width:560px; margin:var(--space-md) auto 0; padding:var(--space-md);
+            background:var(--tide-wash); border-radius:var(--radius-md); color:var(--tide-deep);
+            font-size:0.95rem; line-height:1.6;
+        }
+        .preorder-cta{ margin-top:var(--space-md); }
+        /* Hide the App Store button until you have your pre-order link.
+           Delete this rule (or the 'hidden' class) once the link is ready. */
+        .hidden{ display:none !important; }
+
+        @media (max-width:720px){
+            .founder-inner{ flex-direction:column; text-align:center; }
+            .founder-photo{ transform:rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Nav -->
+    <nav class="nav">
+        <a href="/" class="logo">katie p.</a>
+        <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="#signup" class="nav-cta">Join the waitlist</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="tide-hero">
+        <span class="tide-badge">🌊 Coming soon to the App Store</span>
+        <h1>Tide</h1>
+        <p class="tagline">An aesthetic contraction timer &amp; labor log — so you can focus on the moment, and let everyone you love follow along.</p>
+        <div class="hero-buttons">
+            <a href="#signup" class="cta-button">Join the waitlist</a>
+            <a href="#features" class="btn-ghost">See what's inside</a>
+        </div>
+
+        <!-- App preview -->
+        <div class="tide-preview">
+            <div class="tide-phone">
+                <div class="notch"></div>
+                <div class="tide-screen">
+                    <div class="app-name">Tide</div>
+                    <div class="timer-ring">
+                        <div class="time">00:47</div>
+                        <div class="lbl">Contraction</div>
+                    </div>
+                    <div class="tap-hint">Tap anywhere to start &amp; stop</div>
+                    <div class="contraction-row"><span class="cr-time">2:14 PM</span><span class="cr-dur">52s · 4m apart</span></div>
+                    <div class="contraction-row"><span class="cr-time">2:10 PM</span><span class="cr-dur">48s · 5m apart</span></div>
+                    <div class="contraction-row"><span class="cr-time">2:05 PM</span><span class="cr-dur">45s · 5m apart</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="tide-features" id="features">
+        <div class="section-header">
+            <span class="section-label">What's inside</span>
+            <h2>Everything you need, nothing you don't</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3>One big tap to time</h3>
+                <p>A large, can't-miss button starts and stops each contraction. No fumbling with tiny controls mid-wave — just tap and breathe.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Share your progress live</h3>
+                <p>Send a private link to your doula, partner, or midwife so your birth team can see your contraction timing in real time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3>Labor log with photos &amp; notes</h3>
+                <p>Capture how you're feeling, add photos, and jot notes as things progress — a running record of your whole labor in one place.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👨‍👩‍👧</div>
+                <h3>One link for the whole family</h3>
+                <p>No more juggling group texts or answering the same question ten times. Everyone follows along from a single shared link.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💛</div>
+                <h3>Save your birth story</h3>
+                <p>Your timeline, notes, and photos become a birth story you can keep — and return to again and again for years to come.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Founder note -->
+    <section class="founder">
+        <div class="founder-inner">
+            <!-- Swap this image for your new photo when it's ready:
+                 change src to images/your-new-photo.jpg -->
+            <div class="founder-photo">
+                <img src="images/Katie_pic.jpg" alt="Katie, designer & maker of Tide" />
+            </div>
+            <div class="founder-text">
+                <h2>Hi, I'm Katie 👋</h2>
+                <p>I design and build iOS apps I wish existed — and Tide is the one closest to my heart. Labor is intense enough without wrestling a clunky timer or texting updates to a dozen people between contractions.</p>
+                <p>Tide keeps the timing effortless and the people you love in the loop, so you can stay present for one of the biggest days of your life.</p>
+                <p class="sig">Can't wait to put it in your hands.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup -->
+    <section class="tide-signup" id="signup">
+        <div class="signup-card">
+            <div id="signup-view">
+                <h2>Be first to ride the Tide</h2>
+                <p class="sub">Join the waitlist and I'll email you the moment it's live — plus early-access perks for founding users.</p>
+                <form class="signup-form" id="waitlist-form">
+                    <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address" />
+                    <button type="submit">Notify me</button>
+                </form>
+                <p class="form-note">No spam, ever — just one note when Tide launches.</p>
+            </div>
+            <div class="signup-success" id="signup-success">
+                <span class="success-icon">✓</span>
+                <h3>You're on the list! 🌊</h3>
+                <p>Keep an eye on your inbox — I'll be in touch the moment Tide is ready.</p>
+            </div>
+        </div>
+
+        <!-- Pre-order block: turns on after Apple approves your build -->
+        <div class="preorder-cta hidden" id="preorder-block">
+            <a href="APP_STORE_PREORDER_LINK" class="btn-ghost">Pre-order on the App Store</a>
+            <p class="form-note">Free to reserve — it installs on your phone automatically the day we launch.</p>
+        </div>
+
+        <div class="preorder-note">
+            <strong>Coming soon:</strong> once Tide is approved by Apple, this is where the App Store pre-order button lights up — so people can reserve it and have it auto-install on launch day.
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2026 B Gilmore, LLC · Tide: Contraction Timer</p>
+        <p style="margin-top:0.5rem;">
+            <a href="/privacy.html" style="color:var(--tide-deep);text-decoration:none;">Privacy Policy</a>
+            &nbsp;·&nbsp;
+            <a href="/terms.html" style="color:var(--tide-deep);text-decoration:none;">Terms &amp; Conditions</a>
+            &nbsp;·&nbsp;
+            <a href="/" style="color:var(--tide-deep);text-decoration:none;">katiep.me</a>
+        </p>
+    </footer>
+
+    <script>
+        // ============================================
+        //  Waitlist form → Google Sheet
+        //  Paste the Web App URL from the Apps Script deploy step below:
+        // ============================================
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwrs-g0DtHm3GUxbOios9o75o_RUvbvuM-mwO5emOoSqA8aZiB7HmYT-KZP3u1utu9a/exec";
+
+        const form = document.getElementById('waitlist-form');
+        const signupView = document.getElementById('signup-view');
+        const signupSuccess = document.getElementById('signup-success');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = form.email.value.trim();
+            if (!email) return;
+
+            const btn = form.querySelector('button');
+            btn.textContent = 'Adding you…';
+            btn.disabled = true;
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ email: email, source: 'tide-waitlist' })
+            })
+            .then(function () {
+                signupView.style.display = 'none';
+                signupSuccess.style.display = 'block';
+            })
+            .catch(function () {
+                btn.textContent = 'Try again';
+                btn.disabled = false;
+                alert('Something went wrong — please try again in a moment.');
+            });
+        });
+    </script>
+</body>
+</html>
