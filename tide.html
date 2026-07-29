@@ -198,6 +198,39 @@
         #hero-note{ max-width:440px; margin-left:auto; margin-right:auto; }
         .preorder-area{ text-align:center; scroll-margin-top:100px; margin-top:var(--space-md); }
         .preorder-live{ margin-bottom:var(--space-sm); }
+
+        /* ---- Story tracker: due-date countdown + build progress ---- */
+        .story-tracker{ max-width:600px; width:100%; margin:0 auto var(--space-lg);
+            background:#fff; border:1px solid var(--cream-dark); border-radius:var(--radius-lg);
+            box-shadow:var(--shadow-soft); padding:var(--space-md); text-align:center; }
+        .ct-label{ font-size:0.78rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--tide-deep); }
+        .ct-clock{ display:flex; justify-content:center; align-items:flex-start; gap:0.35rem; margin-top:0.55rem; }
+        .ct-unit{ display:flex; flex-direction:column; align-items:center; min-width:52px; }
+        .ct-num{ font-family:var(--font-display); font-size:2rem; font-weight:500; color:var(--ink); line-height:1; }
+        .ct-unit-lbl{ font-size:0.62rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-muted); margin-top:5px; }
+        .ct-sep{ font-family:var(--font-display); font-size:1.5rem; color:var(--peach); line-height:1; margin-top:2px; }
+        .ct-arrived{ font-family:var(--font-display); font-size:1.4rem; color:var(--coral); }
+        .tracker-divider{ height:1px; background:var(--cream-dark); margin:var(--space-md) 0; }
+        .pr-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; gap:0.5rem; }
+        .pr-label{ font-size:0.78rem; font-weight:600; color:var(--ink-muted); display:flex; align-items:center; gap:0.4rem; }
+        .pr-stage{ font-size:0.85rem; font-weight:700; color:var(--coral); white-space:nowrap; }
+        .live-dot{ width:8px; height:8px; border-radius:50%; background:#e2483d; display:inline-block; animation:livepulse 1.4s infinite; }
+        @keyframes livepulse{ 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.35;transform:scale(1.35);} }
+        .pr-bar{ height:8px; background:var(--cream-dark); border-radius:100px; overflow:hidden; }
+        .pr-fill{ height:100%; width:0; background:linear-gradient(90deg,var(--tide),var(--tide-deep)); border-radius:100px; transition:width 1s ease; }
+        .pr-steps{ display:flex; justify-content:space-between; margin-top:0.8rem; }
+        .pr-step{ display:flex; flex-direction:column; align-items:center; gap:5px; flex:1;
+            font-size:0.6rem; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-muted); }
+        .pr-step .dot{ width:12px; height:12px; border-radius:50%; background:#fff; border:2px solid var(--cream-dark); }
+        .pr-step.done .dot{ background:var(--tide); border-color:var(--tide); }
+        .pr-step.active{ color:var(--coral); font-weight:700; }
+        .pr-step.active .dot{ background:var(--coral); border-color:var(--coral); box-shadow:0 0 0 4px rgba(255,107,107,0.2); }
+        @media (max-width:520px){
+            .ct-unit{ min-width:40px; }
+            .ct-num{ font-size:1.5rem; }
+            .pr-step{ font-size:0.52rem; }
+        }
+
         /* Hide the App Store button until you have your pre-order link.
            Delete this rule (or the 'hidden' class) once the link is ready. */
         .hidden{ display:none !important; }
@@ -220,6 +253,32 @@
 
     <!-- Hero -->
     <section class="tide-hero">
+
+        <!-- Story tracker: live countdown to due date + build progress -->
+        <div class="story-tracker">
+            <div class="countdown">
+                <span class="ct-label">👶 Baby's due in</span>
+                <div class="ct-clock" id="countdown">
+                    <div class="ct-unit"><span class="ct-num" id="cd-days">--</span><span class="ct-unit-lbl">days</span></div>
+                    <div class="ct-sep">:</div>
+                    <div class="ct-unit"><span class="ct-num" id="cd-hours">--</span><span class="ct-unit-lbl">hrs</span></div>
+                    <div class="ct-sep">:</div>
+                    <div class="ct-unit"><span class="ct-num" id="cd-mins">--</span><span class="ct-unit-lbl">min</span></div>
+                    <div class="ct-sep">:</div>
+                    <div class="ct-unit"><span class="ct-num" id="cd-secs">--</span><span class="ct-unit-lbl">sec</span></div>
+                </div>
+            </div>
+            <div class="tracker-divider"></div>
+            <div class="progress">
+                <div class="pr-head">
+                    <span class="pr-label"><span class="live-dot"></span> Building Tide — live</span>
+                    <span class="pr-stage" id="pr-stage">Building</span>
+                </div>
+                <div class="pr-bar"><div class="pr-fill" id="pr-fill"></div></div>
+                <div class="pr-steps" id="pr-steps"></div>
+            </div>
+        </div>
+
         <span class="tide-badge">🌊 Coming soon to the App Store</span>
         <h1>Tide</h1>
         <p class="tagline">An aesthetic contraction timer &amp; labor log — so you can focus on the moment, and let everyone you love follow along.</p>
@@ -440,6 +499,65 @@
                     alert('Something went wrong — please try again in a moment.');
                 });
         });
+
+        // ============================================
+        //  Story tracker: due-date countdown + build progress
+        // ============================================
+        (function () {
+            // Your due date (Eastern Time). Change here if it ever moves.
+            var DUE = new Date('2026-08-27T00:00:00-04:00').getTime();
+
+            // The stages of the journey. Bump CURRENT_STAGE (1-based) as you
+            // progress and the tracker updates — no other changes needed.
+            var STAGES = [
+                { short: 'Design',    full: 'Designing' },
+                { short: 'Build',     full: 'Building' },
+                { short: 'Submit',    full: 'Submitted to Apple' },
+                { short: 'Review',    full: 'In App Review' },
+                { short: 'Pre-order', full: 'Pre-order live' },
+                { short: 'Launch',    full: 'Launched 🎉' }
+            ];
+            var CURRENT_STAGE = 2; // 1 = Design, 2 = Build, 3 = Submit, ...
+
+            // Build the progress steps
+            var stepsEl = document.getElementById('pr-steps');
+            STAGES.forEach(function (s, i) {
+                var idx = i + 1;
+                var cls = idx < CURRENT_STAGE ? 'done' : (idx === CURRENT_STAGE ? 'active' : '');
+                var el = document.createElement('div');
+                el.className = 'pr-step ' + cls;
+                el.innerHTML = '<span class="dot"></span>' + s.short;
+                stepsEl.appendChild(el);
+            });
+            document.getElementById('pr-stage').textContent = STAGES[CURRENT_STAGE - 1].full;
+            var pct = ((CURRENT_STAGE - 1) / (STAGES.length - 1)) * 100;
+            document.getElementById('pr-fill').style.width = pct + '%';
+
+            // Countdown
+            var clock = document.getElementById('countdown');
+            var dEl = document.getElementById('cd-days'),
+                hEl = document.getElementById('cd-hours'),
+                mEl = document.getElementById('cd-mins'),
+                sEl = document.getElementById('cd-secs');
+            function pad(n) { return (n < 10 ? '0' : '') + n; }
+            function tick() {
+                var diff = DUE - Date.now();
+                if (diff <= 0) {
+                    clock.innerHTML = '<span class="ct-arrived">👶 Any moment now…</span>';
+                    return;
+                }
+                var s = Math.floor(diff / 1000);
+                var days = Math.floor(s / 86400); s -= days * 86400;
+                var hrs = Math.floor(s / 3600);  s -= hrs * 3600;
+                var mins = Math.floor(s / 60);    s -= mins * 60;
+                dEl.textContent = days;
+                hEl.textContent = pad(hrs);
+                mEl.textContent = pad(mins);
+                sEl.textContent = pad(s);
+            }
+            tick();
+            setInterval(tick, 1000);
+        })();
     </script>
 </body>
 </html>
