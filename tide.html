@@ -194,6 +194,10 @@
             font-size:0.95rem; line-height:1.6;
         }
         .preorder-cta{ margin-top:var(--space-md); }
+        .hero-form{ margin-top:var(--space-sm); }
+        #hero-note{ max-width:440px; margin-left:auto; margin-right:auto; }
+        .preorder-area{ text-align:center; scroll-margin-top:100px; margin-top:var(--space-md); }
+        .preorder-live{ margin-bottom:var(--space-sm); }
         /* Hide the App Store button until you have your pre-order link.
            Delete this rule (or the 'hidden' class) once the link is ready. */
         .hidden{ display:none !important; }
@@ -219,9 +223,17 @@
         <span class="tide-badge">🌊 Coming soon to the App Store</span>
         <h1>Tide</h1>
         <p class="tagline">An aesthetic contraction timer &amp; labor log — so you can focus on the moment, and let everyone you love follow along.</p>
+
+        <!-- Email capture, front and center -->
+        <form class="signup-form hero-form" id="hero-form">
+            <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address" />
+            <button type="submit">Join the waitlist</button>
+        </form>
+        <p class="form-note" id="hero-note">Enter your email to reserve your spot — I'll take you right to the App Store pre-order.</p>
+
         <div class="hero-buttons">
-            <a href="#signup" class="cta-button">Join the waitlist</a>
             <a href="#features" class="btn-ghost">See what's inside</a>
+            <a href="#preorder" class="cta-button">Pre-order on the App Store</a>
         </div>
 
         <!-- App preview -->
@@ -314,14 +326,15 @@
             </div>
         </div>
 
-        <!-- Pre-order block: turns on after Apple approves your build -->
-        <div class="preorder-cta hidden" id="preorder-block">
-            <a href="APP_STORE_PREORDER_LINK" class="btn-ghost">Pre-order on the App Store</a>
-            <p class="form-note">Free to reserve — it installs on your phone automatically the day we launch.</p>
-        </div>
-
-        <div class="preorder-note">
-            <strong>Coming soon:</strong> once Tide is approved by Apple, this is where the App Store pre-order button lights up — so people can reserve it and have it auto-install on launch day.
+        <!-- Pre-order area — visitors land here right after entering their email -->
+        <div class="preorder-area" id="preorder">
+            <div class="preorder-live hidden" id="preorder-live">
+                <a href="APP_STORE_PREORDER_LINK" class="cta-button" id="preorder-link">Pre-order on the App Store</a>
+                <p class="form-note">Free to reserve — Tide installs on your phone automatically the day it launches.</p>
+            </div>
+            <div class="preorder-note" id="preorder-soon">
+                <strong>You're almost there.</strong> Tide is in Apple's review right now. The App Store pre-order button appears here the moment it's approved — and because you're on the list, I'll email you the second it's live so you can reserve it and have it auto-install on launch day.
+            </div>
         </div>
     </section>
 
@@ -344,34 +357,88 @@
         // ============================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwrs-g0DtHm3GUxbOios9o75o_RUvbvuM-mwO5emOoSqA8aZiB7HmYT-KZP3u1utu9a/exec";
 
-        const form = document.getElementById('waitlist-form');
-        const signupView = document.getElementById('signup-view');
-        const signupSuccess = document.getElementById('signup-success');
+        // ============================================
+        //  Apple pre-order link
+        //  Once Apple approves Tide and you set up the pre-order in App Store
+        //  Connect, paste that App Store link between the quotes below.
+        //  As soon as it's set, the live "Pre-order" button turns on automatically.
+        // ============================================
+        const PREORDER_URL = "";
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = form.email.value.trim();
-            if (!email) return;
+        // Turn on the live pre-order button if the link is set
+        (function () {
+            if (PREORDER_URL) {
+                var link = document.getElementById('preorder-link');
+                link.href = PREORDER_URL;
+                document.getElementById('preorder-live').classList.remove('hidden');
+                document.getElementById('preorder-soon').classList.add('hidden');
+            }
+        })();
 
-            const btn = form.querySelector('button');
-            btn.textContent = 'Adding you…';
-            btn.disabled = true;
+        function goToPreorder() {
+            document.getElementById('preorder').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
 
-            fetch(SCRIPT_URL, {
+        function submitEmail(email) {
+            return fetch(SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({ email: email, source: 'tide-waitlist' })
-            })
-            .then(function () {
-                signupView.style.display = 'none';
-                signupSuccess.style.display = 'block';
-            })
-            .catch(function () {
-                btn.textContent = 'Try again';
-                btn.disabled = false;
-                alert('Something went wrong — please try again in a moment.');
             });
+        }
+
+        // Lower signup card elements
+        const signupView = document.getElementById('signup-view');
+        const signupSuccess = document.getElementById('signup-success');
+        function flipLowerSuccess() {
+            if (signupView) signupView.style.display = 'none';
+            if (signupSuccess) signupSuccess.style.display = 'block';
+        }
+
+        // --- Hero form (top of page) ---
+        const heroForm = document.getElementById('hero-form');
+        const heroNote = document.getElementById('hero-note');
+        heroForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = heroForm.email.value.trim();
+            if (!email) return;
+            const btn = heroForm.querySelector('button');
+            btn.textContent = 'Adding you…';
+            btn.disabled = true;
+            submitEmail(email)
+                .then(function () {
+                    heroForm.style.display = 'none';
+                    heroNote.innerHTML = "🎉 You're on the list! Taking you to the pre-order…";
+                    flipLowerSuccess();
+                    setTimeout(goToPreorder, 500);
+                })
+                .catch(function () {
+                    btn.textContent = 'Try again';
+                    btn.disabled = false;
+                    alert('Something went wrong — please try again in a moment.');
+                });
+        });
+
+        // --- Lower signup form ---
+        const form = document.getElementById('waitlist-form');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = form.email.value.trim();
+            if (!email) return;
+            const btn = form.querySelector('button');
+            btn.textContent = 'Adding you…';
+            btn.disabled = true;
+            submitEmail(email)
+                .then(function () {
+                    flipLowerSuccess();
+                    setTimeout(goToPreorder, 400);
+                })
+                .catch(function () {
+                    btn.textContent = 'Try again';
+                    btn.disabled = false;
+                    alert('Something went wrong — please try again in a moment.');
+                });
         });
     </script>
 </body>
