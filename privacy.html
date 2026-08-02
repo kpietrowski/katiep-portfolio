@@ -49,7 +49,7 @@
     <main class="legal-page">
         <span class="eyebrow">🌊 Tide</span>
         <h1>Privacy Policy</h1>
-        <p class="legal-meta"><strong>Effective date:</strong> July 31, 2026</p>
+        <p class="legal-meta"><strong>Effective date:</strong> August 2, 2026</p>
         <p class="legal-meta"><strong>App:</strong> Tide (contraction timer and labor companion)</p>
         <p class="legal-meta"><strong>Provider:</strong> B Gilmore, LLC ("we," "us," "our")</p>
         <p class="legal-meta"><strong>Contact:</strong> <a href="mailto:katie@katiepietrowski.com" style="color:var(--tide-deep);">katie@katiepietrowski.com</a></p>
@@ -75,9 +75,9 @@
         </ul>
 
         <h2>The share link (only when you turn it on)</h2>
-        <p>If you tap "Share this link," Tide creates a private, randomly-generated link and begins sending the contents you've chosen to share — your <strong>contraction timing and the patterns Tide calculates from it</strong> (such as how long each contraction lasts and how far apart they are), your updates, photos, videos, and (if you announce it) your birth announcement — to our hosting provider, <strong>Supabase</strong>, so that people you send the link to can view them in a web page. Until you turn sharing on, this information stays on your device.</p>
+        <p>If you tap "Share this link," Tide creates a private, randomly-generated link and begins sending the contents you've chosen to share — your contraction timing and patterns, your updates, photos, videos, and (if you announce it) your birth announcement — to our hosting provider, <strong>Supabase</strong>, so that people you send the link to can view them in a web page. Until you turn sharing on, this information stays on your device.</p>
         <ul>
-            <li><strong>Who can see it:</strong> anyone who has the link. The link is a long random token and is not listed or searchable, but treat it like a house key — anyone you forward it to can view the shared content. Viewers can only look; they cannot post, edit, or message back.</li>
+            <li><strong>Who can see it:</strong> anyone who has the link. The link is a long random token and is not listed or searchable, but treat it like a house key — anyone you forward it to can view the shared content. Viewers can only look; they cannot post, edit, or message back. A partner you explicitly invite with an invite code can also add updates.</li>
             <li><strong>Contraction data:</strong> your contraction start and stop times and the timing patterns Tide derives from them are shared so viewers can follow your live timer and progress. This is health-related information — please share your link only with people you trust.</li>
             <li><strong>Photos and videos</strong> you share are stored on Supabase and served from unguessable URLs so the web page can display them.</li>
             <li><strong>Turning it off:</strong> when you end the session, start fresh, or stop sharing, the link is deactivated and the page no longer shows your information. The link also automatically expires about <strong>48 hours</strong> after your last update.</li>
@@ -89,7 +89,7 @@
         <p>If you enable voice dictation and tap the microphone, Tide records short audio and sends it to <strong>OpenAI</strong> to transcribe it into text. We do not store your audio. OpenAI processes it under their API data policies — audio sent through the API is <strong>not used to train OpenAI's models</strong> and may be retained by OpenAI for a limited period (up to ~30 days) for abuse monitoring, then deleted. If you never use the microphone, no audio is ever recorded or sent. You can turn this off by not using the feature; microphone access is also controllable in iOS Settings.</p>
 
         <h2>Purchases</h2>
-        <p>Tide is unlocked with a one-time purchase processed by <strong>Apple</strong> through the App Store. Apple handles all payment information; we never see or store your payment details. We receive only Apple's confirmation that the purchase is valid.</p>
+        <p>Tide is unlocked with a one-time purchase processed by <strong>Apple</strong> through the App Store. Apple handles all payment information; we never see or store your payment details. We receive only Apple's confirmation that the purchase is valid. We use RevenueCat to validate purchases; RevenueCat receives Apple's purchase receipt and an anonymous app-generated identifier — never your name or payment details.</p>
 
         <h2>Third-party services</h2>
         <p>We rely on a small number of providers ("subprocessors") to run these features. Each receives only what's needed for its function:</p>
@@ -112,6 +112,16 @@
                     <td><strong>OpenAI</strong></td>
                     <td>Transcribing voice dictation to text (only when you use the mic)</td>
                     <td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">openai.com/policies/privacy-policy</a></td>
+                </tr>
+                <tr>
+                    <td><strong>RevenueCat</strong></td>
+                    <td>Purchase validation (anonymous identifier + receipt only)</td>
+                    <td><a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">revenuecat.com/privacy</a></td>
+                </tr>
+                <tr>
+                    <td><strong>GitHub Pages</strong></td>
+                    <td>Serving the share-link viewer web page</td>
+                    <td><a href="https://docs.github.com/privacy" target="_blank" rel="noopener">docs.github.com/privacy</a></td>
                 </tr>
             </tbody>
         </table>
