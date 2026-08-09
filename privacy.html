@@ -49,13 +49,13 @@
     <main class="legal-page">
         <span class="eyebrow">🌊 Tide</span>
         <h1>Privacy Policy</h1>
-        <p class="legal-meta"><strong>Effective date:</strong> August 2, 2026</p>
+        <p class="legal-meta"><strong>Effective date:</strong> August 9, 2026</p>
         <p class="legal-meta"><strong>App:</strong> Tide (contraction timer and labor companion)</p>
         <p class="legal-meta"><strong>Provider:</strong> B Gilmore, LLC ("we," "us," "our")</p>
         <p class="legal-meta"><strong>Contact:</strong> <a href="mailto:katie@katiepietrowski.com" style="color:var(--tide-deep);">katie@katiepietrowski.com</a></p>
 
         <h2>The short version</h2>
-        <p>Tide is built to be private. There are no accounts, no ads, no analytics, and no tracking. Everything you log stays <strong>on your device</strong> unless <em>you</em> choose to share it. We don't sell your data — ever. The only time your information leaves your phone is when you (1) turn on a share link, or (2) use voice dictation. Both are explained below.</p>
+        <p>Tide is built to be private. There are no accounts, no ads, and no cross-app tracking, and we never sell your data. Almost everything you log stays on your device. Your information leaves your phone in only three cases: (1) you turn on a share link, (2) you use voice dictation, or (3) an anonymous summary of your onboarding answers. Each is explained below.</p>
 
         <h2>Information in the app</h2>
         <p>You provide this information; we don't collect it in the background:</p>
@@ -65,7 +65,7 @@
             <li><strong>Birth details</strong> — optionally a baby's name, date and time of birth, weight, length, a note, and a photo.</li>
             <li><strong>Voice recordings</strong> — only if you tap the microphone to dictate an update (see "Voice dictation" below).</li>
         </ul>
-        <p>Tide does <strong>not</strong> collect your location, contacts, health records from Apple Health, device identifiers for advertising, or usage analytics.</p>
+        <p>Tide does <strong>not</strong> collect your location, contacts, health records from Apple Health, device identifiers for advertising, or behavioral usage analytics beyond the onboarding summary described below.</p>
 
         <h2>Where your information is stored</h2>
         <ul>
@@ -83,7 +83,15 @@
             <li><strong>Turning it off:</strong> when you end the session, start fresh, or stop sharing, the link is deactivated and the page no longer shows your information. The link also automatically expires about <strong>48 hours</strong> after your last update.</li>
             <li><strong>Writes are protected</strong> by a secret stored only in your device's Keychain, so only your phone can add to your shared session.</li>
         </ul>
+        <p><strong>Your first name.</strong> If you tell Tide what to call you, your first name is included on the page your family follows, so they know whose labor they're watching (for example, "Katie's labor"). Giving your name is optional — skip it and the page stays generic. Your name is stored with that shared session only: it is removed when you stop sharing, when the session expires, and when you use <strong>Delete shared data</strong> in Settings.</p>
         <p>Copies of previously shared data and media may remain stored on Supabase after a link is deactivated. You can email us at <a href="mailto:katie@katiepietrowski.com" style="color:var(--tide-deep);">katie@katiepietrowski.com</a> to request permanent deletion.</p>
+
+        <h2>Anonymous onboarding analytics</h2>
+        <p>When you go through Tide's opening questions, the app sends an <strong>anonymous summary</strong> of your answers and of how far you got. This tells us which parts of the setup are confusing and who Tide is helping, so we can make it better.</p>
+        <p>This summary contains <strong>only</strong>: your due date, whether it's your first baby, the goals you selected, your "when to head in" preference, which path you chose, the last setup screen you reached, whether you completed setup, whether you purchased, and your app version.</p>
+        <p>It contains <strong>no</strong> name, email, phone number, contact details, or advertising identifier, and it is <strong>not linked</strong> to your name, to your contractions and updates, or to your share link. It is not used to identify you and we do not attempt to re-identify it.</p>
+        <p>So that we can tell one person's progress apart from another's, the summary carries a random identifier generated on your device. It is not your Apple ID, your device ID, or any advertising ID — it is a random value that means nothing outside this summary, and it is never combined with your name or your labor data.</p>
+        <p>We use this information only in aggregate to understand and improve Tide. We do not sell it.</p>
 
         <h2>Voice dictation (OpenAI)</h2>
         <p>If you enable voice dictation and tap the microphone, Tide records short audio and sends it to <strong>OpenAI</strong> to transcribe it into text. We do not store your audio. OpenAI processes it under their API data policies — audio sent through the API is <strong>not used to train OpenAI's models</strong> and may be retained by OpenAI for a limited period (up to ~30 days) for abuse monitoring, then deleted. If you never use the microphone, no audio is ever recorded or sent. You can turn this off by not using the feature; microphone access is also controllable in iOS Settings.</p>
@@ -105,7 +113,7 @@
                 </tr>
                 <tr>
                     <td><strong>Supabase</strong></td>
-                    <td>Hosting the share link, updates, photos, and videos you choose to share</td>
+                    <td>Hosting the share link, updates, photos, and videos you choose to share (including your first name if you provide one), and storing the anonymous onboarding summary</td>
                     <td><a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a></td>
                 </tr>
                 <tr>
