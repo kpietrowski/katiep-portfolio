@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F4EEE4">
+<title>Tide — Your unlock code</title>
+<!--
+  Stripe checkout success page for the ANDROID unlock.
+
+  The Stripe payment link redirects here with ?session_id={CHECKOUT_SESSION_ID}.
+  That id IS the unlock code: the app posts it to the redeem-android-unlock Edge
+  Function, which asks Stripe whether the session was paid and then consumes it.
+
+  So this page has exactly one job — show the buyer their code and make it
+  effortless to copy. If it fails to do that, they have paid and cannot get in.
+  Hence: no dependencies, no fonts to load, no analytics, nothing that can break
+  between Stripe and this text. Everything degrades to "the code is still
+  visible and selectable".
+
+  Served at https://katiep.me/tide/success — vercel.json sets cleanUrls:true, so
+  this file's path IS the route, and it has to keep matching the redirect
+  configured on the Stripe payment link.
+
+  SOURCE OF TRUTH: web/unlock-success.html in the Tide app repo. Edit there and
+  copy across, so the page stays next to the redeem-android-unlock function it
+  works with.
+
+  iOS does not use this page at all — it sells through StoreKit.
+-->
+<style>
+  :root {
+    --cream:#F4EEE4; --ink:#5A4E45; --muted:#B0A392; --header:#B8AB9C;
+    --label:#6B564D; --sub:#A2917F; --card:rgba(255,255,255,0.55);
+    --hair:rgba(0,0,0,0.07); --orange:#E68F44; --good:#4E7A57; --bad:#C0392B;
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { margin:0; }
+  body {
+    background:var(--cream); color:var(--ink); min-height:100vh;
+    font-family:-apple-system,"Quicksand",system-ui,"Segoe UI",Roboto,sans-serif;
+    padding:calc(env(safe-area-inset-top) + 40px) 22px calc(env(safe-area-inset-bottom) + 40px);
+    max-width:560px; margin:0 auto;
+  }
+  header { text-align:center; margin-bottom:30px; }
+  .tick {
+    width:54px; height:54px; border-radius:50%; margin:0 auto 16px;
+    background:rgba(78,122,87,0.12); color:var(--good);
+    display:flex; align-items:center; justify-content:center; font-size:27px;
+  }
+  h1 { font-size:26px; font-weight:700; margin:0 0 8px; color:var(--label); }
+  .lede { font-size:16px; color:var(--muted); margin:0; line-height:1.5; }
+
+  .card {
+    background:var(--card); border-radius:20px; padding:20px; margin:0 0 18px;
+  }
+  .cap {
+    font-size:12px; font-weight:600; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--muted); margin:0 0 10px;
+  }
+  /*
+    user-select is spelled out because some in-app browsers disable selection on
+    body. If the copy button fails, long-press-to-select must still work — that
+    is the fallback that keeps a paying customer from being stranded.
+  */
+  code {
+    display:block; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:15px; line-height:1.5; word-break:break-all; color:var(--ink);
+    background:rgba(255,255,255,0.7); border-radius:12px; padding:14px;
+    user-select:all; -webkit-user-select:all;
+  }
+  button {
+    appearance:none; border:0; width:100%; margin-top:12px; padding:16px;
+    border-radius:16px; background:var(--label); color:#FFF9F4;
+    font:inherit; font-size:17px; font-weight:600; cursor:pointer;
+  }
+  button:active { opacity:0.85; }
+  button[disabled] { opacity:0.6; cursor:default; }
+
+  ol { margin:0; padding-left:20px; }
+  li { font-size:15px; line-height:1.65; margin-bottom:6px; }
+  .foot { font-size:13px; color:var(--muted); text-align:center; margin-top:26px; line-height:1.6; }
+  .foot a { color:var(--label); }
+  .warn {
+    background:rgba(192,57,43,0.08); border-radius:16px; padding:16px;
+    font-size:15px; line-height:1.55; color:var(--ink);
+  }
+  .note { font-size:13px; color:var(--muted); margin:10px 0 0; line-height:1.55; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tick" id="mark" aria-hidden="true">&#10003;</div>
+  <h1 id="head">You're all set</h1>
+  <p class="lede" id="lede">Payment received. Here's the code that unlocks Tide.</p>
+</header>
+
+<main id="ok" hidden>
+  <div class="card">
+    <p class="cap">Your unlock code</p>
+    <code id="code"></code>
+    <button id="copy" type="button">Copy code</button>
+    <p class="note">
+      Keep this — it's on your emailed receipt too. One code unlocks one phone.
+    </p>
+  </div>
+
+  <div class="card">
+    <p class="cap">What to do next</p>
+    <ol>
+      <li>Open Tide on your phone.</li>
+      <li>Tap the unlock box on the paywall.</li>
+      <li>Paste this code and tap <strong>Unlock</strong>.</li>
+    </ol>
+  </div>
+</main>
+
+<!--
+  Shown when there's no session_id in the URL — someone opened the page directly,
+  or the redirect lost the parameter. Never leave a paying customer staring at a
+  blank page with no way forward.
+-->
+<main id="missing" hidden>
+  <div class="warn">
+    <strong>No unlock code in this link.</strong><br>
+    If you've just paid, your code is also in the receipt Stripe emailed you —
+    it's the long line starting with <code style="display:inline;padding:2px 5px;font-size:13px">cs_</code>.
+    Still stuck? Email us and we'll sort it out right away.
+  </div>
+</main>
+
+<p class="foot">
+  Your card statement will show <strong>POST PROFIT</strong>, the business behind Tide.<br>
+  Questions? <a href="mailto:katie@katiepietrowski.com">katie@katiepietrowski.com</a>
+</p>
+
+<script>
+  (function () {
+    var id = new URLSearchParams(location.search).get('session_id');
+
+    // Only render a code that actually looks like one, so a mangled redirect
+    // shows the recovery message rather than an unusable string.
+    if (!id || !/^cs_(test|live)_[A-Za-z0-9]+$/.test(id)) {
+      // The header has to change too. Leaving "You're all set / Payment
+      // received" above "no unlock code in this link" reads as a contradiction
+      // at the exact moment someone is worried about whether they've been
+      // charged for nothing.
+      var mark = document.getElementById('mark');
+      mark.textContent = '!';
+      mark.style.background = 'rgba(192,57,43,0.10)';
+      mark.style.color = 'var(--bad)';
+      document.getElementById('head').textContent = 'Check your receipt';
+      document.getElementById('lede').textContent =
+        "We couldn't read an unlock code from this link.";
+      document.getElementById('missing').hidden = false;
+      return;
+    }
+
+    document.getElementById('code').textContent = id;
+    document.getElementById('ok').hidden = false;
+
+    var btn = document.getElementById('copy');
+    btn.addEventListener('click', function () {
+      // navigator.clipboard needs a secure context and can be absent in older
+      // in-app browsers; fall back to selecting the text so a manual copy works.
+      var done = function () {
+        btn.textContent = 'Copied ✓';
+        setTimeout(function () { btn.textContent = 'Copy code'; }, 2000);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(id).then(done, select);
+      } else {
+        select();
+      }
+      function select() {
+        var r = document.createRange();
+        r.selectNodeContents(document.getElementById('code'));
+        var s = window.getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+        btn.textContent = 'Selected — press copy';
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
