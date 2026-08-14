@@ -49,13 +49,13 @@
     <main class="legal-page">
         <span class="eyebrow">🌊 Tide</span>
         <h1>Privacy Policy</h1>
-        <p class="legal-meta"><strong>Effective date:</strong> August 9, 2026</p>
+        <p class="legal-meta"><strong>Effective date:</strong> August 14, 2026</p>
         <p class="legal-meta"><strong>App:</strong> Tide (contraction timer and labor companion)</p>
         <p class="legal-meta"><strong>Provider:</strong> B Gilmore, LLC ("we," "us," "our")</p>
         <p class="legal-meta"><strong>Contact:</strong> <a href="mailto:katie@katiepietrowski.com" style="color:var(--tide-deep);">katie@katiepietrowski.com</a></p>
 
         <h2>The short version</h2>
-        <p>Tide is built to be private. There are no accounts, no ads, and no cross-app tracking, and we never sell your data. Almost everything you log stays on your device. Your information leaves your phone in only three cases: (1) you turn on a share link, (2) you use voice dictation, or (3) an anonymous summary of your onboarding answers. Each is explained below.</p>
+        <p>Tide is built to be private. There are no accounts, no ads, and no cross-app tracking, and we never sell your data. Almost everything you log stays on your device. Your information leaves your phone in only four cases: (1) you turn on a share link, (2) you use voice dictation, (3) an anonymous summary of your onboarding answers, or (4) your due date, if you allow notifications, so reminders can count down to it. Each is explained below.</p>
 
         <h2>Information in the app</h2>
         <p>You provide this information; we don't collect it in the background:</p>
@@ -94,14 +94,18 @@
         <p>We use this information only in aggregate to understand and improve Tide. We do not sell it.</p>
 
         <h2>Notifications</h2>
-        <p>If you allow notifications, your device gives us an anonymous token that lets us send you a reminder — for example, a gentle nudge as your due date approaches. That token identifies a device, not a person: it carries no name, email, or contact details, and it is not linked to your labor, your updates, or the page your family follows.</p>
-        <p>We use it only to send you occasional reminders about Tide. You can turn notifications off any time in iOS Settings, and we delete tokens that are no longer valid.</p>
+        <p>If you allow notifications, your device gives us an anonymous token that lets us send you reminders — for example, a daily countdown to your due date.</p>
+        <p>So that a countdown can say the right number on the right morning, we store two things alongside that token: your due date and your device's time zone. Nothing else about your pregnancy is attached. The token still carries no name, email, or contact details, and it is not linked to your contractions, your updates, or the page your family follows.</p>
+        <p>We use this only to send you reminders about Tide and your due date. We do not use your due date to target advertising, and we do not share it with anyone.</p>
+        <p>You can turn notifications off any time in iOS Settings. If you clear your due date in the app, we clear it here too, and we delete tokens that are no longer valid.</p>
 
         <h2>Voice dictation (OpenAI)</h2>
         <p>If you enable voice dictation and tap the microphone, Tide records short audio and sends it to <strong>OpenAI</strong> to transcribe it into text. We do not store your audio. OpenAI processes it under their API data policies — audio sent through the API is <strong>not used to train OpenAI's models</strong> and may be retained by OpenAI for a limited period (up to ~30 days) for abuse monitoring, then deleted. If you never use the microphone, no audio is ever recorded or sent. You can turn this off by not using the feature; microphone access is also controllable in iOS Settings.</p>
 
         <h2>Purchases</h2>
-        <p>Tide is unlocked with a one-time purchase processed by <strong>Apple</strong> through the App Store. Apple handles all payment information; we never see or store your payment details. We receive only Apple's confirmation that the purchase is valid. We use RevenueCat to validate purchases; RevenueCat receives Apple's purchase receipt and an anonymous app-generated identifier — never your name or payment details.</p>
+        <p>Tide itself is unlocked with a one-time purchase processed by <strong>Apple</strong> through the App Store. Tide also offers an optional auto-renewing yearly subscription to <strong>Tiny Voices</strong>, our separate baby-book app; it renews until you cancel it, and you can manage or cancel it any time in your Apple Account settings.</p>
+        <p>Apple handles all payment information; we never see or store your payment details. We receive only Apple's confirmation that a purchase is valid. We use RevenueCat to validate purchases; RevenueCat receives Apple's purchase receipt and an anonymous app-generated identifier — never your name or payment details.</p>
+        <p>If you take the Tiny Voices offer, we pass that same anonymous purchase identifier to our own server so Tiny Voices knows to unlock for you. It carries no name, email, or payment details — only the fact that the subscription is valid.</p>
 
         <h2>Third-party services</h2>
         <p>We rely on a small number of providers ("subprocessors") to run these features. Each receives only what's needed for its function:</p>
@@ -117,7 +121,7 @@
                 </tr>
                 <tr>
                     <td><strong>Supabase</strong></td>
-                    <td>Hosting the share link, updates, photos, and videos you choose to share (including your first name if you provide one), storing the anonymous onboarding summary, and notification tokens</td>
+                    <td>Hosting the share link, updates, photos, and videos you choose to share (including your first name if you provide one); storing the anonymous onboarding summary and notification tokens, with the due date and time zone used for reminders; and passing the Tiny Voices unlock request through to RevenueCat without storing it</td>
                     <td><a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a></td>
                 </tr>
                 <tr>
