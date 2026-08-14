@@ -85,7 +85,7 @@
         .btn-ghost:hover{ background:var(--ink); color:var(--cream); }
 
         /* Phone mockup preview of the app */
-        .tide-preview{ margin-top:var(--space-lg); }
+        .tide-preview{ margin-top:var(--space-lg); display:flex; justify-content:center; align-items:center; gap:var(--space-md); flex-wrap:wrap; }
         .tide-phone{
             width:230px; height:470px;
             background:#1A1A1A;
@@ -169,8 +169,12 @@
         .signup-card .card-title{ font-family:var(--font-display); font-size:clamp(2.4rem,6vw,3.4rem); font-weight:500; letter-spacing:-0.02em; line-height:1; margin-bottom:0.5rem; }
         .signup-card .tide-badge{ margin-bottom:0.85rem; }
         .signup-card .sub{ color:var(--ink-light); font-size:1.05rem; margin-bottom:var(--space-md); }
-        .tide-app-img{ width:270px; max-width:78%; height:auto; display:block; margin:0 auto;
-            filter:drop-shadow(0 18px 40px rgba(40,30,20,0.18)); }
+        .tide-app-img{ width:235px; max-width:80%; height:auto; display:block; margin:0;
+            filter:drop-shadow(0 18px 40px rgba(40,30,20,0.18)); transition:transform 0.3s ease; }
+        .tide-preview .tide-app-img:first-child{ transform:rotate(-3deg); }
+        .tide-preview .tide-app-img:last-child{ transform:rotate(3deg); }
+        .tide-preview .tide-app-img:hover{ transform:rotate(0) scale(1.02); }
+        @media (max-width:560px){ .tide-preview .tide-app-img{ transform:none !important; } }
         .signup-form{ display:flex; gap:0.6rem; max-width:440px; margin:0 auto; flex-wrap:wrap; justify-content:center; }
         .signup-form input{
             flex:1; min-width:220px; padding:1.1rem 1.4rem; font-size:1.05rem; font-family:var(--font-body);
@@ -306,9 +310,10 @@
             </div>
         </div>
 
-        <!-- App preview (real screenshot) -->
+        <!-- App preview (real screenshots) -->
         <div class="tide-preview">
             <img src="images/tide-app-preview.png" alt="Tide app — active contraction timer screen" class="tide-app-img" />
+            <img src="images/tide-updates-preview.png" alt="Tide app — shared labor updates feed" class="tide-app-img" />
         </div>
     </section>
 
