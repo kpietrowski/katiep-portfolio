@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Tide — push analytics</title>
+<!--
+  Admin dashboard for push campaign performance — sends, conversions, and
+  daily volume for Tide's notification campaigns.
+
+  Nothing here is public data. The page ships empty; it asks for the admin
+  token, then calls the push-analytics Edge Function with it as x-admin-token.
+  The function does the checking, so the token never lives on this site — only
+  in the admin's own browser (localStorage) after a successful load.
+
+  Served at https://katiep.me/tide/analytics — vercel.json sets cleanUrls:true,
+  so this file's path IS the route. noindex/nofollow above keeps it out of
+  search results; it is unlinked from the rest of the site by design.
+
+  SOURCE OF TRUTH: web/tideanalytics.html in the Tide app repo. Edit there and
+  copy across, so the page stays next to the push-analytics function it reads.
+-->
+<style>
+  :root{
+    --cream:#FAF7F2; --card:#fff; --ink:#3D2E28; --muted:#8A7A72;
+    --line:#EAE2DA; --tide:#2FA8A0; --warm:#C8794A;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+       -webkit-text-size-adjust:100%}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 20px 80px}
+  h1{font-size:1.6rem;font-weight:600;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:28px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:28px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .card .n{font-size:1.9rem;font-weight:700;line-height:1.1}
+  .card .l{color:var(--muted);font-size:.82rem;margin-top:2px}
+  h2{font-size:1.05rem;font-weight:600;margin:32px 0 10px}
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{width:100%;border-collapse:collapse;background:var(--card);
+        border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:.9rem}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{background:#F3EDE6;font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right}
+  .rate{font-weight:700;color:var(--tide)}
+  .tag{display:inline-block;font-size:.7rem;padding:2px 7px;border-radius:20px;background:#EFE8E0;color:var(--muted)}
+  .tag.on{background:#DFF3F1;color:#1F7A73}
+  .note{color:var(--muted);font-size:.82rem;margin-top:10px}
+  .bars{display:flex;align-items:flex-end;gap:3px;height:90px;background:var(--card);
+        border:1px solid var(--line);border-radius:14px;padding:12px}
+  .bars div{flex:1;background:var(--tide);border-radius:2px 2px 0 0;min-height:2px;opacity:.85}
+  .gate{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;max-width:400px}
+  input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font-size:1rem;margin:10px 0}
+  button{background:var(--ink);color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:.95rem;cursor:pointer}
+  .err{color:#B4472F;font-size:.88rem;margin-top:10px}
+  .hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Push analytics</h1>
+  <div class="sub" id="stamp">Tide campaigns</div>
+
+  <div id="gate" class="gate">
+    <strong>Admin token</strong>
+    <div class="sub" style="margin:4px 0 0">Same token the campaign runner uses. Stored in this browser only.</div>
+    <input id="tok" type="password" placeholder="PUSH_ADMIN_TOKEN" autocomplete="off">
+    <button id="go">View</button>
+    <div id="err" class="err"></div>
+  </div>
+
+  <div id="dash" class="hide">
+    <div class="cards" id="cards"></div>
+
+    <h2>Campaigns</h2>
+    <div class="scroll"><table id="tbl">
+      <thead><tr>
+        <th>Campaign</th><th>Audience</th><th class="num">Sent</th>
+        <th class="num">Bought after</th><th class="num">Rate</th><th>Last sent</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <div class="note">
+      “Bought after” counts recipients who have since purchased. It’s a genuine
+      conversion only for campaigns sent to people who hadn’t bought yet — those
+      are marked <span class="tag">attributable</span>. For an audience of
+      everyone, recipients may already have been customers, so the same sum would
+      flatter the campaign; the rate is greyed out there.
+      Devices that uninstall are removed when Apple reports the token dead, so a
+      long-running campaign undercounts rather than over.
+    </div>
+
+    <h2>Sends per day</h2>
+    <div class="bars" id="bars"></div>
+    <div class="note" id="barnote"></div>
+  </div>
+</div>
+
+<script>
+const FN = "https://flvshacazleoplaetyab.functions.supabase.co/push-analytics";
+const $ = (id) => document.getElementById(id);
+const pct = (n) => (n * 100).toFixed(1) + "%";
+// Everything below builds HTML by interpolation, and every value in it comes
+// from the database. Campaign keys are authored by hand today, but "today" is a
+// bad thing for an escaping policy to depend on — and this page holds an admin
+// token, so a stored script here would be handing it away.
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[c]));
+
+async function load(token) {
+  const res = await fetch(FN, { headers: { "x-admin-token": token } });
+  if (!res.ok) throw new Error(res.status === 403 ? "That token wasn’t accepted." : "Request failed (" + res.status + ")");
+  return res.json();
+}
+
+function render(d) {
+  $("gate").classList.add("hide");
+  $("dash").classList.remove("hide");
+  $("stamp").textContent = "Updated " + new Date(d.generatedAt).toLocaleString();
+
+  const t = d.totals || {};
+  // A response without campaigns is an empty dashboard, not an exception — the
+  // catch below would otherwise strand her on the token gate with a parse error
+  // that reads like a bad token.
+  const campaigns = Array.isArray(d.campaigns) ? d.campaigns : [];
+  const totalSent = campaigns.reduce((a, c) => a + Number(c.sent || 0), 0);
+  const attributed = campaigns.filter(c => c.attributable)
+                              .reduce((a, c) => a + Number(c.converted || 0), 0);
+  $("cards").innerHTML = [
+    [attributed, "purchases after a push"],
+    [totalSent, "notifications sent"],
+    [t.purchasers ?? 0, "paying customers"],
+    [t.devices ?? 0, "devices reachable"],
+  ].map(([n, l]) => `<div class="card"><div class="n">${n}</div><div class="l">${l}</div></div>`).join("");
+
+  $("tbl").querySelector("tbody").innerHTML = campaigns.map(c => `
+    <tr>
+      <td>${esc(c.campaign_key)}${c.enabled ? ' <span class="tag on">on</span>' : ""}</td>
+      <td>${esc(c.audience ?? "—")}${c.attributable ? ' <span class="tag">attributable</span>' : ""}</td>
+      <td class="num">${Number(c.sent) || 0}</td>
+      <td class="num">${Number(c.converted) || 0}</td>
+      <td class="num ${c.attributable ? "rate" : ""}" ${c.attributable ? "" : 'style="color:#B9ABA3"'}>${pct(c.rate || 0)}</td>
+      <td>${esc(c.last_send ?? "—")}</td>
+    </tr>`).join("") || '<tr><td colspan="6">No sends recorded yet.</td></tr>';
+
+  const days = Array.isArray(d.sendsByDay) ? d.sendsByDay : [];
+  const max = Math.max(1, ...days.map(x => Number(x.sent)));
+  $("bars").innerHTML = days.map(x =>
+    `<div style="height:${(Number(x.sent) / max) * 100}%" title="${esc(x.day)}: ${Number(x.sent) || 0}"></div>`).join("")
+    || '<div style="height:2px"></div>';
+  $("barnote").textContent = days.length
+    ? `Last ${days.length} days with activity · peak ${max} in a day`
+    : "Nothing sent in the last 30 days.";
+}
+
+async function attempt(token, fromStorage) {
+  try {
+    render(await load(token));
+    localStorage.setItem("tide.adminToken", token);
+  } catch (e) {
+    if (fromStorage) localStorage.removeItem("tide.adminToken");
+    $("err").textContent = e.message;
+  }
+}
+
+$("go").onclick = () => attempt($("tok").value.trim(), false);
+$("tok").addEventListener("keydown", e => { if (e.key === "Enter") $("go").click(); });
+
+const saved = localStorage.getItem("tide.adminToken");
+if (saved) attempt(saved, true);
+</script>
+</body>
+</html>
