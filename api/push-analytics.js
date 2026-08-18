@@ -18,10 +18,16 @@ export default async function handler(req, res) {
   const adminToken = process.env.PUSH_ADMIN_TOKEN;
 
   // Fail closed. Without both env vars set this must never fall through to an
-  // unauthenticated fetch.
-  if (!password || !adminToken) {
+  // unauthenticated fetch. Name the missing one — "not configured" sends you
+  // hunting through both when only one is ever wrong.
+  const missing = [
+    !password && 'ANALYTICS_PASSWORD',
+    !adminToken && 'PUSH_ADMIN_TOKEN',
+  ].filter(Boolean);
+
+  if (missing.length) {
     return res.status(500).json({
-      error: 'Dashboard is not configured — set ANALYTICS_PASSWORD and PUSH_ADMIN_TOKEN in Vercel.',
+      error: `Not configured — missing from this deployment's environment: ${missing.join(' and ')}.`,
     });
   }
 
