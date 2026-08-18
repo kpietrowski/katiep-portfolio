@@ -9,17 +9,19 @@
   Admin dashboard for push campaign performance — sends, conversions, and
   daily volume for Tide's notification campaigns.
 
-  Nothing here is public data. The page ships empty; it asks for the admin
-  token, then calls the push-analytics Edge Function with it as x-admin-token.
-  The function does the checking, so the token never lives on this site — only
-  in the admin's own browser (localStorage) after a successful load.
+  Nothing here is public data. The page ships empty and asks for a password,
+  which it posts to /api/push-analytics on this same site. That function checks
+  the password and adds PUSH_ADMIN_TOKEN from Vercel's environment before
+  calling Supabase. The admin token is never sent to the browser, so the worst
+  thing this page can leak is the password to a read-only dashboard.
 
   Served at https://katiep.me/tide/analytics — vercel.json sets cleanUrls:true,
   so this file's path IS the route. noindex/nofollow above keeps it out of
   search results; it is unlinked from the rest of the site by design.
 
-  SOURCE OF TRUTH: web/tideanalytics.html in the Tide app repo. Edit there and
-  copy across, so the page stays next to the push-analytics function it reads.
+  DIVERGED from web/tideanalytics.html in the Tide app repo, which still talks
+  to Supabase directly with the admin token — that copy has no Vercel proxy to
+  lean on. Take rendering changes from there; leave the auth half alone.
 -->
 <style>
   :root{
@@ -64,13 +66,14 @@
   <h1>Push analytics</h1>
   <div class="sub" id="stamp">Tide campaigns</div>
 
-  <div id="gate" class="gate">
-    <strong>Admin token</strong>
-    <div class="sub" style="margin:4px 0 0">Same token the campaign runner uses. Stored in this browser only.</div>
-    <input id="tok" type="password" placeholder="PUSH_ADMIN_TOKEN" autocomplete="off">
-    <button id="go">View</button>
+  <form id="gate" class="gate">
+    <strong>Password</strong>
+    <div class="sub" style="margin:4px 0 0">Remembered in this browser once it works.</div>
+    <input type="text" name="username" value="tide-analytics" autocomplete="username" hidden>
+    <input id="tok" type="password" placeholder="Password" autocomplete="current-password">
+    <button id="go" type="submit">View</button>
     <div id="err" class="err"></div>
-  </div>
+  </form>
 
   <div id="dash" class="hide">
     <div class="cards" id="cards"></div>
@@ -100,7 +103,9 @@
 </div>
 
 <script>
-const FN = "https://flvshacazleoplaetyab.functions.supabase.co/push-analytics";
+// Same-origin only. The admin token lives in Vercel's environment, not here —
+// this page never sees it, so nothing worth stealing is stored in the browser.
+const FN = "/api/push-analytics";
 const $ = (id) => document.getElementById(id);
 const pct = (n) => (n * 100).toFixed(1) + "%";
 // Everything below builds HTML by interpolation, and every value in it comes
@@ -111,9 +116,18 @@ const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
 }[c]));
 
-async function load(token) {
-  const res = await fetch(FN, { headers: { "x-admin-token": token } });
-  if (!res.ok) throw new Error(res.status === 403 ? "That token wasn’t accepted." : "Request failed (" + res.status + ")");
+async function load(password) {
+  const res = await fetch(FN, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ password }),
+  });
+  if (!res.ok) {
+    // The proxy explains its own failures — a bad password and a misconfigured
+    // server token read very differently, and guessing between them wastes time.
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || "Request failed (" + res.status + ")");
+  }
   return res.json();
 }
 
@@ -157,20 +171,26 @@ function render(d) {
     : "Nothing sent in the last 30 days.";
 }
 
-async function attempt(token, fromStorage) {
+async function attempt(password, fromStorage) {
   try {
-    render(await load(token));
-    localStorage.setItem("tide.adminToken", token);
+    render(await load(password));
+    localStorage.setItem("tide.analyticsPassword", password);
   } catch (e) {
-    if (fromStorage) localStorage.removeItem("tide.adminToken");
+    if (fromStorage) localStorage.removeItem("tide.analyticsPassword");
     $("err").textContent = e.message;
   }
 }
 
-$("go").onclick = () => attempt($("tok").value.trim(), false);
-$("tok").addEventListener("keydown", e => { if (e.key === "Enter") $("go").click(); });
+$("gate").addEventListener("submit", (e) => {
+  e.preventDefault();
+  attempt($("tok").value.trim(), false);
+});
 
-const saved = localStorage.getItem("tide.adminToken");
+// Any browser that used the old token gate still has an admin token sitting in
+// localStorage. It buys nothing now and is the exact thing worth not keeping.
+localStorage.removeItem("tide.adminToken");
+
+const saved = localStorage.getItem("tide.analyticsPassword");
 if (saved) attempt(saved, true);
 </script>
 </body>
