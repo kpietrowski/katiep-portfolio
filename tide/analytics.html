@@ -6,8 +6,8 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Tide — push analytics</title>
 <!--
-  Admin dashboard for push campaign performance — sends, conversions, and
-  daily volume for Tide's notification campaigns.
+  Admin dashboard for push campaign performance — sends, purchases that
+  postdate a send, and daily volume for Tide's notification campaigns.
 
   Nothing here is public data. The page ships empty and asks for a password,
   which it posts to /api/push-analytics on this same site. That function checks
@@ -82,16 +82,22 @@
     <div class="scroll"><table id="tbl">
       <thead><tr>
         <th>Campaign</th><th>Audience</th><th class="num">Sent</th>
-        <th class="num">Bought after</th><th class="num">Rate</th><th>Last sent</th>
+        <th class="num">Bought after</th><th class="num">Ever bought</th><th class="num">Undated</th><th class="num">Share</th><th>Last sent</th>
       </tr></thead>
       <tbody></tbody>
     </table></div>
     <div class="note">
-      “Bought after” counts recipients who have since purchased. It’s a genuine
-      conversion only for campaigns sent to people who hadn’t bought yet — those
-      are marked <span class="tag">attributable</span>. For an audience of
-      everyone, recipients may already have been customers, so the same sum would
-      flatter the campaign; the rate is greyed out there.
+      <strong>This is not attribution.</strong> “Later bought” counts recipients
+      who have since purchased — by any route. Taps aren’t recorded anywhere, so
+      someone who ignored the notification and bought days later from an ad counts
+      the same as someone who tapped it and bought immediately. Since most
+      installs receive a lifecycle campaign eventually, this number drifts toward
+      your total sales rather than a push-driven subset. Read it as a ceiling on
+      what push could be worth, never as its contribution.
+      Rows sent to people who hadn’t yet bought at least guarantee the purchase
+      came <em>after</em> the send — marked <span class="tag">after the send</span>.
+      For an audience of everyone, recipients may already have been customers, so
+      even that doesn’t hold and the share is greyed out.
       Devices that uninstall are removed when Apple reports the token dead, so a
       long-running campaign undercounts rather than over.
     </div>
@@ -142,10 +148,10 @@ function render(d) {
   // that reads like a bad token.
   const campaigns = Array.isArray(d.campaigns) ? d.campaigns : [];
   const totalSent = campaigns.reduce((a, c) => a + Number(c.sent || 0), 0);
-  const attributed = campaigns.filter(c => c.attributable)
-                              .reduce((a, c) => a + Number(c.converted || 0), 0);
+  const attributed = campaigns.filter(c => c.afterTheSend)
+                              .reduce((a, c) => a + Number(c.bought_after || 0), 0);
   $("cards").innerHTML = [
-    [attributed, "purchases after a push"],
+    [attributed, "bought after a send (not attribution)"],
     [totalSent, "notifications sent"],
     [t.purchasers ?? 0, "paying customers"],
     [t.devices ?? 0, "devices reachable"],
@@ -154,12 +160,14 @@ function render(d) {
   $("tbl").querySelector("tbody").innerHTML = campaigns.map(c => `
     <tr>
       <td>${esc(c.campaign_key)}${c.enabled ? ' <span class="tag on">on</span>' : ""}</td>
-      <td>${esc(c.audience ?? "—")}${c.attributable ? ' <span class="tag">attributable</span>' : ""}</td>
+      <td>${esc(c.audience ?? "—")}${c.afterTheSend ? ' <span class="tag">after the send</span>' : ""}</td>
       <td class="num">${Number(c.sent) || 0}</td>
-      <td class="num">${Number(c.converted) || 0}</td>
-      <td class="num ${c.attributable ? "rate" : ""}" ${c.attributable ? "" : 'style="color:#B9ABA3"'}>${pct(c.rate || 0)}</td>
+      <td class="num">${Number(c.bought_after) || 0}</td>
+      <td class="num" style="color:#B9ABA3">${Number(c.ever_bought) || 0}</td>
+      <td class="num" style="color:#B9ABA3">${Number(c.undated) || 0}</td>
+      <td class="num ${c.afterTheSend ? "rate" : ""}" ${c.afterTheSend ? "" : 'style="color:#B9ABA3"'}>${pct(c.rate || 0)}</td>
       <td>${esc(c.last_send ?? "—")}</td>
-    </tr>`).join("") || '<tr><td colspan="6">No sends recorded yet.</td></tr>';
+    </tr>`).join("") || '<tr><td colspan="8">No sends recorded yet.</td></tr>';
 
   const days = Array.isArray(d.sendsByDay) ? d.sendsByDay : [];
   const max = Math.max(1, ...days.map(x => Number(x.sent)));
