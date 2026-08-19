@@ -40,10 +40,18 @@
   .card .n{font-size:1.9rem;font-weight:700;line-height:1.1}
   .card .l{color:var(--muted);font-size:.82rem;margin-top:2px}
   h2{font-size:1.05rem;font-weight:600;margin:32px 0 10px}
-  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  table{width:100%;border-collapse:collapse;background:var(--card);
+  /* Kept only as a fallback for very narrow phones. On anything wider the table
+     fits, because the text columns wrap instead of forcing the table wide. */
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  table{width:100%;table-layout:auto;border-collapse:collapse;background:var(--card);
         border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:.9rem}
-  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  /* Campaign keys and audiences wrap; anywhere lets a long snake_case key break
+     rather than setting the width of the whole table. */
+  th,td{text-align:left;padding:10px 9px;border-bottom:1px solid var(--line);
+        white-space:normal;overflow-wrap:anywhere;vertical-align:top}
+  /* Counts, shares and dates are short — keep them on one line so columns of
+     figures stay readable. */
+  td.num,th.num,td:last-child,th:last-child{white-space:nowrap;overflow-wrap:normal}
   th{background:#F3EDE6;font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
   tr:last-child td{border-bottom:none}
   td.num,th.num{text-align:right}
@@ -82,12 +90,12 @@
     <div class="scroll"><table id="tbl">
       <thead><tr>
         <th>Campaign</th><th>Audience</th><th class="num">Sent</th>
-        <th class="num">Bought after</th><th class="num">Ever bought</th><th class="num">Undated</th><th class="num">Share</th><th>Last sent</th>
+        <th class="num">After send</th><th class="num">Ever</th><th class="num">Undated</th><th class="num">Share</th><th>Last sent</th>
       </tr></thead>
       <tbody></tbody>
     </table></div>
     <div class="note">
-      <strong>This is not attribution.</strong> “Later bought” counts recipients
+      <strong>This is not attribution.</strong> “Ever” counts recipients
       who have since purchased — by any route. Taps aren’t recorded anywhere, so
       someone who ignored the notification and bought days later from an ad counts
       the same as someone who tapped it and bought immediately. Since most
