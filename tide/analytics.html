@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Tide — push analytics</title>
+<title>Tide — analytics</title>
 <!--
-  Admin dashboard for push campaign performance — sends, purchases that
-  postdate a send, and daily volume for Tide's notification campaigns.
+  Admin dashboard for Tide's paywall conversion, Tiny Voices upsell, and push
+  campaign performance.
 
   Nothing here is public data. The page ships empty and asks for a password,
   which it posts to /api/push-analytics on this same site. That function checks
@@ -71,8 +71,8 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>Push analytics</h1>
-  <div class="sub" id="stamp">Tide campaigns</div>
+  <h1>Tide analytics</h1>
+  <div class="sub" id="stamp">Paywall, upsell and push</div>
 
   <form id="gate" class="gate">
     <strong>Password</strong>
@@ -85,6 +85,41 @@
 
   <div id="dash" class="hide">
     <div class="cards" id="cards"></div>
+
+    <h2>Conversion by first version installed</h2>
+    <div class="scroll"><table id="vtbl">
+      <thead><tr>
+        <th>First version</th><th class="num">People</th><th class="num">Reached&nbsp;paywall</th>
+        <th class="num">Bought</th><th class="num">Reach&nbsp;%</th><th class="num">Buy&nbsp;%</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <div class="note">
+      Grouped by the version each person <strong>first installed</strong>, which
+      is near enough the paywall they saw. Written once and never overwritten, so
+      updating doesn’t move anyone between rows. Someone who lingers for weeks and
+      buys after updating stays under the version they started on — intended, not
+      a defect.
+      <em>Buy&nbsp;%</em> is of those who reached the paywall; <em>Reach&nbsp;%</em>
+      is how many got that far at all.
+      <strong>“Before tracking”</strong> is everyone who installed prior to this
+      being recorded — their first version is unrecoverable, so they sit together
+      and can’t be compared. New rows accumulate from now on.
+    </div>
+
+    <h2>Tiny Voices upsell</h2>
+    <div class="cards" id="ucards"></div>
+    <div class="note">
+      Unlocks are recorded when the grant succeeds, so this counts people who
+      actually got Tiny Voices Pro — not merely people who paid. If it ever
+      trails the subscription sales in RevenueCat, someone paid and wasn't
+      unlocked, and that gap is the thing to chase.
+      The rate's denominator is an <strong>estimate</strong>: everyone who buys
+      Tide on 1.1.0+ is shown the offer, but the app reports no view event, so
+      it's "could have seen it", not "did see it".
+      <em>People</em> counts individuals; <em>events</em> includes the monthly
+      re-grants that keep an entitlement alive.
+    </div>
 
     <h2>Campaigns</h2>
     <div class="scroll"><table id="tbl">
@@ -176,6 +211,25 @@ function render(d) {
       <td class="num ${c.afterTheSend ? "rate" : ""}" ${c.afterTheSend ? "" : 'style="color:#B9ABA3"'}>${pct(c.rate || 0)}</td>
       <td>${esc(c.last_send ?? "—")}</td>
     </tr>`).join("") || '<tr><td colspan="8">No sends recorded yet.</td></tr>';
+
+  const versions = Array.isArray(d.byVersion) ? d.byVersion : [];
+  $("vtbl").querySelector("tbody").innerHTML = versions.map(v => `
+    <tr>
+      <td>${esc(v.app_version)}</td>
+      <td class="num">${Number(v.sessions) || 0}</td>
+      <td class="num">${Number(v.reached_paywall) || 0}</td>
+      <td class="num">${Number(v.purchased) || 0}</td>
+      <td class="num" style="color:#B9ABA3">${pct(v.paywallRate || 0)}</td>
+      <td class="num rate">${pct(v.buyRate || 0)}</td>
+    </tr>`).join("") || '<tr><td colspan="6">No sessions recorded yet.</td></tr>';
+
+  const up = d.upsell || {};
+  $("ucards").innerHTML = [
+    [Number(up.people) || 0, "people unlocked"],
+    [Number(up.events) || 0, "grants (incl. re-grants)"],
+    [Number(up.estimatedEligible) || 0, "shown the offer (est.)"],
+    [pct(up.estimatedRate || 0), "take-up (est.)"],
+  ].map(([n, l]) => `<div class="card"><div class="n">${esc(n)}</div><div class="l">${esc(l)}</div></div>`).join("");
 
   const days = Array.isArray(d.sendsByDay) ? d.sendsByDay : [];
   const max = Math.max(1, ...days.map(x => Number(x.sent)));
