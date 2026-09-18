@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FDF5E6">
+<title>Get Tiny Voices</title>
+<meta property="og:title" content="Tiny Voices — Family Memories">
+<meta property="og:description" content="The baby book you'll actually use.">
+<meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/d2/43/34/d243341c-ae44-fb0a-4a5e-92438af0e259/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg">
+<meta property="og:url" content="https://katiep.me/tinyvoices">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/d2/43/34/d243341c-ae44-fb0a-4a5e-92438af0e259/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg">
+<!--
+  The Tiny Voices link — the one to put in a reel, a story, or a DM.
+
+  Instagram and Facebook open links in their own in-app browser, which blocks
+  App Store URLs outright. A bare apps.apple.com link posted there does nothing
+  when tapped, silently. So this page exists purely to get the visitor out of
+  that browser and into the store.
+
+  Three arrivals:
+
+    in-app browser  Escape instructions, and nothing else on screen. On iOS it
+                    also tries the x-safari- scheme, which hands off to Safari
+                    without the visitor doing anything.
+    iPhone          Straight to the App Store.
+    anything else   Tiny Voices is iPhone-only, so say that plainly rather than
+                    bouncing someone to a store page they can't install from.
+
+  No dependencies, nothing to build. If this page fails, the reel goes nowhere.
+
+  Deploy: katiep.me/tinyvoices — vercel.json sets cleanUrls:true, so this file's
+  path IS the route. Sibling of onetake.html, which is the same page for the
+  other app; the Tide equivalent lives at live.katiep.me/app in the tide-live
+  repo and additionally handles invite codes and an Android APK.
+-->
+<style>
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { margin:0; }
+  body { min-height:100vh; font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
+    background:#FDF5E6; color:#5A4433; }
+
+  #iab { display:none; }
+  /* Arrow sweeping up from underneath, tip pointing at the ••• in the top right. */
+  .arrow { position:fixed; top:6px; right:34px; z-index:30; width:120px; height:120px; pointer-events:none; }
+
+  .wrap { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:calc(env(safe-area-inset-top) + 40px) 26px calc(env(safe-area-inset-bottom) + 34px); }
+
+  .logo { position:fixed; left:0; right:0; bottom:calc(env(safe-area-inset-bottom) + 30px);
+    text-align:center; z-index:10; }
+  .logo .mark { font-size:44px; font-weight:800; letter-spacing:-1.5px; color:#D2712B; line-height:1.05; }
+  .logo .tag { font-size:17px; font-weight:500; color:#A8917A; margin-top:8px; }
+  /* The sun from the app icon, as a wordmark flourish rather than an image. */
+  .rays { display:block; margin:10px auto 0; width:74px; height:22px; }
+
+  .huge { display:none; width:100%; max-width:360px; text-align:left; }
+  .huge .step { font-size:23px; font-weight:300; line-height:1.22; color:#5A4433; margin:0 0 14px; }
+  .huge .step .dots { font-weight:800; color:#5A4433; letter-spacing:1px; }
+  .huge .step .ext  { font-weight:800; color:#5A4433; }
+
+  /*
+    The non-iPhone view scrolls, so the fixed logo would sit on top of it. That
+    panel carries its own copy of the wordmark and hides the fixed one.
+  */
+  .panel { display:none; width:100%; max-width:380px; }
+  .panel h2 { font-size:25px; font-weight:800; letter-spacing:-.02em; margin:0 0 10px; color:#5A4433; }
+  .panel p { font-size:16px; line-height:1.55; margin:0 0 12px; color:#6B564D; }
+
+  .btn { appearance:none; border:0; display:block; width:100%; margin-top:12px; padding:17px;
+    border-radius:18px; background:#D2712B; color:#FFF9F0; font:inherit; font-size:17px;
+    font-weight:700; text-align:center; text-decoration:none; cursor:pointer; }
+
+  .inline-logo { display:none; text-align:center; margin:34px 0 0; }
+  .inline-logo .mark { font-size:36px; font-weight:800; letter-spacing:-1.2px; color:#D2712B; line-height:1.05; }
+  .inline-logo .tag { font-size:15px; font-weight:500; color:#A8917A; margin-top:6px; }
+</style>
+</head>
+<body>
+  <div id="iab">
+    <svg class="arrow" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M14 84 C 36 88, 72 74, 104 12" stroke="#D2712B" stroke-width="5" stroke-linecap="round"/>
+      <path d="M85 24 L 104 12 L 105 34" stroke="#D2712B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="wrap">
+    <!-- Escape view: the first and only thing an Instagram visitor sees. -->
+    <div class="huge" id="huge">
+      <div class="step">1. Tap <span class="dots">•••</span></div>
+      <div class="step">2. Tap <span class="ext" id="escape-verb">Open in external browser</span></div>
+    </div>
+
+    <!-- Android, desktop, anything that isn't an iPhone. -->
+    <div class="panel" id="other">
+      <h2>Open this on your iPhone</h2>
+      <p>Tiny Voices is an iPhone app — there's no Android or desktop version yet.</p>
+      <a class="btn" id="store" href="#">View on the App Store</a>
+      <div class="inline-logo" id="logo-other">
+        <div class="mark">Tiny Voices</div>
+        <div class="tag">The baby book you'll actually use.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logo" id="fixed-logo">
+    <div class="mark">Tiny Voices</div>
+    <svg class="rays" viewBox="0 0 74 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g stroke="#FBB81C" stroke-width="3.4" stroke-linecap="round">
+        <path d="M37 3 L37 11"/><path d="M22 7 L26 13"/><path d="M52 7 L48 13"/>
+        <path d="M9 14 L15 18"/><path d="M65 14 L59 18"/>
+      </g>
+    </svg>
+    <div class="tag">The baby book you'll actually use.</div>
+  </div>
+
+<script>
+  (function () {
+    /* ---- the thing that changes when you ship ---- */
+    var APP_STORE = "https://apps.apple.com/us/app/tiny-voices-family-memories/id6759920530";
+
+    var ua = navigator.userAgent || "";
+    /*
+      iPadOS 13+ reports itself as a Mac. maxTouchPoints separates a real Mac
+      from an iPad claiming to be one — without it every iPad is told the app
+      doesn't run on its device, which is wrong.
+    */
+    var isIOS = /iPhone|iPod|iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    var isAndroid = /Android/.test(ua);
+    var inApp = /Instagram|FBAN|FBAV|FB_IAB|Messenger|Line|Snapchat|Pinterest|TikTok/i.test(ua);
+    /* ?preview=1 forces the escape view in a normal browser, so it can be
+       checked without posting a link to Instagram first. */
+    var preview = /[?&]preview=1/.test(location.search);
+
+    /*
+      Two beacons, matching the Tide link's shape: "tinyvoices" counts every
+      visit, and the platform one is a subset. Read them back with
+      /track?stats=tinyvoices and /track?stats=tinyvoices-ios.
+    */
+    function hit(page) {
+      try { navigator.sendBeacon("https://flvshacazleoplaetyab.functions.supabase.co/track?p=" + page); } catch (e) {}
+    }
+    hit("tinyvoices");
+    hit(isAndroid ? "tinyvoices-android" : isIOS ? "tinyvoices-ios" : "tinyvoices-other");
+
+    function show(id) {
+      document.getElementById(id).style.display = "block";
+      if (id !== "huge") {
+        document.getElementById("fixed-logo").style.display = "none";
+        var inline = document.getElementById("logo-" + id);
+        if (inline) inline.style.display = "block";
+      }
+    }
+
+    /* ---- 1. in-app browser: the App Store link does nothing until they leave ---- */
+    if (inApp || preview) {
+      document.getElementById("iab").style.display = "block";
+      show("huge");
+      // Instagram on Android says "Open in Chrome"; iOS says "Open in external
+      // browser". Naming the wrong one sends people hunting for a menu item
+      // that isn't there.
+      if (isAndroid) document.getElementById("escape-verb").textContent = "Open in Chrome";
+      // x-safari- forces Safari and is iOS-only. Most of the time this alone
+      // completes the journey and the instructions are never read.
+      if (!preview && isIOS) {
+        setTimeout(function () { try { location.href = "x-safari-" + APP_STORE; } catch (e) {} }, 250);
+      }
+      return;
+    }
+
+    /* ---- 2. iPhone: straight through ---- */
+    if (isIOS) {
+      setTimeout(function () { location.href = APP_STORE; }, 350);
+      return;
+    }
+
+    /* ---- 3. Android, desktop, unknown ---- */
+    document.getElementById("store").href = APP_STORE;
+    show("other");
+  })();
+</script>
+</body>
+</html>
