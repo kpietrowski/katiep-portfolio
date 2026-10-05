@@ -12,9 +12,9 @@
 <meta property="og:type" content="website">
 <!--
   Families 101 funnel, step 3: the $27 sales page.
-  Every buy button goes through /api/families-checkout, which redirects to the
-  Stripe payment link in FAMILIES_PAYMENT_LINK (with her email prefilled when
-  she came through the opt-in).
+  Every buy button posts to the Keepsake editor's checkout
+  (edit.katiep.me/api/checkout, product "core"). That is the only checkout that
+  records the purchase and unlocks the course, looks and editor, so keep it.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +38,7 @@
       <div class="eyebrow" style="color: var(--ink)">Course + editing looks</div>
       <div class="price">$27</div>
     </div>
-    <a class="btn" href="/api/families-checkout" data-checkout>Get Families 101</a>
+    <form class="buy-form" action="https://edit.katiep.me/api/checkout" method="post"><input type="hidden" name="product" value="core"><button type="submit" class="btn">Get Families 101</button></form>
     <p class="small center">One time. No subscription.</p>
   </div>
 </section>
@@ -113,7 +113,7 @@
       <li>The before-you-shoot checklist as a phone wallpaper</li>
       <li>Lifetime access to the course and the editor</li>
     </ul>
-    <a class="btn" href="/api/families-checkout" data-checkout>Get Families 101 for $27</a>
+    <form class="buy-form" action="https://edit.katiep.me/api/checkout" method="post"><input type="hidden" name="product" value="core"><button type="submit" class="btn">Get Families 101 for $27</button></form>
   </div>
 </section>
 
@@ -132,7 +132,7 @@
 <div class="buy-bar">
   <div class="inner">
     <div><div class="label">Families 101</div><div class="bar-price">$27</div></div>
-    <a class="btn" href="/api/families-checkout" data-checkout>Get it now</a>
+    <form class="buy-form" action="https://edit.katiep.me/api/checkout" method="post"><input type="hidden" name="product" value="core"><button type="submit" class="btn">Get it now</button></form>
   </div>
 </div>
 

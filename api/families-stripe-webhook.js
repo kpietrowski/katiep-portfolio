@@ -1,14 +1,14 @@
 // POST /api/families-stripe-webhook   (Stripe webhook: checkout.session.completed)
-// When someone buys Families 101, tag her in Kit as a buyer. The Kit nurture
-// sequence excludes that tag, so the sales emails stop, and the tag can start
-// the customer welcome automation.
+// When someone buys the Families 101 bundle through the Keepsake editor's
+// checkout (edit.katiep.me, product "core"), tag her in Kit as a buyer. The Kit
+// nurture sequence excludes that tag, so the sales emails stop.
 //
-// Env: STRIPE_WEBHOOK_SECRET (whsec_..., from the Stripe webhook endpoint),
-//      FAMILIES_PAYMENT_LINK_ID (plink_..., so other products are ignored),
-//      KIT_API_KEY, KIT_BUYER_TAG_ID.
+// This is a second webhook endpoint on the same Stripe account. Access to the
+// course, looks and editor is granted by the editor's own webhook; this one
+// only keeps Kit in sync.
 //
-// Course and editor access for buyers is granted by the editor's own Stripe
-// handling (edit.katiep.me); this function only keeps Kit in sync.
+// Env: FAMILIES_STRIPE_WEBHOOK_SECRET (whsec_..., the signing secret of THIS endpoint),
+//      KIT_API_KEY, KIT_BUYER_TAG_ID, FAMILIES_PRODUCT_ID (optional, default "core").
 
 import crypto from 'node:crypto';
 
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
   // Read the raw body before anything touches req.body (Vercel parses lazily).
   const raw = await readRaw(req);
-  if (!verify(raw.toString('utf8'), req.headers['stripe-signature'], process.env.STRIPE_WEBHOOK_SECRET || '')) {
+  if (!verify(raw.toString('utf8'), req.headers['stripe-signature'], process.env.FAMILIES_STRIPE_WEBHOOK_SECRET || '')) {
     return res.status(400).send('Bad signature');
   }
 
@@ -61,8 +61,8 @@ export default async function handler(req, res) {
   if (event.type !== 'checkout.session.completed') return res.status(200).json({ ignored: event.type });
 
   const s = event.data.object;
-  const wanted = process.env.FAMILIES_PAYMENT_LINK_ID;
-  if (wanted && s.payment_link !== wanted) return res.status(200).json({ ignored: 'other product' });
+  const wanted = process.env.FAMILIES_PRODUCT_ID || 'core';
+  if ((s.metadata && s.metadata.product_id) !== wanted) return res.status(200).json({ ignored: 'other product' });
   if (s.payment_status !== 'paid') return res.status(200).json({ ignored: 'unpaid' });
 
   const email = (s.customer_details && s.customer_details.email) || s.customer_email;

@@ -42,12 +42,6 @@
     });
   }
 
-  // Checkout links: carry the email into Stripe so she doesn't retype it.
-  var email = read(KEY) || new URLSearchParams(location.search).get('email') || '';
-  if (email) store(KEY, email);
-  document.querySelectorAll('a[data-checkout]').forEach(function (a) {
-    if (email) a.href = '/api/families-checkout?email=' + encodeURIComponent(email);
-  });
 })();
 
 // Hide the floating bar while the main button is already on screen, so the
