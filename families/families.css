@@ -1,0 +1,179 @@
+/* Families 101 funnel — shared styles for /families, /families/thanks,
+   /families/101 and /families/guide. Mobile-first: everything is laid out
+   for a ~390px phone, then centered in a 560px column on bigger screens. */
+
+:root {
+  --paper: #ECE8DE;
+  --card: #F8F6F1;
+  --ink: #1E1B1A;
+  --ink-soft: #3A3532;
+  --muted: #5A524B;
+  --mustard: #F2C64B;
+  --pink: #F1B3B6;
+  --sage: #BBD58C;
+  --blue: #A9C6DD;
+  --tomato: #E5602F;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Jost', system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+}
+a { color: var(--ink); }
+a:hover { color: var(--muted); }
+img { max-width: 100%; display: block; }
+
+.wrap { max-width: 560px; margin: 0 auto; padding-left: 20px; padding-right: 20px; }
+.band { padding: 44px 20px; }
+.band > .inner { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+.bg-sage { background: var(--sage); }
+.bg-pink { background: var(--pink); }
+.bg-blue { background: var(--blue); }
+.bg-mustard { background: var(--mustard); }
+.bg-card { background: var(--card); }
+
+.display {
+  margin: 0;
+  font-family: 'Bebas Neue', 'Avenir Next Condensed', 'Arial Narrow', 'Roboto Condensed', sans-serif;
+  overflow-wrap: break-word;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+h1.display { font-size: 50px; line-height: 0.95; }
+h2.display { font-size: 40px; line-height: 1; }
+h3.display { font-size: 30px; line-height: 1; }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.lead { margin: 0; color: var(--ink-soft); }
+.small { font-size: 13px; color: var(--muted); }
+.center { text-align: center; }
+p { margin: 0; }
+
+/* Header */
+.site-header { max-width: 560px; margin: 0 auto; padding: 18px 20px 6px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.wordmark { font-weight: 600; font-size: 15px; line-height: 1.05; text-decoration: none; }
+.shapes { display: flex; gap: 6px; align-items: center; }
+.shapes span { display: block; }
+.s-circle { width: 22px; height: 22px; border-radius: 50%; background: var(--mustard); }
+.s-dome { width: 22px; height: 22px; border-radius: 22px 22px 0 0; background: var(--pink); }
+.s-pill { width: 30px; height: 18px; border-radius: 9px; background: var(--sage); }
+.s-quarter { width: 22px; height: 22px; border-radius: 0 22px 0 0; background: var(--tomato); }
+
+.hero { padding-top: 12px; padding-bottom: 36px; display: flex; flex-direction: column; gap: 14px; }
+
+/* Buttons */
+.btn {
+  display: block; width: 100%; text-align: center;
+  background: var(--tomato); color: var(--ink);
+  text-decoration: none; font: inherit; font-weight: 700; font-size: 18px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 16px 20px; border: 0; border-radius: 999px; cursor: pointer;
+  min-height: 52px;
+}
+.btn:hover { color: var(--ink); filter: brightness(0.96); }
+.btn[disabled] { opacity: 0.6; cursor: wait; }
+.btn-secondary { background: var(--card); border: 1.5px solid var(--ink); }
+
+/* Form */
+.form { display: flex; flex-direction: column; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.field input {
+  font: inherit; font-family: 'Jost', sans-serif; font-size: 17px; font-weight: 400;
+  letter-spacing: 0; text-transform: none;
+  padding: 13px 14px; border: 1.5px solid var(--ink); border-radius: 12px;
+  background: var(--card); color: var(--ink);
+}
+.field input:focus { outline: 3px solid var(--mustard); outline-offset: 1px; }
+.form-error { font-size: 15px; color: #9E2F0E; font-weight: 600; }
+
+/* Cards and lists */
+.card { background: var(--card); border-radius: 18px; padding: 16px 18px; }
+.card-outline { background: var(--card); border: 1.5px solid var(--ink); border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.row-item { display: flex; gap: 14px; align-items: center; }
+.num {
+  flex: 0 0 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif; font-size: 26px;
+}
+.item-title { font-weight: 700; }
+.item-sub { color: var(--ink-soft); font-size: 15px; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.price-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.price { font-family: 'Bebas Neue', sans-serif; font-size: 46px; line-height: 1; }
+
+/* Photo slots: colored shapes until real photos go in.
+   To add a photo: put <img src="/images/families/xyz.jpg" alt="..."> inside the div. */
+.photo { overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.photo img { width: 100%; height: 100%; object-fit: cover; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.span-2 { grid-column: span 2; }
+.r-4x3 { aspect-ratio: 4 / 3; }
+.r-3x4 { aspect-ratio: 3 / 4; }
+.r-4x5 { aspect-ratio: 4 / 5; }
+.r-1x1 { aspect-ratio: 1 / 1; }
+.r-16x10 { aspect-ratio: 16 / 10; }
+.round-l { border-radius: 26px; }
+.round-m { border-radius: 20px; }
+.round-full { border-radius: 50%; }
+.caption { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; margin-top: 6px; }
+
+.about { display: flex; gap: 16px; align-items: center; }
+.avatar { flex: 0 0 88px; height: 88px; border-radius: 50%; overflow: hidden; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Thank-you strip */
+.strip { background: var(--sage); padding: 14px 20px; }
+.strip .inner { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 2px; }
+
+/* FAQ */
+.faq { display: flex; flex-direction: column; gap: 2px; border-bottom: 1.5px solid var(--ink); padding-bottom: 14px; }
+.faq:last-child { border-bottom: 0; }
+ul.ticks { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
+
+.site-footer { border-top: 1.5px solid var(--ink); margin: 0 20px; padding: 22px 0 110px; text-align: center; font-size: 13px; color: var(--muted); }
+.site-footer a { color: var(--muted); }
+
+/* Floating buy bar */
+.buy-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: rgba(236, 232, 222, 0.96);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-top: 1.5px solid var(--ink);
+  padding: 10px 20px calc(10px + env(safe-area-inset-bottom));
+}
+.buy-bar .inner { max-width: 520px; margin: 0 auto; display: flex; align-items: center; gap: 14px; }
+.buy-bar .btn { flex: 1 1 auto; width: auto; font-size: 17px; padding: 14px 18px; min-height: 50px; }
+.buy-bar .label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); line-height: 1.1; }
+.buy-bar .bar-price { font-family: 'Bebas Neue', sans-serif; font-size: 30px; line-height: 1; }
+
+/* Guide pages */
+.pose { display: flex; flex-direction: column; gap: 10px; padding: 22px 0; border-bottom: 1.5px solid var(--ink); }
+.pose:last-child { border-bottom: 0; }
+.pose-num { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.08em; color: var(--muted); }
+.tip { background: var(--card); border-radius: 14px; padding: 12px 14px; font-size: 16px; }
+.tip strong { text-transform: uppercase; letter-spacing: 0.06em; font-size: 13px; display: block; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; }
+.toc a { text-decoration: none; font-weight: 600; font-size: 14px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--ink); background: var(--card); }
+ol.rules, ul.prompts { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Print / Save as PDF (the guide's "Download the PDF" uses this) */
+@media print {
+  @page { size: letter; margin: 0.5in; }
+  body { background: #fff; font-size: 12pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .buy-bar, .toc, .no-print, .site-footer a { display: none !important; }
+  .site-footer { padding-bottom: 0; }
+  .band { padding: 24px 0; }
+  .pose { break-inside: avoid; page-break-inside: avoid; }
+  .photo { display: none; }
+  h2.display { break-after: avoid; }
+}
