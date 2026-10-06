@@ -114,6 +114,7 @@ p { margin: 0; }
 .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .span-2 { grid-column: span 2; }
 .r-4x3 { aspect-ratio: 4 / 3; }
+.r-3x2 { aspect-ratio: 3 / 2; }
 .r-3x4 { aspect-ratio: 3 / 4; }
 .r-4x5 { aspect-ratio: 4 / 5; }
 .r-1x1 { aspect-ratio: 1 / 1; }
