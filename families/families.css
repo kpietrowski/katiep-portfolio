@@ -123,6 +123,8 @@ p { margin: 0; }
 .round-l { border-radius: 26px; }
 .round-m { border-radius: 20px; }
 .round-full { border-radius: 50%; }
+.editor-demo { display: flex; flex-direction: column; align-items: center; padding-top: 8px; }
+.editor-demo img { width: min(280px, 82%); height: auto; border: 7px solid var(--ink); border-radius: 30px; background: var(--ink); box-shadow: 0 10px 30px rgba(30, 27, 26, 0.18); }
 .caption { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; margin-top: 6px; }
 
 .about { display: flex; gap: 16px; align-items: center; }
