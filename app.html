@@ -3,101 +3,192 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#ECE8DE">
-<title>App in 30 Days: Build Your First iPhone App | Katie Pietrowski</title>
-<meta name="description" content="Build and launch your first iPhone app in 30 days, with no coding experience. You bring the idea, Claude writes the code. Join the waitlist.">
+<meta name="theme-color" content="#FDF8F3">
+<title>App in 30 Days: Build Your First iPhone App | Katie P.</title>
+<meta name="description" content="Have an app idea? Build it in 30 days, with no coding experience. You bring the idea, Claude writes the code, and Katie walks you through every step to the App Store. Join the waitlist.">
 <meta property="og:title" content="App in 30 Days: build your first iPhone app">
-<meta property="og:description" content="You bring the idea. Claude writes the code. I'll show you exactly what to build, step by step, until it's live on the App Store.">
+<meta property="og:description" content="You bring the idea. Claude writes the code. I'll walk you through every step until it's live on the App Store.">
 <meta property="og:url" content="https://katiep.me/app">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://katiep.me/app/katie.jpg">
 <!--
-  App in 30 Days waitlist. Form posts to /api/waitlist (Kit: subscriber +
-  "App in 30 Days waitlist" tag, phone + SMS consent as custom fields), then
-  sends them to /app/thanks. Shares families.css with the Families funnel.
+  App in 30 Days waitlist (katiep.me/app). Both forms post to /api/waitlist
+  (Kit: subscriber + "App in 30 Days waitlist" tag; Phone + SMS consent as
+  custom fields), then go to /app/thanks.
   If the SMS consent wording changes, bump CONSENT_VERSION in api/waitlist.js.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/families/families.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/app/app.css">
 </head>
 <body>
 
-<header class="site-header">
-  <a class="wordmark" href="/">katie<br>pietrowski</a>
-  <div class="shapes" aria-hidden="true"><span class="s-circle"></span><span class="s-dome"></span><span class="s-pill"></span><span class="s-quarter"></span></div>
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="wordmark" href="/">katie p.</a>
+    <a class="pill-btn small" href="#join">Join the waitlist</a>
+  </div>
 </header>
 
 <main>
-<section id="top" class="wrap hero">
-  <div class="eyebrow">The App in 30 Days challenge · Waitlist</div>
-  <h1 class="display">Build your first iPhone app in 30 days. No coding needed.</h1>
-  <p class="lead">You bring the idea. Claude writes the code. I'll show you exactly what to build, step by step, until it's live on the App Store.</p>
-  <form id="waitlist" class="form" novalidate data-hero-cta>
-    <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
-    <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
-    <label class="field"><span>Mobile <span class="optional">(optional)</span></span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>
-    <label class="consent">
-      <input type="checkbox" name="sms_consent">
-      <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/privacy">Privacy policy</a>.</span>
-    </label>
-    <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
-    <p id="waitlist-error" class="form-error" role="alert" hidden></p>
-    <button type="submit" class="btn">Join the waitlist</button>
-    <p class="small center">The waitlist hears first when doors open. Unsubscribe anytime.</p>
-  </form>
-</section>
 
-<section class="band bg-sage">
-  <div class="inner">
-    <h2 class="display">What you'll build</h2>
-    <p class="lead">Every app I've built that makes money has the same four parts. In 30 days, you build all four.</p>
-    <div class="card row-item"><div class="num bg-mustard">1</div><div><div class="item-title">An onboarding that sells</div><div class="item-sub">A few questions about your user, then a plan built just for them.</div></div></div>
-    <div class="card row-item"><div class="num bg-pink">2</div><div><div class="item-title">A paywall</div><div class="item-sub">Pricing, a free trial and the purchase screen, set up the way I set up mine.</div></div></div>
-    <div class="card row-item"><div class="num bg-blue">3</div><div><div class="item-title">The one thing it does</div><div class="item-sub">One problem, solved well. Small enough to finish in 30 days.</div></div></div>
-    <div class="card row-item"><div class="num" style="background: var(--tomato)">4</div><div><div class="item-title">Live on the App Store</div><div class="item-sub">Your listing, screenshots, privacy policy and website, submitted and approved.</div></div></div>
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="kicker">The App in 30 Days challenge &middot; waitlist open</p>
+      <h1 class="display">Have an app idea? Build it in <em>30 days.</em></h1>
+      <p class="lede">No coding experience needed. You bring the idea, Claude writes the code, and I'll walk you through every step until it's live on the App Store.</p>
+
+      <form class="waitlist card-form" id="join" novalidate>
+        <div class="row">
+          <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
+          <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
+        </div>
+        <label class="field">Mobile <span class="opt">(optional, for a text when doors open)</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>
+        <label class="consent">
+          <input type="checkbox" name="sms_consent">
+          <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/privacy">Privacy policy</a>.</span>
+        </label>
+        <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+        <p class="form-error" role="alert" hidden></p>
+        <button type="submit" class="pill-btn">Join the waitlist</button>
+        <p class="fine">The waitlist hears first when doors open. Unsubscribe anytime.</p>
+      </form>
+    </div>
+
+    <div class="fan" aria-hidden="true">
+      <div class="phone p1"><img src="/app/screen-editor.jpg" alt="" width="600" height="1298"></div>
+      <div class="phone p2"><img src="/app/screen-garden.jpg" alt="" width="600" height="1298"></div>
+      <div class="phone p3"><img src="/app/screen-plan.jpg" alt="" width="600" height="1298"></div>
+      <p class="fan-note">A few of the apps I've built with AI</p>
+    </div>
   </div>
 </section>
 
-<section class="wrap stack" style="padding-top: 44px; padding-bottom: 8px; gap: 14px">
-  <h2 class="display">Who it's for</h2>
-  <p class="lead">Moms, teachers, nurses, photographers, small-business owners: anyone with an app idea sitting in their notes app. You know the problem better than any developer, because you've lived it. That's the part that matters.</p>
-  <ul class="ticks">
-    <li>You've never written code (perfect)</li>
-    <li>You have an idea, or want help finding one from what you already know</li>
-    <li>You want something that can earn money, not just a hobby project</li>
-  </ul>
-</section>
-
-<section class="wrap stack" style="padding-top: 36px; padding-bottom: 44px; gap: 14px">
-  <div class="about">
-    <div class="avatar bg-blue"><img src="/images/families/katie.jpg" alt="Katie Pietrowski" width="400" height="400" loading="lazy" decoding="async"></div>
-    <h2 class="display">Hi, I'm Katie</h2>
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    <span>No code required</span><span>Your idea, live on the App Store</span><span>Thirty days, step by step</span>
+    <span>No code required</span><span>Your idea, live on the App Store</span><span>Thirty days, step by step</span>
+    <span>No code required</span><span>Your idea, live on the App Store</span><span>Thirty days, step by step</span>
   </div>
-  <p class="lead">I spent 15 years as a wedding and family photographer on Cape Cod. Then I taught myself to build iPhone apps with AI. Now I design, build and ship my own apps, using the same simple framework every time.</p>
-  <div class="apps">
-    <a class="card app-link" href="/tinyvoices"><span class="item-title">Tiny Voices</span><span class="item-sub">On the App Store</span></a>
-    <a class="card app-link" href="/onetake"><span class="item-title">OneTake</span><span class="item-sub">On the App Store</span></a>
-    <a class="card app-link" href="/tide"><span class="item-title">Tide</span><span class="item-sub">A calm contraction timer</span></a>
+</div>
+
+<!-- BELIEF SHIFT -->
+<section class="block">
+  <div class="wrap narrow center">
+    <h2 class="display">Coding isn't the hard part anymore. <em>Knowing what to build is.</em></h2>
+    <p class="body">AI writes the code now. What most people are missing is a plan: what to build, what to leave out, and how an app actually makes money. That's what this challenge gives you, one day at a time.</p>
+    <a class="pill-btn" href="#join">Join the waitlist</a>
   </div>
 </section>
 
-<section class="band bg-card">
-  <div class="inner" style="gap: 16px">
-    <h2 class="display">Questions</h2>
-    <div class="faq"><div class="item-title">Do I need to know how to code?</div><p>No. You answer questions about your app in plain English, and Claude writes the code. I give you the questions for every part of the app.</p></div>
-    <div class="faq"><div class="item-title">What do I need?</div><p>A Mac and a paid Claude plan. When you're ready to publish, an Apple Developer account ($99 a year from Apple).</p></div>
-    <div class="faq"><div class="item-title">When does it start?</div><p>Dates are coming soon. The waitlist hears first.</p></div>
+<!-- WHO IT'S FOR -->
+<section class="block dark">
+  <div class="wrap split">
+    <div>
+      <p class="kicker light">Tell me more&hellip;</p>
+      <h2 class="display">Who's this <em>for?</em></h2>
+    </div>
+    <div>
+      <p class="body">For anyone with an idea sitting in their notes app, and no idea where to start.</p>
+      <ul class="checks">
+        <li>You're a mom, teacher, nurse, photographer or small-business owner who has seen a problem up close</li>
+        <li>You've never written a line of code (perfect)</li>
+        <li>You want something that can earn money, not one more thing that takes your time</li>
+        <li>You're ready to stop saying "someday"</li>
+      </ul>
+      <a class="pill-btn" href="#join">Join the waitlist</a>
+    </div>
   </div>
 </section>
+
+<!-- THE FOUR WEEKS -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">So what actually happens?</p>
+      <h2 class="display">Four weeks. <em>One app</em> on the App Store.</h2>
+    </div>
+    <ol class="weeks">
+      <li><span class="wk">Week 1</span><div><h3>Your idea, your price, your foundation</h3><p>Pick one problem worth solving, see what competitors charge, set your price, and get your app running on a pretend iPhone on your Mac.</p></div></li>
+      <li><span class="wk">Week 2</span><div><h3>The app and the onboarding that sells it</h3><p>Build the one thing your app does, then the onboarding: a few questions that turn into a plan made just for your user.</p></div></li>
+      <li><span class="wk">Week 3</span><div><h3>Getting paid</h3><p>Your paywall, free trial and purchases, plus ratings and the settings every app needs.</p></div></li>
+      <li><span class="wk">Week 4</span><div><h3>Live on the App Store</h3><p>Test on your own iPhone, make your listing and screenshots, submit, and launch.</p></div></li>
+    </ol>
+    <div class="center"><a class="pill-btn" href="#join">Join the waitlist</a></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="block blush">
+  <div class="wrap split about">
+    <div class="photo"><img src="/app/katie.jpg" alt="Katie Pietrowski by the water on Cape Cod" width="800" height="835" loading="lazy" decoding="async"></div>
+    <div>
+      <p class="kicker">Hi, I'm Katie</p>
+      <h2 class="display">I'm not teaching theory. <em>I build these.</em></h2>
+      <p class="body">For 15 years I was a wedding and family photographer on Cape Cod. I'd never written code. Then I taught myself to build iPhone apps with AI, and now I design, build and ship my own, like <a href="/tinyvoices">Tiny Voices</a>, <a href="/onetake">OneTake</a> and <a href="/tide">Tide</a>.</p>
+      <p class="body">Every one follows the same simple framework. App in 30 Days is that framework, step by step, so you don't have to figure it out the hard way like I did.</p>
+      <a class="pill-btn" href="#join">Join the waitlist</a>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIONS -->
+<section class="block">
+  <div class="wrap narrow">
+    <div class="section-head center">
+      <p class="kicker">Still deciding?</p>
+      <h2 class="display">You might be <em>thinking&hellip;</em></h2>
+    </div>
+    <div class="qa">
+      <h3>"I'm not technical."</h3>
+      <p>Neither was I. You answer questions about your app in plain English, Claude writes the code, and every step tells you exactly where to click.</p>
+    </div>
+    <div class="qa">
+      <h3>"I don't have an idea yet."</h3>
+      <p>Day 1 helps you find one from what you already know: your work, your kids, the problem your friends keep complaining about.</p>
+    </div>
+    <div class="qa">
+      <h3>"What will I need?"</h3>
+      <p>A Mac and a paid Claude plan. When you're ready to publish, an Apple Developer account ($99 a year from Apple).</p>
+    </div>
+    <div class="qa">
+      <h3>"When does it start, and what does it cost?"</h3>
+      <p>Dates and details go to the waitlist first.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL FORM -->
+<section class="block final">
+  <div class="wrap narrow center">
+    <h2 class="display">Your idea has waited <em>long enough.</em></h2>
+    <p class="body">Join the waitlist and you'll be the first to know when doors open.</p>
+    <form class="waitlist card-form" novalidate>
+      <div class="row">
+        <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
+        <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
+      </div>
+      <label class="field">Mobile <span class="opt">(optional, for a text when doors open)</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>
+      <label class="consent">
+        <input type="checkbox" name="sms_consent">
+        <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/privacy">Privacy policy</a>.</span>
+      </label>
+      <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-error" role="alert" hidden></p>
+      <button type="submit" class="pill-btn">Join the waitlist</button>
+    </form>
+  </div>
+</section>
+
 </main>
 
-<footer class="site-footer">© 2026 Katie Pietrowski · <a href="/privacy">Privacy policy</a></footer>
-
-<div class="buy-bar">
-  <div class="inner"><a class="btn" href="#top">Join the waitlist</a></div>
-</div>
+<footer class="foot">
+  <div class="wrap">© 2026 Katie Pietrowski &middot; <a href="/privacy">Privacy policy</a> &middot; <a href="/terms">Terms</a></div>
+</footer>
 
 <script src="/app/app.js"></script>
 </body>
