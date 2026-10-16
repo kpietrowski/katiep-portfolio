@@ -1,0 +1,10 @@
+/* App in 30 Days waitlist (/app, /app/thanks). Builds on families.css. */
+.optional { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--muted); }
+.consent { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+.consent input { flex: 0 0 auto; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--tomato); }
+.consent a { color: var(--muted); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.apps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.app-link { display: flex; flex-direction: column; gap: 2px; text-decoration: none; padding: 14px; }
+.app-link .item-sub { font-size: 13px; }
+@media (max-width: 420px) { .apps { grid-template-columns: 1fr; } }

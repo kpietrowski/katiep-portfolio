@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ECE8DE">
+<title>App in 30 Days: Build Your First iPhone App | Katie Pietrowski</title>
+<meta name="description" content="Build and launch your first iPhone app in 30 days, with no coding experience. You bring the idea, Claude writes the code. Join the waitlist.">
+<meta property="og:title" content="App in 30 Days: build your first iPhone app">
+<meta property="og:description" content="You bring the idea. Claude writes the code. I'll show you exactly what to build, step by step, until it's live on the App Store.">
+<meta property="og:url" content="https://katiep.me/app">
+<meta property="og:type" content="website">
+<!--
+  App in 30 Days waitlist. Form posts to /api/waitlist (Kit: subscriber +
+  "App in 30 Days waitlist" tag, phone + SMS consent as custom fields), then
+  sends them to /app/thanks. Shares families.css with the Families funnel.
+  If the SMS consent wording changes, bump CONSENT_VERSION in api/waitlist.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/families/families.css">
+<link rel="stylesheet" href="/app/app.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="wordmark" href="/">katie<br>pietrowski</a>
+  <div class="shapes" aria-hidden="true"><span class="s-circle"></span><span class="s-dome"></span><span class="s-pill"></span><span class="s-quarter"></span></div>
+</header>
+
+<main>
+<section id="top" class="wrap hero">
+  <div class="eyebrow">The App in 30 Days challenge · Waitlist</div>
+  <h1 class="display">Build your first iPhone app in 30 days. No coding needed.</h1>
+  <p class="lead">You bring the idea. Claude writes the code. I'll show you exactly what to build, step by step, until it's live on the App Store.</p>
+  <form id="waitlist" class="form" novalidate data-hero-cta>
+    <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
+    <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
+    <label class="field"><span>Mobile <span class="optional">(optional)</span></span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>
+    <label class="consent">
+      <input type="checkbox" name="sms_consent">
+      <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/privacy">Privacy policy</a>.</span>
+    </label>
+    <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+    <p id="waitlist-error" class="form-error" role="alert" hidden></p>
+    <button type="submit" class="btn">Join the waitlist</button>
+    <p class="small center">The waitlist hears first when doors open. Unsubscribe anytime.</p>
+  </form>
+</section>
+
+<section class="band bg-sage">
+  <div class="inner">
+    <h2 class="display">What you'll build</h2>
+    <p class="lead">Every app I've built that makes money has the same four parts. In 30 days, you build all four.</p>
+    <div class="card row-item"><div class="num bg-mustard">1</div><div><div class="item-title">An onboarding that sells</div><div class="item-sub">A few questions about your user, then a plan built just for them.</div></div></div>
+    <div class="card row-item"><div class="num bg-pink">2</div><div><div class="item-title">A paywall</div><div class="item-sub">Pricing, a free trial and the purchase screen, set up the way I set up mine.</div></div></div>
+    <div class="card row-item"><div class="num bg-blue">3</div><div><div class="item-title">The one thing it does</div><div class="item-sub">One problem, solved well. Small enough to finish in 30 days.</div></div></div>
+    <div class="card row-item"><div class="num" style="background: var(--tomato)">4</div><div><div class="item-title">Live on the App Store</div><div class="item-sub">Your listing, screenshots, privacy policy and website, submitted and approved.</div></div></div>
+  </div>
+</section>
+
+<section class="wrap stack" style="padding-top: 44px; padding-bottom: 8px; gap: 14px">
+  <h2 class="display">Who it's for</h2>
+  <p class="lead">Moms, teachers, nurses, photographers, small-business owners: anyone with an app idea sitting in their notes app. You know the problem better than any developer, because you've lived it. That's the part that matters.</p>
+  <ul class="ticks">
+    <li>You've never written code (perfect)</li>
+    <li>You have an idea, or want help finding one from what you already know</li>
+    <li>You want something that can earn money, not just a hobby project</li>
+  </ul>
+</section>
+
+<section class="wrap stack" style="padding-top: 36px; padding-bottom: 44px; gap: 14px">
+  <div class="about">
+    <div class="avatar bg-blue"><img src="/images/families/katie.jpg" alt="Katie Pietrowski" width="400" height="400" loading="lazy" decoding="async"></div>
+    <h2 class="display">Hi, I'm Katie</h2>
+  </div>
+  <p class="lead">I spent 15 years as a wedding and family photographer on Cape Cod. Then I taught myself to build iPhone apps with AI. Now I design, build and ship my own apps, using the same simple framework every time.</p>
+  <div class="apps">
+    <a class="card app-link" href="/tinyvoices"><span class="item-title">Tiny Voices</span><span class="item-sub">On the App Store</span></a>
+    <a class="card app-link" href="/onetake"><span class="item-title">OneTake</span><span class="item-sub">On the App Store</span></a>
+    <a class="card app-link" href="/tide"><span class="item-title">Tide</span><span class="item-sub">A calm contraction timer</span></a>
+  </div>
+</section>
+
+<section class="band bg-card">
+  <div class="inner" style="gap: 16px">
+    <h2 class="display">Questions</h2>
+    <div class="faq"><div class="item-title">Do I need to know how to code?</div><p>No. You answer questions about your app in plain English, and Claude writes the code. I give you the questions for every part of the app.</p></div>
+    <div class="faq"><div class="item-title">What do I need?</div><p>A Mac and a paid Claude plan. When you're ready to publish, an Apple Developer account ($99 a year from Apple).</p></div>
+    <div class="faq"><div class="item-title">When does it start?</div><p>Dates are coming soon. The waitlist hears first.</p></div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">© 2026 Katie Pietrowski · <a href="/privacy">Privacy policy</a></footer>
+
+<div class="buy-bar">
+  <div class="inner"><a class="btn" href="#top">Join the waitlist</a></div>
+</div>
+
+<script src="/app/app.js"></script>
+</body>
+</html>
