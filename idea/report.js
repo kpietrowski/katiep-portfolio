@@ -104,7 +104,7 @@
     root.appendChild(section('r-cta', [
       el('div', { class: 'center' }, [
         el('p', { class: 'kicker', text: "You're on the App in 30 Days waitlist" }),
-        el('h2', { class: 'display' }, ['Ready to ', el('em', { text: 'build it?' })]),
+        el('h2', { class: 'display r-h2' }, ['Ready to ', el('em', { text: 'build it?' })]),
         el('p', { class: 'body', text: "This report is Day 1 of the challenge. Download it, keep it somewhere safe, and on Day 1 Claude reads it so you start with your research already done. You'll hear from me first when doors open." }),
         el('div', { class: 'cta-row' }, [
           el('a', { class: 'pill-btn', href: '/api/idea-report?id=' + encodeURIComponent(rep.id) + '&format=md&download=1', text: 'Download for the challenge' }),

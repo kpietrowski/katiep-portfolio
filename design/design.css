@@ -8,7 +8,7 @@
 .kit { --k-hfont: system-ui; --k-bfont: system-ui; }
 .k-hero { background: var(--k-soft); padding: 64px 0 56px; }
 .k-hero .wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-.k-title { font-family: var(--k-hfont); font-weight: 700; font-size: clamp(44px, 7vw, 76px); line-height: 1; margin: 10px 0 0; color: var(--k-text); letter-spacing: -.01em; }
+.k-title { font-family: var(--k-hfont); font-weight: 700; font-size: clamp(40px, 5.5vw, 60px); line-height: 1.05; margin: 10px 0 0; color: var(--k-text); letter-spacing: -.01em; }
 .k-tagline { font-family: var(--k-hfont); font-size: clamp(20px, 2.6vw, 26px); color: var(--k-text); margin: 0; opacity: .85; }
 .k-personality { max-width: 560px; margin: 6px auto 0; }
 .k-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
