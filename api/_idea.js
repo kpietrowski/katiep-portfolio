@@ -5,7 +5,34 @@
 // Optional: OPENAI_IDEA_MODEL (default tries gpt-5-mini, then older models).
 
 import crypto from 'node:crypto';
-import { kv } from '@vercel/kv';
+import { createClient } from '@vercel/kv';
+
+// Find the Upstash/Vercel KV REST credentials whatever prefix the integration
+// used: KV_REST_API_URL, STORAGE_KV_REST_API_URL, UPSTASH_REDIS_REST_URL, …
+export function kvEnv() {
+  const env = process.env;
+  const urlKey = Object.keys(env).find((k) => /(^|_)KV_REST_API_URL$/.test(k))
+    || Object.keys(env).find((k) => /(^|_)UPSTASH_REDIS_REST_URL$/.test(k));
+  if (!urlKey) return null;
+  const tokenKey = urlKey.replace(/_URL$/, '_TOKEN');
+  return env[tokenKey] ? { url: env[urlKey], token: env[tokenKey] } : null;
+}
+
+// Names (never values) of anything that looks like storage config, for diagnosing.
+export const kvEnvNames = () => Object.keys(process.env).filter((k) => /KV|REDIS|UPSTASH/.test(k));
+
+let client;
+const kv = new Proxy({}, {
+  get(_, prop) {
+    if (!client) {
+      const c = kvEnv();
+      if (!c) throw new Error('KV not configured');
+      client = createClient(c);
+    }
+    const v = client[prop];
+    return typeof v === 'function' ? v.bind(client) : v;
+  },
+});
 
 export const REPORT_TTL = 60 * 60 * 24 * 365; // keep reports for a year
 export const reportKey = (id) => `idea:${id}`;

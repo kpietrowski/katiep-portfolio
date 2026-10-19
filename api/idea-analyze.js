@@ -4,7 +4,7 @@
 // stores the report (locked). Returns { id, teaser } — the full report is only
 // returned by /api/idea-unlock, after the visitor gives their email.
 
-import { newId, saveReport, overLimit, askJSON, findCompetitors, getReviews } from './_idea.js';
+import { newId, saveReport, overLimit, askJSON, findCompetitors, getReviews, kvEnv, kvEnvNames } from './_idea.js';
 
 const SEARCH_SYSTEM = `You turn an iPhone app idea into App Store search terms.
 Return JSON: {"search_terms": [3 short phrases a person would type into the App Store search box to find apps that solve this problem, most specific first, 1-4 words each]}.`;
@@ -54,10 +54,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Tell me a little more about the problem and how your app solves it.' });
   }
   // Name what's missing (names only, never values) so a broken deploy is easy to fix.
-  const missing = ['OPENAI_API_KEY', 'KV_REST_API_URL', 'KV_REST_API_TOKEN'].filter((k) => !process.env[k]);
+  const missing = [!process.env.OPENAI_API_KEY && 'OPENAI_API_KEY', !kvEnv() && 'KV storage (KV_REST_API_URL + KV_REST_API_TOKEN)'].filter(Boolean);
   if (missing.length) {
-    console.error('idea-analyze: missing env', missing.join(', '));
-    return res.status(500).json({ error: 'Not configured', missing });
+    console.error('idea-analyze: missing', missing.join(', '));
+    return res.status(500).json({ error: 'Not configured', missing, storageVarsSeen: kvEnvNames() });
   }
 
   let stage = 'limit';
