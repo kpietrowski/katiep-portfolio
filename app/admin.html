@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Course Admin | Katie P.</title>
+<!-- Katie's admin for App in 30 Days licences. Everything needs APP30_ADMIN_TOKEN. -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app/app.css">
+<link rel="stylesheet" href="/app/licence.css">
+</head>
+<body>
+<main class="lic-main">
+  <div class="wrap adm">
+    <h1 class="lic-title">Course admin</h1>
+
+    <form class="card-form lic-card" id="login">
+      <div class="adm-row">
+        <label class="field">Admin token<input name="token" type="password" autocomplete="off"></label>
+        <button class="pill-btn" type="submit">Open</button>
+      </div>
+      <p class="form-error" role="alert" hidden></p>
+    </form>
+
+    <div id="app" hidden>
+      <div class="adm-stats" id="stats"></div>
+
+      <form class="card-form lic-card" id="search">
+        <div class="adm-row">
+          <label class="field">Find a student (email or key)<input name="q" autocomplete="off"></label>
+          <button class="pill-btn" type="submit">Search</button>
+          <button class="pill-btn" type="button" id="flagged">Show flagged</button>
+        </div>
+      </form>
+
+      <div id="results"></div>
+
+      <form class="card-form lic-card" id="create">
+        <span class="lic-label">Give someone a free key</span>
+        <div class="adm-row">
+          <label class="field">Email<input name="email" type="email"></label>
+          <label class="field">Name<input name="name"></label>
+          <button class="pill-btn" type="submit">Create key</button>
+        </div>
+        <p class="lic-note" id="created"></p>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  var token = '';
+  try { token = localStorage.getItem('app30-admin') || ''; } catch (e) {}
+
+  function api(method, query, body) {
+    return fetch('/api/license-admin' + (query || ''), {
+      method: method,
+      headers: Object.assign({ Authorization: 'Bearer ' + token }, body ? { 'Content-Type': 'application/json' } : {}),
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || r.status); return j; }); });
+  }
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function when(iso) { return iso ? new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '–'; }
+
+  function stats() {
+    api('GET', '?stats=1').then(function (s) {
+      var box = document.getElementById('stats'); box.innerHTML = '';
+      [['licences', 'Students'], ['active', 'Active'], ['revoked', 'Switched off'], ['flagged', 'Flagged'], ['course_files', 'Course files live']].forEach(function (p) {
+        var d = el('div', 'adm-stat'); d.appendChild(el('b', null, s[p[0]])); d.appendChild(el('span', null, p[1])); box.appendChild(d);
+      });
+    });
+  }
+
+  function render(lics) {
+    var box = document.getElementById('results'); box.innerHTML = '';
+    if (!lics.length) { box.appendChild(el('p', 'lic-note', 'Nothing found.')); return; }
+    lics.forEach(function (l) {
+      var c = el('div', 'adm-lic');
+      c.appendChild(el('h3', null, l.key));
+      var meta = el('div', 'adm-meta', l.email + (l.name ? ' · ' + l.name : '') + ' · since ' + when(l.created) + ' · ' + l.source +
+        (l.stripe && l.stripe.amount ? ' · $' + (l.stripe.amount / 100).toFixed(2) : '') + (l.last_step ? ' · last step: ' + l.last_step : ''));
+      c.appendChild(meta);
+      if (l.status !== 'active') c.appendChild(el('div', 'adm-off', 'Switched off: ' + (l.revoked_reason || '') + ' (' + when(l.revoked_at) + ')'));
+      c.appendChild(el('div', 'adm-meta', 'Computers: ' + (l.devices.length ? l.devices.map(function (d) { return d.label + ' (last ' + when(d.last) + ')'; }).join(', ') : 'none yet')));
+      (l.flags || []).forEach(function (f) { c.appendChild(el('div', 'adm-flag', '⚑ ' + f.why + ' · ' + when(f.at))); });
+      var acts = el('div', 'adm-actions');
+      [[l.status === 'active' ? 'revoke' : 'restore', l.status === 'active' ? 'Switch off' : 'Switch back on'], ['clear_devices', 'Clear computers'], ['unflag', 'Clear flags']].forEach(function (a) {
+        var b = el('button', null, a[1]); b.type = 'button';
+        b.addEventListener('click', function () {
+          var reason = a[0] === 'revoke' ? prompt('Reason (for your records)?', 'shared key') : null;
+          if (a[0] === 'revoke' && reason === null) return;
+          api('POST', '', { action: a[0], key: l.key, reason: reason }).then(function () { search(l.key); stats(); }).catch(function (e) { alert(e.message); });
+        });
+        acts.appendChild(b);
+      });
+      c.appendChild(acts);
+      if (l.recent && l.recent.length) {
+        c.appendChild(el('div', 'adm-log', l.recent.map(function (r) { return when(r.t) + '  ' + r.what + '  ' + r.device + '  net ' + r.ip; }).join('\n'))).style.whiteSpace = 'pre';
+      }
+      box.appendChild(c);
+    });
+  }
+
+  function search(q) { api('GET', '?q=' + encodeURIComponent(q)).then(function (j) { render(j.licences); }).catch(function (e) { alert(e.message); }); }
+
+  function open() {
+    api('GET', '?stats=1').then(function () {
+      try { localStorage.setItem('app30-admin', token); } catch (e) {}
+      document.getElementById('login').hidden = true; document.getElementById('app').hidden = false; stats();
+    }).catch(function (e) { var er = document.querySelector('#login .form-error'); er.textContent = e.message; er.hidden = false; });
+  }
+
+  document.getElementById('login').addEventListener('submit', function (e) { e.preventDefault(); token = this.token.value.trim(); open(); });
+  document.getElementById('search').addEventListener('submit', function (e) { e.preventDefault(); search(this.q.value.trim()); });
+  document.getElementById('flagged').addEventListener('click', function () { api('GET', '?flagged=1').then(function (j) { render(j.licences); }); });
+  document.getElementById('create').addEventListener('submit', function (e) {
+    e.preventDefault(); var f = this;
+    api('POST', '', { action: 'create', email: f.email.value.trim(), name: f.name.value.trim() }).then(function (j) {
+      document.getElementById('created').textContent = 'Key for ' + j.licence.email + ': ' + j.licence.key + (j.emailed ? '. Their welcome email is on its way.' : '. Kit didn\u2019t take it, so send the key yourself.'); stats();
+    }).catch(function (e) { alert(e.message); });
+  });
+  if (token) open();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FDF8F3">
+<meta name="robots" content="noindex">
+<title>Your Course Key | Katie P.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app/app.css">
+<link rel="stylesheet" href="/app/licence.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="wordmark" href="/">katie p.</a>
+    <a class="top-link" href="/app">App in 30 Days</a>
+  </div>
+</header>
+
+<main class="lic-main">
+  <div class="wrap lic-narrow">
+    <p class="kicker">App in 30 Days</p>
+    <h1 class="lic-title">Your course key <em>and computers.</em></h1>
+    <p class="lic-lede">Your key works on up to 3 computers. Got a new one? Clear your list here (once a month) and Claude will add the new computer next time you start a day.</p>
+
+    <form class="card-form lic-card" id="dev-form" novalidate>
+      <label class="field">Course key<input name="key" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="APP30-XXXX-XXXX-XXXX"></label>
+      <label class="field">Email you bought with<input name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@email.com"></label>
+      <p class="form-error" role="alert" hidden></p>
+      <button type="submit" class="pill-btn">Show my computers</button>
+    </form>
+
+    <div class="card-form lic-card" id="dev-list" hidden aria-live="polite">
+      <span class="lic-label" id="dev-count"></span>
+      <ul class="lic-devices" id="devices"></ul>
+      <p class="lic-note" id="dev-note"></p>
+      <p class="form-error" role="alert" hidden></p>
+      <button type="button" class="pill-btn" id="reset">Clear all my computers</button>
+    </div>
+
+    <h2 class="lic-h2" id="lost">Lost your key?</h2>
+    <form class="card-form lic-card" id="lost-form" novalidate>
+      <label class="field">Email you bought with<input name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@email.com"></label>
+      <p class="form-error" role="alert" hidden></p>
+      <p class="lic-note" id="lost-note" hidden></p>
+      <button type="submit" class="pill-btn">Email me my key</button>
+    </form>
+  </div>
+</main>
+
+<footer class="foot"><div class="wrap">© 2026 Katie Pietrowski &middot; <a href="/app">App in 30 Days</a> &middot; <a href="/privacy">Privacy policy</a></div></footer>
+
+<script>
+(function () {
+  var form = document.getElementById('dev-form'), list = document.getElementById('dev-list');
+  var creds = null;
+
+  function post(url, body) {
+    return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); });
+  }
+  function err(box, msg) { var e = box.querySelector('.form-error'); e.textContent = msg || ''; e.hidden = !msg; }
+  function day(iso) { return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+
+  function show(v) {
+    var ul = document.getElementById('devices');
+    ul.innerHTML = '';
+    document.getElementById('dev-count').textContent = v.devices.length + ' of ' + v.max_devices + ' computers';
+    if (!v.devices.length) {
+      var li = document.createElement('li'); li.className = 'empty'; li.textContent = 'No computers yet. The next one you use will be added.'; ul.appendChild(li);
+    }
+    v.devices.forEach(function (d) {
+      var li = document.createElement('li');
+      var b = document.createElement('strong'); b.textContent = d.label;
+      var s = document.createElement('span'); s.textContent = 'Added ' + day(d.first) + ' · last used ' + day(d.last);
+      li.appendChild(b); li.appendChild(s); ul.appendChild(li);
+    });
+    var btn = document.getElementById('reset');
+    btn.disabled = !!v.next_reset || !v.devices.length;
+    document.getElementById('dev-note').textContent = v.status !== 'active' ? 'This key is switched off. Email katie@katiepietrowski.com if that seems wrong.'
+      : v.next_reset ? 'You can clear your computers again on ' + day(v.next_reset) + '.' : 'You can clear your list once every 30 days.';
+    list.hidden = false;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); err(form);
+    creds = { key: form.key.value.trim(), email: form.email.value.trim() };
+    if (!creds.key || !creds.email) return err(form, 'Enter your key and email.');
+    var btn = form.querySelector('button'); btn.disabled = true;
+    post('/api/license-devices', Object.assign({ action: 'list' }, creds)).then(function (res) {
+      btn.disabled = false;
+      if (!res.ok) return err(form, res.j.error || 'Something went wrong.');
+      show(res.j);
+    });
+  });
+
+  document.getElementById('reset').addEventListener('click', function () {
+    if (!creds) return;
+    var btn = this; btn.disabled = true; err(list);
+    post('/api/license-devices', Object.assign({ action: 'reset' }, creds)).then(function (res) {
+      if (!res.ok) { err(list, res.j.error); if (res.j.devices) show(res.j); return; }
+      show(res.j);
+      document.getElementById('dev-note').textContent = 'Done. The next computer you start a day on will be added.';
+    });
+  });
+
+  var lost = document.getElementById('lost-form');
+  lost.addEventListener('submit', function (e) {
+    e.preventDefault(); err(lost);
+    var email = lost.email.value.trim();
+    if (email.indexOf('@') < 1) return err(lost, 'Enter your email.');
+    var btn = lost.querySelector('button'); btn.disabled = true;
+    post('/api/license-resend', { email: email }).then(function (res) {
+      btn.disabled = false;
+      if (!res.ok) return err(lost, res.j.error || 'Something went wrong.');
+      var n = document.getElementById('lost-note'); n.textContent = res.j.message; n.hidden = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>

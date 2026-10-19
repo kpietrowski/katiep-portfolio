@@ -8,8 +8,10 @@ import { overLimit } from './_idea.js';
 const MAX_BYTES = 4 * 1024 * 1024; // Vercel caps request bodies at 4.5 MB
 const EXT = { webm: 'webm', mp4: 'mp4', 'x-m4a': 'm4a', m4a: 'm4a', aac: 'm4a', ogg: 'ogg', mpeg: 'mp3', wav: 'wav', 'x-wav': 'wav' };
 
+// Read the raw upload ourselves (same pattern as /api/transcribe).
+export const config = { api: { bodyParser: false } };
+
 async function readBody(req) {
-  if (Buffer.isBuffer(req.body)) return req.body;
   const chunks = [];
   let size = 0;
   for await (const c of req) {

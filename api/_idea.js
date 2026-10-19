@@ -34,6 +34,8 @@ const kv = new Proxy({}, {
   },
 });
 
+export { kv }; // shared with the course licence code
+
 export const REPORT_TTL = 60 * 60 * 24 * 365; // keep reports for a year
 export const reportKey = (id) => `idea:${id}`;
 export const newId = () => crypto.randomBytes(9).toString('base64url'); // 12 url-safe chars
