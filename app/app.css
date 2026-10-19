@@ -207,6 +207,15 @@ h1.display { font-size: clamp(44px, 6.4vw, 82px); }
 
 .disclaimer { max-width: 680px; margin: 0 auto 14px; font-size: 13px; line-height: 1.5; }
 
+
+/* What's inside */
+.inside-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.inside-card { background: #fff; border-radius: 22px; padding: 26px; box-shadow: 0 14px 34px -24px rgba(26,26,26,.35); display: flex; flex-direction: column; gap: 6px; }
+.inside-card b { font-family: var(--serif); font-weight: 500; font-size: 40px; line-height: 1; color: var(--coral-deep); font-variant-numeric: lining-nums; }
+.inside-card h3 { font-family: var(--serif); font-weight: 500; font-size: 24px; line-height: 1.2; margin: 6px 0 0; }
+.inside-card p { color: var(--ink-light); margin: 0; }
+.anchor { margin: -10px 0 22px; font-family: var(--serif); font-style: italic; font-size: 18px; color: rgba(253,248,243,.8); }
+
 /* Phones */
 @media (max-width: 900px) {
   .hero { padding: 36px 0 56px; }
@@ -223,6 +232,7 @@ h1.display { font-size: clamp(44px, 6.4vw, 82px); }
   .rating-badge { bottom: 50px; }
   .proof-grid { grid-template-columns: 1fr 1fr; }
   .tool-grid { grid-template-columns: 1fr; }
+  .inside-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 560px) {
   .card-form .row { grid-template-columns: 1fr; }
@@ -238,4 +248,5 @@ h1.display { font-size: clamp(44px, 6.4vw, 82px); }
   .price-card { padding: 24px; }
   .dates li { grid-template-columns: 1fr; gap: 2px; }
   .text-link { width: 100%; text-align: center; }
+  .inside-grid { grid-template-columns: 1fr; }
 }
