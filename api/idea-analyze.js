@@ -53,19 +53,24 @@ export default async function handler(req, res) {
   if (problem.length < 15 || solution.length < 15) {
     return res.status(400).json({ error: 'Tell me a little more about the problem and how your app solves it.' });
   }
-  if (!process.env.OPENAI_API_KEY) {
-    console.error('idea-analyze: OPENAI_API_KEY is not set');
-    return res.status(500).json({ error: 'Not configured' });
+  // Name what's missing (names only, never values) so a broken deploy is easy to fix.
+  const missing = ['OPENAI_API_KEY', 'KV_REST_API_URL', 'KV_REST_API_TOKEN'].filter((k) => !process.env[k]);
+  if (missing.length) {
+    console.error('idea-analyze: missing env', missing.join(', '));
+    return res.status(500).json({ error: 'Not configured', missing });
   }
 
+  let stage = 'limit';
   try {
     const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
     if (await overLimit(ip)) {
       return res.status(429).json({ error: "You've run a lot of reports this hour. Please try again a little later." });
     }
 
+    stage = 'search-terms';
     const idea = `Problem: ${problem}\nHow the app solves it: ${solution}`;
     const { search_terms = [] } = await askJSON(SEARCH_SYSTEM, idea);
+    stage = 'app-store';
     const competitors = await findCompetitors(search_terms.length ? search_terms : [problem.slice(0, 40)]);
 
     const reviews = await Promise.all(competitors.map((c) => getReviews(c.id)));
@@ -78,6 +83,7 @@ export default async function handler(req, res) {
       five_star_reviews: reviews[i].high.map((r) => `${r.title}: ${r.text}`),
     }));
 
+    stage = 'analysis';
     const analysis = await askJSON(
       ANALYSIS_SYSTEM,
       `THE IDEA\n${idea}\n\nAPP STORE DATA (search terms used: ${search_terms.join(', ')})\n${JSON.stringify(data)}`
@@ -93,6 +99,7 @@ export default async function handler(req, res) {
       analysis,
       unlocked: false,
     };
+    stage = 'save';
     await saveReport(report);
 
     return res.status(200).json({
@@ -100,7 +107,7 @@ export default async function handler(req, res) {
       teaser: { competitors: report.competitors.length, names: report.competitors.slice(0, 3).map((c) => c.name), reviews: sampled },
     });
   } catch (err) {
-    console.error('idea-analyze:', err.message);
-    return res.status(502).json({ error: "I couldn't finish your report just now. Please try again in a minute." });
+    console.error(`idea-analyze [${stage}]:`, err.message);
+    return res.status(502).json({ error: "I couldn't finish your report just now. Please try again in a minute.", stage });
   }
 }
