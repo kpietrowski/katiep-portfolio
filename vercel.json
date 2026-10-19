@@ -9,6 +9,9 @@
   "functions": {
     "api/idea-analyze.js": {
       "maxDuration": 60
+    },
+    "api/design-generate.js": {
+      "maxDuration": 60
     }
   }
 }

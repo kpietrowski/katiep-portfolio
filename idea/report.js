@@ -113,6 +113,16 @@
       ])
     ]));
 
+    // Next freebie: the App Design Kit, with this idea brought in
+    root.appendChild(section('r-tint', [
+      el('div', { class: 'center' }, [
+        el('p', { class: 'kicker', text: 'Free next step' }),
+        el('h2', { class: 'display r-h2' }, ['See what it could ', el('em', { text: 'look like.' })]),
+        el('p', { class: 'body', text: 'Get name ideas, colours, fonts, an app icon and mockups of your launch screen, onboarding and paywall. Your idea is already filled in, just pick a style.' }),
+        el('a', { class: 'pill-btn', href: '/design?idea=' + encodeURIComponent(rep.id), text: 'Design my app' })
+      ])
+    ]));
+
     root.appendChild(el('div', { class: 'wrap narrow' }, [el('p', { class: 'fineprint', text: 'Based on ' + rep.reviews_sampled + ' recent and most-helpful App Store reviews of the apps above. The grades are an informed estimate, not a promise. Not affiliated with Apple.' })]));
   }
 })();

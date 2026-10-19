@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FDF8F3">
+<title>App Design Kit: See What Your App Could Look Like | Katie P.</title>
+<meta name="description" content="Free: describe your app and pick a style. Get name ideas, colours, fonts, an app icon and mockups of your launch screen, onboarding and paywall.">
+<meta property="og:title" content="See what your app could look like. Free App Design Kit">
+<meta property="og:description" content="Name ideas, colours, fonts, an app icon and mockups of your key screens, made for your app in a minute.">
+<meta property="og:url" content="https://katiep.me/design">
+<meta property="og:type" content="website">
+<!--
+  App Design Kit (free tool #2, App in 30 Days funnel).
+  1. Idea (typed, or spoken → /api/voice-to-text) + style → /api/design-generate (stored locked)
+     ?idea=<App Idea Report Card id> prefills the idea and uses that report's findings.
+  2. Email → /api/design-unlock (Kit: "App Design Kit" + waitlist tags, kit link
+     as the "Design kit URL" custom field; a Kit automation emails it)
+  3. → /design/kit?id=…
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@600&family=Playfair+Display:wght@600&family=Lora:wght@600&family=Space+Grotesk:wght@600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app/app.css">
+<link rel="stylesheet" href="/idea/idea.css">
+<link rel="stylesheet" href="/design/design.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="wordmark" href="/">katie p.</a>
+    <a class="top-link" href="/app">App in 30 Days</a>
+  </div>
+</header>
+
+<main>
+<section class="hero idea-hero">
+  <div class="wrap narrow center">
+    <p class="kicker">Free tool &middot; App Design Kit</p>
+    <h1 class="display">See what your app <em>could look like.</em></h1>
+    <p class="lede center-lede">Tell me your idea and pick a style. I'll make you name ideas, colours, fonts, an app icon and mockups of your launch screen, onboarding and paywall.</p>
+  </div>
+
+  <div class="wrap tool-wrap" id="top-tool">
+    <!-- Step 1: idea + style -->
+    <form id="step-idea" class="card-form tool" novalidate>
+      <label class="idea-q" for="idea-text">What is your app idea? <span>Describe who would use it and what the app does.</span></label>
+      <p class="from-report" id="from-report" hidden>I brought in your idea from your App Idea Report Card. Change anything you like.</p>
+
+      <div class="mic" id="mic" hidden>
+        <button type="button" class="mic-btn" id="mic-btn" aria-describedby="mic-status">
+          <svg class="mic-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          <svg class="stop-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg>
+          <span class="mic-label">Tap to talk</span>
+        </button>
+        <p class="mic-status" id="mic-status" aria-live="polite">Just brain dump. Talk for a minute or two and I'll type it up for you.</p>
+      </div>
+      <p class="or-type" id="or-type" hidden><span>or type it</span></p>
+
+      <textarea id="idea-text" class="idea-text" name="app" rows="5" maxlength="3000" placeholder="An app for first-time moms in early labor. One big button times each contraction, and it tells her calmly when it's time to go to the hospital."></textarea>
+
+      <fieldset class="styles">
+        <legend class="idea-q">Pick a style you love.</legend>
+        <label class="style s-soft-calm"><input type="radio" name="style" value="soft-calm">
+          <span class="style-card"><span class="sw"><i style="background:#F6EFEA"></i><i style="background:#C9D7E8"></i><i style="background:#E8B4B8"></i></span><span class="aa" style="font-family:Lora,serif">Aa</span><span class="style-name">Soft &amp; calm</span></span></label>
+        <label class="style s-bold-playful"><input type="radio" name="style" value="bold-playful">
+          <span class="style-card"><span class="sw"><i style="background:#FFF4D6"></i><i style="background:#FF5C8A"></i><i style="background:#6C4CF5"></i></span><span class="aa" style="font-family:Fredoka,sans-serif">Aa</span><span class="style-name">Bold &amp; playful</span></span></label>
+        <label class="style s-clean-minimal"><input type="radio" name="style" value="clean-minimal">
+          <span class="style-card"><span class="sw"><i style="background:#FAFAF8"></i><i style="background:#1A1A1A"></i><i style="background:#2F6BFF"></i></span><span class="aa" style="font-family:'Space Grotesk',sans-serif">Aa</span><span class="style-name">Clean &amp; minimal</span></span></label>
+        <label class="style s-warm-earthy"><input type="radio" name="style" value="warm-earthy">
+          <span class="style-card"><span class="sw"><i style="background:#F3E9DC"></i><i style="background:#C2603D"></i><i style="background:#6B7348"></i></span><span class="aa" style="font-family:'Playfair Display',serif">Aa</span><span class="style-name">Warm &amp; earthy</span></span></label>
+        <label class="style s-dark-sleek"><input type="radio" name="style" value="dark-sleek">
+          <span class="style-card"><span class="sw"><i style="background:#121318"></i><i style="background:#2A2C35"></i><i style="background:#7CF5C8"></i></span><span class="aa" style="font-family:Outfit,sans-serif">Aa</span><span class="style-name">Dark &amp; sleek</span></span></label>
+        <label class="style s-bright-fresh"><input type="radio" name="style" value="bright-fresh">
+          <span class="style-card"><span class="sw"><i style="background:#FFFFFF"></i><i style="background:#22C55E"></i><i style="background:#FACC15"></i></span><span class="aa" style="font-family:Outfit,sans-serif">Aa</span><span class="style-name">Bright &amp; fresh</span></span></label>
+      </fieldset>
+
+      <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-error" role="alert" hidden></p>
+      <button type="submit" class="pill-btn">Design my app</button>
+      <p class="fine">Free. Takes about a minute.</p>
+    </form>
+
+    <!-- Step 2: working + email -->
+    <div id="step-email" class="tool-step" hidden>
+      <div class="card-form progress-card" aria-live="polite">
+        <ol class="progress">
+          <li>Getting a feel for your app</li>
+          <li>Coming up with names</li>
+          <li>Checking the names on the App Store</li>
+          <li>Choosing your colours and fonts</li>
+          <li>Designing your icon and screens</li>
+        </ol>
+        <p class="progress-note" id="progress-note">Working on it. This takes about a minute.</p>
+      </div>
+
+      <form id="unlock" class="card-form" novalidate>
+        <h2 class="form-title">Where should I send your <em>design kit?</em></h2>
+        <div class="row">
+          <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
+          <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
+        </div>
+        <label class="field">Mobile <span class="opt">(optional, for a text when doors open)</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>
+        <label class="consent">
+          <input type="checkbox" name="sms_consent">
+          <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/privacy">Privacy policy</a>.</span>
+        </label>
+        <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+        <p class="form-error" role="alert" hidden></p>
+        <button type="submit" class="pill-btn">Show me my design kit</button>
+        <p class="fine">You'll also join the App in 30 Days waitlist. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="block inside-block">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="kicker">What you get</p>
+      <h2 class="display">Your app's look, <em>in a minute.</em></h2>
+    </div>
+    <div class="get-grid">
+      <div class="get"><span class="get-num">Aa</span><h3>Names, colours &amp; fonts</h3><p>Five name ideas checked against the App Store, plus colours for light and dark mode and two fonts that fit.</p></div>
+      <div class="get"><span class="get-check">&#9733;</span><h3>Your app icon</h3><p>A simple, clean icon in your colours, the kind that looks good on a home screen.</p></div>
+      <div class="get"><span class="get-quote">&#9638;</span><h3>Three key screens</h3><p>Your launch screen, an onboarding question and your paywall, with the words already written.</p></div>
+      <div class="get"><span class="get-grade">&darr;</span><h3>Ready to build</h3><p>Download your kit as one file. On Day 3 of the challenge, Claude turns it into your app's look.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block blush">
+  <div class="wrap split about">
+    <div class="photo"><img src="/app/katie.jpg" alt="Katie Pietrowski by the water on Cape Cod" width="800" height="835" loading="lazy" decoding="async"></div>
+    <div>
+      <p class="kicker">Hi, I'm Katie</p>
+      <h2 class="display">You don't need to be a <em>designer.</em></h2>
+      <p class="body">Most of my apps use two colours, two fonts and a simple icon. That's it. What makes them feel good is that every screen matches and the words are clear.</p>
+      <p class="body">This tool gives you that starting point, so you can stop worrying about how your app looks and start building it.</p>
+      <a class="pill-btn" href="#top-tool">Design my app</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">© 2026 Katie Pietrowski &middot; <a href="/idea">App Idea Report Card</a> &middot; <a href="/app">App in 30 Days</a> &middot; <a href="/privacy">Privacy policy</a></div>
+</footer>
+
+<script src="/idea/mic.js"></script>
+<script src="/design/design.js"></script>
+</body>
+</html>
