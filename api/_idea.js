@@ -181,7 +181,7 @@ export async function getInAppPurchases(appId) {
   }
 }
 
-const round2 = (n) => { if (n < 100) return Math.round(n); const p = 10 ** (Math.floor(Math.log10(n)) - 1); return Math.round(n / p) * p; };
+export const round2 = (n) => { if (n < 100) return Math.round(n); const p = 10 ** (Math.floor(Math.log10(n)) - (n >= 1e5 ? 0 : 1)); return Math.round(n / p) * p; };
 export function money(n) {
   if (n >= 1e6) return `$${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/, '')}M`;
   if (n >= 1e3) return `$${(n / 1e3).toFixed(n >= 1e4 ? 0 : 1).replace(/\.0$/, '')}K`;

@@ -4,7 +4,7 @@
 // stores the report (locked). Returns { id, teaser } — the full report is only
 // returned by /api/idea-unlock, after the visitor gives their email.
 
-import { newId, saveReport, overLimit, askJSON, findCompetitors, getReviews, kvEnv, kvEnvNames, SEARCH_SYSTEM, getInAppPurchases, estimateRevenue, money } from './_idea.js';
+import { newId, saveReport, overLimit, askJSON, findCompetitors, getReviews, kvEnv, kvEnvNames, SEARCH_SYSTEM, getInAppPurchases, estimateRevenue, money, round2 } from './_idea.js';
 
 
 
@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     competitors.forEach((c, i) => { c.iaps = iapLists[i]; c.revenue = estimateRevenue(c, iapLists[i]); });
     const withRev = competitors.filter((c) => c.revenue && c.revenue.high > 0);
     const market = withRev.length ? { low: withRev.reduce((n, c) => n + c.revenue.low, 0), high: withRev.reduce((n, c) => n + c.revenue.high, 0), apps: withRev.length } : null;
-    if (market) market.label = `${money(market.low)}–${money(market.high)}/mo`;
+    if (market) { market.low = round2(market.low); market.high = round2(market.high); market.label = `${money(market.low)}–${money(market.high)}/mo`; }
     const sampled = reviews.reduce((n, r) => n + r.sampled, 0);
 
     const data = competitors.map((c, i) => ({
