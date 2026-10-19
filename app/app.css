@@ -148,6 +148,65 @@ h1.display { font-size: clamp(44px, 6.4vw, 82px); }
 .thanks .card { background: #fff; border-radius: 24px; padding: 28px; margin: 32px auto 0; max-width: 560px; text-align: left; box-shadow: 0 18px 40px rgba(0,0,0,0.07); }
 .thanks .card h3 { font-family: var(--serif); font-weight: 500; font-size: 22px; margin: 0 0 6px; }
 
+
+/* Tide hero (replaces the fanned phones) */
+.tide-stage { position: relative; margin: 0; height: 640px; }
+.tide-stage img { position: absolute; width: 270px; height: auto; filter: drop-shadow(0 30px 40px rgba(26,26,26,.22)); }
+.tide-front { left: 50%; top: 0; transform: translateX(-62%); z-index: 2; }
+.tide-back { left: 50%; top: 56px; transform: translateX(-2%) rotate(7deg); opacity: .96; }
+.stat-badge { position: absolute; z-index: 3; left: 0; top: 330px; background: var(--ink); color: var(--cream); border-radius: 20px; padding: 14px 18px; box-shadow: 0 18px 36px -16px rgba(26,26,26,.5); transform: rotate(-3deg); }
+.stat-badge b { display: block; font-family: var(--serif); font-weight: 500; font-size: 40px; line-height: 1; color: var(--peach); }
+.stat-badge span { display: block; font-size: 13px; font-weight: 600; margin-top: 4px; }
+.rating-badge { position: absolute; z-index: 3; right: 0; bottom: 70px; background: #fff; color: var(--ink); border-radius: 999px; padding: 9px 14px; font-size: 14px; font-weight: 700; box-shadow: 0 12px 26px -14px rgba(26,26,26,.45); }
+.rating-badge span { color: #E8A23B; }
+.tide-stage figcaption { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--ink-muted); }
+
+/* Proof band */
+.proof { background: #fff; border-bottom: 1px solid var(--cream-dark); }
+.proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding-top: 40px; padding-bottom: 40px; }
+.proof-grid div { display: flex; flex-direction: column; gap: 6px; }
+.proof-grid b { font-family: var(--serif); font-weight: 500; font-size: clamp(36px, 4vw, 52px); line-height: 1; color: var(--ink); font-variant-numeric: lining-nums; }
+.proof-grid span { font-size: 15px; color: var(--ink-light); max-width: 16em; }
+
+/* Tide spotlight */
+.tide-spot .split { align-items: center; }
+.tide-pair { display: flex; gap: 18px; justify-content: center; }
+.tide-pair img { width: min(46%, 240px); height: auto; filter: drop-shadow(0 24px 34px rgba(26,26,26,.18)); }
+.tide-pair img:last-child { margin-top: 48px; }
+.tide-rating { font-weight: 700; margin: 0 0 24px; }
+.tide-rating span { color: #E8A23B; letter-spacing: .08em; margin-right: 6px; }
+.cta-pair { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+.text-link { font-weight: 700; color: var(--coral-deep); text-underline-offset: 3px; }
+
+/* The details */
+.details .split { align-items: center; }
+.dates { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1.5px solid var(--ink); }
+.dates li { display: grid; grid-template-columns: 130px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1.5px solid rgba(26,26,26,.15); }
+.dates b { font-weight: 700; }
+.dates span { color: var(--ink-light); }
+.price-card { background: var(--ink); color: var(--cream); border-radius: 28px; padding: 32px; box-shadow: 0 30px 60px -30px rgba(26,26,26,.6); }
+.price { display: flex; align-items: baseline; gap: 12px; margin: 0 0 22px; }
+.price b { font-family: var(--serif); font-weight: 500; font-size: 72px; line-height: 1; color: var(--peach); }
+.price span { font-size: 16px; color: rgba(253,248,243,.75); }
+.price-card .checks { color: rgba(253,248,243,.9); font-size: 17px; margin-bottom: 20px; }
+.addon { font-size: 15px; color: rgba(253,248,243,.7); margin: 0 0 22px; }
+.price-card .pill-btn { width: 100%; text-align: center; }
+.price-card .fine { color: rgba(253,248,243,.6); margin-top: 12px; }
+
+/* Free tools */
+.tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 900px; margin: 0 auto; }
+.tool-card { display: flex; flex-direction: column; gap: 10px; background: #fff; border-radius: 24px; padding: 28px; text-decoration: none; color: var(--ink); box-shadow: 0 14px 34px -22px rgba(26,26,26,.35); transition: transform .15s; }
+.tool-card:hover { transform: translateY(-2px); }
+.tool-card:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+.tool-tag { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--coral-deep); }
+.tool-card h3 { font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.15; margin: 0; }
+.tool-card p { color: var(--ink-light); margin: 0; }
+.tool-go { margin-top: auto; padding-top: 8px; font-weight: 700; color: var(--coral-deep); }
+.tool-go::after { content: " \2192"; }
+@media (prefers-reduced-motion: reduce) { .tool-card { transition: none; } }
+
+.disclaimer { max-width: 680px; margin: 0 auto 14px; font-size: 13px; line-height: 1.5; }
+
 /* Phones */
 @media (max-width: 900px) {
   .hero { padding: 36px 0 56px; }
@@ -158,6 +217,12 @@ h1.display { font-size: clamp(44px, 6.4vw, 82px); }
   .block { padding: 72px 0; }
   .weeks li { grid-template-columns: 1fr; gap: 6px; }
   .about .photo { max-width: 420px; }
+  .tide-stage { height: 520px; max-width: 420px; width: 100%; margin: 0 auto; }
+  .tide-stage img { width: 210px; }
+  .stat-badge { top: 250px; }
+  .rating-badge { bottom: 50px; }
+  .proof-grid { grid-template-columns: 1fr 1fr; }
+  .tool-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
   .card-form .row { grid-template-columns: 1fr; }
@@ -165,4 +230,12 @@ h1.display { font-size: clamp(44px, 6.4vw, 82px); }
   .lede { font-size: 18px; }
   .pill-btn { width: 100%; }
   .pill-btn.small { width: auto; }
+  .tide-stage { height: 440px; }
+  .tide-stage img { width: 178px; }
+  .stat-badge { top: 220px; padding: 10px 14px; }
+  .stat-badge b { font-size: 32px; }
+  .price b { font-size: 60px; }
+  .price-card { padding: 24px; }
+  .dates li { grid-template-columns: 1fr; gap: 2px; }
+  .text-link { width: 100%; text-align: center; }
 }
