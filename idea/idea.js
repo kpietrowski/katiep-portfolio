@@ -5,6 +5,16 @@
   var unlock = document.getElementById('unlock');
   if (!ideaForm) return;
 
+  if (window.attachMic) {
+    window.attachMic({
+      root: document.getElementById('mic'),
+      button: document.getElementById('mic-btn'),
+      status: document.getElementById('mic-status'),
+      textarea: ideaForm.idea,
+      orType: document.getElementById('or-type')
+    });
+  }
+
   var analysis = null;      // Promise<{id, teaser}>
   var ticker = null;
 
@@ -61,10 +71,10 @@
   ideaForm.addEventListener('submit', function (e) {
     e.preventDefault();
     hideError(ideaForm);
-    var problem = ideaForm.problem.value.trim();
-    var solution = ideaForm.solution.value.trim();
-    if (problem.length < 15) return showError(ideaForm, 'Tell me a little more about the problem and who has it.', ideaForm.problem);
-    if (solution.length < 15) return showError(ideaForm, 'Tell me a little more about how your app solves it.', ideaForm.solution);
+    var idea = ideaForm.idea.value.trim();
+    if (idea.length < 25) return showError(ideaForm, 'Tell me a little more: who would use your app, and what does it do?', ideaForm.idea);
+    var mic = document.getElementById('mic');
+    if (mic && /is-(recording|working|asking)/.test(mic.className)) return showError(ideaForm, 'Give me a second to finish typing up what you said.');
 
     ideaForm.querySelector('button').disabled = true;
     ideaForm.hidden = true;
@@ -72,7 +82,7 @@
     startProgress();
     stepEmail.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-    analysis = post('/api/idea-analyze', { problem: problem, solution: solution, company: ideaForm.company.value });
+    analysis = post('/api/idea-analyze', { idea: idea, company: ideaForm.company.value });
     analysis.then(function (j) { finishProgress(j.teaser); }, function (err) { failProgress(err.message === 'failed' ? "I couldn't finish your report just now." : err.message); });
   });
 

@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <!--
   App Idea Report Card (free tool, App in 30 Days funnel).
-  1. Idea → /api/idea-analyze (competitors + reviews + grades, stored locked)
+  1. Idea (typed, or spoken → /api/voice-to-text, OpenAI Whisper) → /api/idea-analyze (competitors + reviews + grades, stored locked)
   2. Email → /api/idea-unlock (Kit: "App Idea Report Card" + waitlist tags,
      report link and grades as custom fields; a Kit automation emails it)
   3. → /idea/report?id=…
@@ -37,18 +37,25 @@
   <div class="wrap narrow center">
     <p class="kicker">Free tool &middot; App Idea Report Card</p>
     <h1 class="display">Is your app idea <em>any good?</em></h1>
-    <p class="lede center-lede">Describe your idea. I'll find your top 5 competitors on the App Store, read their 1-star and 5-star reviews, and grade your idea on how hard it is to build and how much room there is to win.</p>
+    <p class="lede center-lede">Tell me your idea (talk or type). I'll find your top 5 competitors on the App Store, read their 1-star and 5-star reviews, and grade your idea on how hard it is to build and how much room there is to win.</p>
   </div>
 
   <div class="wrap tool-wrap" id="top-tool">
     <!-- Step 1: the idea -->
     <form id="step-idea" class="card-form tool" novalidate>
-      <label class="field big">What problem does your app solve, and who has it?
-        <textarea name="problem" rows="3" maxlength="1200" placeholder="First-time moms in early labor don't know if what they're feeling is real labor, or when it's time to go to the hospital."></textarea>
-      </label>
-      <label class="field big">How does your app solve it?
-        <textarea name="solution" rows="3" maxlength="1200" placeholder="One big button times each contraction, and the app tells her calmly when her pattern matches what her provider said."></textarea>
-      </label>
+      <label class="idea-q" for="idea-text">What is your app idea? <span>Describe who would use it and what the app does.</span></label>
+
+      <div class="mic" id="mic" hidden>
+        <button type="button" class="mic-btn" id="mic-btn" aria-describedby="mic-status">
+          <svg class="mic-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          <svg class="stop-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg>
+          <span class="mic-label">Tap to talk</span>
+        </button>
+        <p class="mic-status" id="mic-status" aria-live="polite">Just brain dump. Talk for a minute or two and I'll type it up for you.</p>
+      </div>
+      <p class="or-type" id="or-type" hidden><span>or type it</span></p>
+
+      <textarea id="idea-text" class="idea-text" name="idea" rows="5" maxlength="3000" placeholder="An app for first-time moms in early labor. One big button times each contraction, and it tells her calmly when it's time to go to the hospital."></textarea>
       <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
       <p class="form-error" role="alert" hidden></p>
       <button type="submit" class="pill-btn">Grade my idea</button>
@@ -121,6 +128,7 @@
   <div class="wrap">© 2026 Katie Pietrowski &middot; <a href="/app">App in 30 Days</a> &middot; <a href="/privacy">Privacy policy</a></div>
 </footer>
 
+<script src="/idea/mic.js"></script>
 <script src="/idea/idea.js"></script>
 </body>
 </html>

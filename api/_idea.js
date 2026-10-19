@@ -50,8 +50,19 @@ export async function loadReport(id) {
 }
 
 // Simple per-IP limit so nobody can run up the AI bill.
-export async function overLimit(ip, max = 6) {
-  const key = `idea-rl:${ip}:${Math.floor(Date.now() / 3.6e6)}`;
+// Generic storage for the other freebies (design kits, …), same TTL.
+export async function saveDoc(prefix, doc) {
+  await kv.set(`${prefix}:${doc.id}`, JSON.stringify(doc), { ex: REPORT_TTL });
+}
+export async function loadDoc(prefix, id) {
+  if (!/^[A-Za-z0-9_-]{8,20}$/.test(String(id || ''))) return null;
+  const raw = await kv.get(`${prefix}:${id}`);
+  if (!raw) return null;
+  return typeof raw === 'string' ? JSON.parse(raw) : raw;
+}
+
+export async function overLimit(ip, max = 6, prefix = 'idea-rl') {
+  const key = `${prefix}:${ip}:${Math.floor(Date.now() / 3.6e6)}`;
   const n = await kv.incr(key);
   if (n === 1) await kv.expire(key, 3600);
   return n > max;
@@ -158,7 +169,7 @@ export function toMarkdown(rep) {
   const lines = [];
   lines.push(`# App Idea Report Card`, '');
   lines.push(`Made at katiep.me/idea on ${rep.created.slice(0, 10)}. Report link: https://katiep.me/idea/report?id=${rep.id}`, '');
-  lines.push(`## The idea, as entered`, '', `**Problem:** ${rep.input.problem}`, '', `**How the app solves it:** ${rep.input.solution}`, '');
+  lines.push(`## The idea, as entered`, '', ...(rep.input.idea ? [rep.input.idea] : [`**Problem:** ${rep.input.problem}`, '', `**How the app solves it:** ${rep.input.solution}`]), '');
   lines.push(`## One sentence`, '', a.idea_sentence, '');
   lines.push(`## Grades`, '', `- Build: ${a.build.grade} (${a.build.label}) — ${a.build.why}`, `- Compete: ${a.compete.grade} (${a.compete.label}) — ${a.compete.why}`, '');
   lines.push(`## Verdict`, '', a.verdict, '');

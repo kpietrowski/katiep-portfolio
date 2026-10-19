@@ -1,4 +1,4 @@
-// POST /api/idea-analyze  { problem, solution, company? }
+// POST /api/idea-analyze  { idea, company? }  (older clients: { problem, solution })
 // Step 1 of the App Idea Report Card. Finds the top competitors on the App
 // Store, reads their most helpful and most recent reviews, grades the idea and
 // stores the report (locked). Returns { id, teaser } — the full report is only
@@ -11,7 +11,7 @@ Return JSON: {"search_terms": [3 short phrases a person would type into the App 
 
 const ANALYSIS_SYSTEM = `You are Katie Pietrowski's App Idea Report Card. Katie teaches non-technical people (often moms) to build and launch a simple, paid iPhone app in 30 days: one problem, one core feature, a personalized onboarding and a paywall.
 
-You get the visitor's idea and real App Store data: the top competing apps (rating, number of ratings, price) and a sample of their 1-2 star and 5 star reviews. Write a report that is warm, honest and specific. Plain words a beginner understands. No jargon, no hype.
+You get the visitor's idea (typed or spoken, so it may ramble: find the core of it) and real App Store data: the top competing apps (rating, number of ratings, price) and a sample of their 1-2 star and 5 star reviews. Write a report that is warm, honest and specific. Plain words a beginner understands. No jargon, no hype.
 
 Rules:
 - Base every claim about competitors on the data given. Never invent apps, numbers or reviews.
@@ -48,10 +48,9 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (req.body?.company) return res.status(200).json({ id: 'ok' }); // honeypot
 
-  const problem = clean(req.body?.problem, 1200);
-  const solution = clean(req.body?.solution, 1200);
-  if (problem.length < 15 || solution.length < 15) {
-    return res.status(400).json({ error: 'Tell me a little more about the problem and how your app solves it.' });
+  const ideaText = clean(req.body?.idea || [req.body?.problem, req.body?.solution].filter(Boolean).join(' '), 3000);
+  if (ideaText.length < 25) {
+    return res.status(400).json({ error: 'Tell me a little more: who would use your app, and what does it do?' });
   }
   // Name what's missing (names only, never values) so a broken deploy is easy to fix.
   const missing = [!process.env.OPENAI_API_KEY && 'OPENAI_API_KEY', !kvEnv() && 'KV storage (KV_REST_API_URL + KV_REST_API_TOKEN)'].filter(Boolean);
@@ -68,10 +67,10 @@ export default async function handler(req, res) {
     }
 
     stage = 'search-terms';
-    const idea = `Problem: ${problem}\nHow the app solves it: ${solution}`;
+    const idea = ideaText;
     const { search_terms = [] } = await askJSON(SEARCH_SYSTEM, idea);
     stage = 'app-store';
-    const competitors = await findCompetitors(search_terms.length ? search_terms : [problem.slice(0, 40)]);
+    const competitors = await findCompetitors(search_terms.length ? search_terms : [ideaText.slice(0, 40)]);
 
     const reviews = await Promise.all(competitors.map((c) => getReviews(c.id)));
     const sampled = reviews.reduce((n, r) => n + r.sampled, 0);
@@ -92,7 +91,7 @@ export default async function handler(req, res) {
     const report = {
       id: newId(),
       created: new Date().toISOString(),
-      input: { problem, solution },
+      input: { idea: ideaText },
       search_terms,
       competitors: competitors.map(({ description, ...c }) => c),
       reviews_sampled: sampled,
