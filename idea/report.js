@@ -1,0 +1,118 @@
+// Renders an App Idea Report Card from /api/idea-report?id=…
+// Everything from the report is inserted as text (never as HTML).
+(function () {
+  var root = document.getElementById('report');
+  var id = new URLSearchParams(location.search).get('id');
+
+  function el(tag, attrs, kids) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === 'text') n.textContent = attrs[k];
+      else if (k === 'class') n.className = attrs[k];
+      else n.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) { if (c) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return n;
+  }
+  function section(cls, kids) { return el('section', { class: 'r-section ' + (cls || '') }, [el('div', { class: 'wrap narrow' }, kids)]); }
+  function h2(plain, italic) { return el('h2', { class: 'display r-h2' }, [plain, italic ? el('em', { text: italic }) : null]); }
+  function fail(msg) {
+    root.innerHTML = '';
+    root.appendChild(el('div', { class: 'wrap narrow center report-loading' }, [
+      el('p', { class: 'body', text: msg }),
+      el('a', { class: 'pill-btn', href: '/idea', text: 'Grade an idea' })
+    ]));
+  }
+
+  if (!id) return fail("This link is missing its report. Run your idea through the report card to get a new one.");
+
+  fetch('/api/idea-report?id=' + encodeURIComponent(id))
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(render)
+    .catch(function () { fail("I couldn't find this report card. It may have expired, or the link is incomplete."); });
+
+  function grade(kind, g) {
+    return el('div', { class: 'grade-card grade-' + String(g.grade || '').toLowerCase() }, [
+      el('div', { class: 'grade-top' }, [
+        el('span', { class: 'grade-kind', text: kind }),
+        el('span', { class: 'grade-letter', text: g.grade || '–' })
+      ]),
+      el('div', { class: 'grade-label', text: g.label || '' }),
+      el('p', { text: g.why || '' }),
+      (g.needs && g.needs.length) ? el('p', { class: 'grade-needs', text: 'Moving parts: ' + g.needs.join(', ') }) : null
+    ]);
+  }
+
+  function render(rep) {
+    var a = rep.analysis;
+    document.title = 'App Idea Report Card: ' + a.idea_sentence;
+    root.innerHTML = '';
+
+    // Header + grades
+    root.appendChild(el('section', { class: 'r-hero' }, [el('div', { class: 'wrap narrow' }, [
+      el('p', { class: 'kicker', text: 'App Idea Report Card' + (rep.first_name ? ' for ' + rep.first_name : '') }),
+      el('h1', { class: 'display r-title', text: a.idea_sentence }),
+      el('div', { class: 'grades' }, [grade('Build', a.build), grade('Compete', a.compete)]),
+      el('p', { class: 'body verdict', text: a.verdict })
+    ])]));
+
+    // Competitors
+    var comps = el('div', { class: 'comps' });
+    rep.competitors.forEach(function (c) {
+      var notes = (a.competitors || []).filter(function (x) { return x.name === c.name; })[0] || {};
+      comps.appendChild(el('div', { class: 'comp' }, [
+        el('div', { class: 'comp-head' }, [
+          c.icon ? el('img', { src: c.icon, alt: '', width: '56', height: '56', loading: 'lazy' }) : null,
+          el('div', {}, [
+            el('a', { class: 'comp-name', href: c.url, target: '_blank', rel: 'noopener', text: c.name }),
+            el('div', { class: 'comp-meta', text: (c.rating ? '★ ' + c.rating + ' · ' : '') + Number(c.ratings).toLocaleString('en-US') + ' ratings · ' + c.price })
+          ])
+        ]),
+        notes.loved_for ? el('p', {}, [el('strong', { text: 'Loved for: ' }), notes.loved_for]) : null,
+        notes.complaints ? el('p', {}, [el('strong', { text: 'Complaints: ' }), notes.complaints]) : null
+      ]));
+    });
+    root.appendChild(section('', [h2('Your top ', 'competitors'), comps]));
+
+    // Love / hate
+    function themes(list) { return el('ul', { class: 'themes' }, list.map(function (t) { return el('li', {}, [el('strong', { text: t.theme }), el('span', { text: t.detail })]); })); }
+    root.appendChild(section('r-tint', [el('div', { class: 'two' }, [
+      el('div', {}, [el('h3', { class: 'r-h3', text: 'What people love' }), el('p', { class: 'r-sub', text: "From 5-star reviews. Don't skip these." }), themes(a.love || [])]),
+      el('div', {}, [el('h3', { class: 'r-h3', text: 'What people hate' }), el('p', { class: 'r-sub', text: 'From 1- and 2-star reviews. This is your opening.' }), themes(a.hate || [])])
+    ])]));
+
+    // Their words + opening
+    var words = el('div', { class: 'words' }, (a.their_words || []).map(function (w) { return el('span', { class: 'word', text: '“' + w + '”' }); }));
+    root.appendChild(section('', [h2('In their ', 'own words'), el('p', { class: 'r-sub', text: 'Use these phrases in your onboarding and your App Store listing.' }), words]));
+    root.appendChild(section('r-dark', [el('p', { class: 'kicker light', text: 'The opening' }), el('p', { class: 'display r-opening', text: a.opening })]));
+
+    // Opportunities + first version
+    root.appendChild(section('', [
+      h2('Your ', 'opportunities'),
+      el('ol', { class: 'opps' }, (a.opportunities || []).map(function (o) { return el('li', {}, [el('h3', { text: o.title }), el('p', { text: o.why })]); })),
+      el('div', { class: 'first' }, [
+        el('h3', { class: 'r-h3', text: 'A first version you could build in 30 days' }),
+        el('ul', { class: 'checks' }, (a.first_version || []).map(function (f) { return el('li', { text: f }); }))
+      ]),
+      el('div', { class: 'notes' }, [
+        el('p', {}, [el('strong', { text: 'Pricing signals: ' }), a.price_signals || '']),
+        el('p', {}, [el('strong', { text: 'Watch out for: ' }), a.watch_out || ''])
+      ])
+    ]));
+
+    // Next step: the challenge
+    root.appendChild(section('r-cta', [
+      el('div', { class: 'center' }, [
+        el('p', { class: 'kicker', text: "You're on the App in 30 Days waitlist" }),
+        el('h2', { class: 'display' }, ['Ready to ', el('em', { text: 'build it?' })]),
+        el('p', { class: 'body', text: "This report is Day 1 of the challenge. Download it, keep it somewhere safe, and on Day 1 Claude reads it so you start with your research already done. You'll hear from me first when doors open." }),
+        el('div', { class: 'cta-row' }, [
+          el('a', { class: 'pill-btn', href: '/api/idea-report?id=' + encodeURIComponent(rep.id) + '&format=md&download=1', text: 'Download for the challenge' }),
+          el('a', { class: 'ghost-btn', href: '/app', text: 'About the challenge' })
+        ])
+      ])
+    ]));
+
+    root.appendChild(el('div', { class: 'wrap narrow' }, [el('p', { class: 'fineprint', text: 'Based on ' + rep.reviews_sampled + ' recent and most-helpful App Store reviews of the apps above. The grades are an informed estimate, not a promise. Not affiliated with Apple.' })]));
+  }
+})();

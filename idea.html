@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FDF8F3">
+<title>App Idea Report Card: Is Your App Idea Any Good? | Katie P.</title>
+<meta name="description" content="Free: describe your app idea and get a report card. Your top App Store competitors, what their users love and hate, and grades for how hard it is to build and how much room there is to win.">
+<meta property="og:title" content="Is your app idea any good? Get your free App Idea Report Card">
+<meta property="og:description" content="Your top 5 App Store competitors, what their users love and hate, and two honest grades.">
+<meta property="og:url" content="https://katiep.me/idea">
+<meta property="og:type" content="website">
+<!--
+  App Idea Report Card (free tool, App in 30 Days funnel).
+  1. Idea → /api/idea-analyze (competitors + reviews + grades, stored locked)
+  2. Email → /api/idea-unlock (Kit: "App Idea Report Card" + waitlist tags,
+     report link and grades as custom fields; a Kit automation emails it)
+  3. → /idea/report?id=…
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app/app.css">
+<link rel="stylesheet" href="/idea/idea.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="wordmark" href="/">katie p.</a>
+    <a class="top-link" href="/app">App in 30 Days</a>
+  </div>
+</header>
+
+<main>
+<section class="hero idea-hero">
+  <div class="wrap narrow center">
+    <p class="kicker">Free tool &middot; App Idea Report Card</p>
+    <h1 class="display">Is your app idea <em>any good?</em></h1>
+    <p class="lede center-lede">Describe your idea. I'll find your top 5 competitors on the App Store, read their 1-star and 5-star reviews, and grade your idea on how hard it is to build and how much room there is to win.</p>
+  </div>
+
+  <div class="wrap tool-wrap" id="top-tool">
+    <!-- Step 1: the idea -->
+    <form id="step-idea" class="card-form tool" novalidate>
+      <label class="field big">What problem does your app solve, and who has it?
+        <textarea name="problem" rows="3" maxlength="1200" placeholder="First-time moms in early labor don't know if what they're feeling is real labor, or when it's time to go to the hospital."></textarea>
+      </label>
+      <label class="field big">How does your app solve it?
+        <textarea name="solution" rows="3" maxlength="1200" placeholder="One big button times each contraction, and the app tells her calmly when her pattern matches what her provider said."></textarea>
+      </label>
+      <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-error" role="alert" hidden></p>
+      <button type="submit" class="pill-btn">Grade my idea</button>
+      <p class="fine">Free. Takes about a minute.</p>
+    </form>
+
+    <!-- Step 2: working + email -->
+    <div id="step-email" class="tool-step" hidden>
+      <div class="card-form progress-card" aria-live="polite">
+        <ol class="progress">
+          <li>Turning your idea into App Store searches</li>
+          <li>Finding your top competitors</li>
+          <li>Reading their 1-star reviews</li>
+          <li>Reading their 5-star reviews</li>
+          <li>Grading your idea</li>
+        </ol>
+        <p class="progress-note" id="progress-note">Working on it. This takes about a minute.</p>
+      </div>
+
+      <form id="unlock" class="card-form" novalidate>
+        <h2 class="form-title">Where should I send your <em>report card?</em></h2>
+        <div class="row">
+          <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
+          <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
+        </div>
+        <label class="field">Mobile <span class="opt">(optional, for a text when doors open)</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>
+        <label class="consent">
+          <input type="checkbox" name="sms_consent">
+          <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/privacy">Privacy policy</a>.</span>
+        </label>
+        <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+        <p class="form-error" role="alert" hidden></p>
+        <button type="submit" class="pill-btn">Show me my report card</button>
+        <p class="fine">You'll also join the App in 30 Days waitlist. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="block inside-block">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="kicker">What you get</p>
+      <h2 class="display">Your report card, <em>in a minute.</em></h2>
+    </div>
+    <div class="get-grid">
+      <div class="get"><span class="get-grade">B</span><h3>Two honest grades</h3><p>How hard your app is to build as a first app, and how much room there is to win against what's already out there.</p></div>
+      <div class="get"><span class="get-num">5</span><h3>Your top competitors</h3><p>Their ratings, their prices, what people love about them and what people can't stand.</p></div>
+      <div class="get"><span class="get-quote">&ldquo;</span><h3>Your users' own words</h3><p>Real phrases from real reviews. The words you'll use in your onboarding and on your App Store page.</p></div>
+      <div class="get"><span class="get-check">&#10003;</span><h3>Your first version</h3><p>The opening the other apps leave, and the few features to build first so you can launch in 30 days.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block blush">
+  <div class="wrap split about">
+    <div class="photo"><img src="/app/katie.jpg" alt="Katie Pietrowski by the water on Cape Cod" width="800" height="835" loading="lazy" decoding="async"></div>
+    <div>
+      <p class="kicker">Hi, I'm Katie</p>
+      <h2 class="display">This is how every one of my apps <em>starts.</em></h2>
+      <p class="body">Before I build anything, I read what people hate about the apps that already exist. Their 1-star reviews tell me exactly what to build, and their 5-star reviews tell me what I can't skip. This tool does that research for you.</p>
+      <p class="body">It's also Day 1 of the App in 30 Days challenge. Bring your report card in, and you start the challenge with your research already done.</p>
+      <a class="pill-btn" href="#top-tool">Grade my idea</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">© 2026 Katie Pietrowski &middot; <a href="/app">App in 30 Days</a> &middot; <a href="/privacy">Privacy policy</a></div>
+</footer>
+
+<script src="/idea/idea.js"></script>
+</body>
+</html>
