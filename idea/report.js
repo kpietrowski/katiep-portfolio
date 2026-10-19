@@ -118,7 +118,7 @@
       el('div', { class: 'center' }, [
         el('p', { class: 'kicker', text: 'Free next step' }),
         el('h2', { class: 'display r-h2' }, ['See what it could ', el('em', { text: 'look like.' })]),
-        el('p', { class: 'body', text: 'Get name ideas, colours, fonts, an app icon and mockups of your launch screen, onboarding and paywall. Your idea is already filled in, just pick a style.' }),
+        el('p', { class: 'body', text: 'Get name ideas, colours, fonts, an app icon and mockups of your launch screen, onboarding and paywall. Your idea is already filled in.' }),
         el('a', { class: 'pill-btn', href: '/design?idea=' + encodeURIComponent(rep.id), text: 'Design my app' })
       ])
     ]));

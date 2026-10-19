@@ -98,6 +98,10 @@ export async function askJSON(system, user) {
   throw lastErr;
 }
 
+// Shared by the idea report and the design kit.
+export const SEARCH_SYSTEM = `You turn an iPhone app idea into App Store search terms.
+Return JSON: {"search_terms": [3 short phrases a person would type into the App Store search box to find apps that solve this problem, most specific first, 1-4 words each]}.`;
+
 // ---------- Apple: public search + public reviews feed ----------
 
 async function getJSON(url) {
@@ -128,6 +132,8 @@ export async function findCompetitors(terms) {
     seller: app.sellerName || app.artistName,
     url: app.trackViewUrl,
     icon: app.artworkUrl100,
+    icon512: app.artworkUrl512 || app.artworkUrl100,
+    screenshots: (app.screenshotUrls || []).slice(0, 2),
     rating: app.averageUserRating ? Math.round(app.averageUserRating * 10) / 10 : null,
     ratings: app.userRatingCount || 0,
     price: app.formattedPrice || (app.price ? `$${app.price}` : 'Free'),

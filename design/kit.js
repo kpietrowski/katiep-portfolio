@@ -241,6 +241,32 @@
       el('h3', { class: 'r-h3 k-gap', text: 'Dark mode' }), swatches('dark')
     ]));
 
+    // Inspiration: what the competitors look like, and how this look stands apart
+    var insp = b.inspiration || {};
+    if (insp.apps && insp.apps.length) {
+      var inspSec = section('k-insp', [
+        h2('Inspired by your ', 'space.'),
+        insp.category ? el('p', { class: 'body k-insp-lead', text: insp.category }) : null,
+        el('div', { class: 'k-insp-apps' }, insp.apps.map(function (a) {
+          var img = /^https:\/\/[a-z0-9.-]+\.mzstatic\.com\//.test(a.icon || '') ? el('img', { src: a.icon, alt: '', width: '56', height: '56', loading: 'lazy' }) : null;
+          var dots = el('span', { class: 'k-dots' }, (a.colors || []).filter(function (h) { return HEX.test(h); }).map(function (h) {
+            var d = el('span', { class: 'k-dot', title: h }); d.style.background = h; return d;
+          }));
+          return el('div', { class: 'k-insp-app' }, [
+            el('div', { class: 'k-insp-head' }, [img, el('div', {}, [el('div', { class: 'k-insp-name', text: a.name }), dots])]),
+            el('p', { text: a.takeaway || '' })
+          ]);
+        })),
+        insp.standout ? el('div', { class: 'k-standout' }, [
+          icon(b.icon.glyph, b, 56, 'light'),
+          el('div', {}, [el('span', { class: 'grade-kind', text: 'How yours stands apart' }), el('p', { text: insp.standout })])
+        ]) : null,
+        el('p', { class: 'r-sub k-gap', text: 'Inspiration only: your colours, name and icon are your own, not copied from these apps.' })
+      ]);
+      applyTheme(inspSec, b.palette.light);
+      root.appendChild(inspSec);
+    }
+
     // Fonts + icon
     var fontCard = function (role, fam, sample, big) {
       var s = el('div', { class: big ? 'k-font-sample big' : 'k-font-sample', text: sample });

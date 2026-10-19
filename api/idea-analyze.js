@@ -4,10 +4,9 @@
 // stores the report (locked). Returns { id, teaser } — the full report is only
 // returned by /api/idea-unlock, after the visitor gives their email.
 
-import { newId, saveReport, overLimit, askJSON, findCompetitors, getReviews, kvEnv, kvEnvNames } from './_idea.js';
+import { newId, saveReport, overLimit, askJSON, findCompetitors, getReviews, kvEnv, kvEnvNames, SEARCH_SYSTEM } from './_idea.js';
 
-const SEARCH_SYSTEM = `You turn an iPhone app idea into App Store search terms.
-Return JSON: {"search_terms": [3 short phrases a person would type into the App Store search box to find apps that solve this problem, most specific first, 1-4 words each]}.`;
+
 
 const ANALYSIS_SYSTEM = `You are Katie Pietrowski's App Idea Report Card. Katie teaches non-technical people (often moms) to build and launch a simple, paid iPhone app in 30 days: one problem, one core feature, a personalized onboarding and a paywall.
 
@@ -93,7 +92,7 @@ export default async function handler(req, res) {
       created: new Date().toISOString(),
       input: { idea: ideaText },
       search_terms,
-      competitors: competitors.map(({ description, ...c }) => c),
+      competitors: competitors.map(({ description, screenshots, icon512, ...c }) => c),
       reviews_sampled: sampled,
       analysis,
       unlocked: false,

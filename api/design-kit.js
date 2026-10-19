@@ -4,6 +4,7 @@
 
 import { loadDoc } from './_idea.js';
 import { toBrandMarkdown, STYLES } from './_design.js';
+// (STYLES: kits made before the AI chose the style stored a style key.)
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
@@ -17,7 +18,7 @@ export default async function handler(req, res) {
       return res.status(200).send(toBrandMarkdown(kit));
     }
     const { id, created, input, brand, first_name } = kit;
-    return res.status(200).json({ id, created, input: { ...input, style_label: STYLES[input.style]?.label }, brand, first_name });
+    return res.status(200).json({ id, created, input: { ...input, style_label: brand.style || STYLES[input.style]?.label }, brand, first_name });
   } catch (err) {
     console.error('design-kit:', err.message);
     return res.status(500).json({ error: 'Could not load the design kit.' });

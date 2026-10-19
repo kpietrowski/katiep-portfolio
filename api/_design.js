@@ -77,7 +77,12 @@ export function toBrandMarkdown(kit) {
     `Made at katiep.me/design on ${kit.created.slice(0, 10)}. Kit link: https://katiep.me/design/kit?id=${kit.id}`,
     '',
     '## The app', '', kit.input.app, '',
-    `## Style: ${STYLES[kit.input.style]?.label || kit.input.style}`, '', b.personality, '', `Words: ${(b.adjectives || []).join(', ')}`, '',
+    `## Style: ${b.style || STYLES[kit.input.style]?.label || ''}`, '', b.personality, '', `Words: ${(b.adjectives || []).join(', ')}`, '',
+    ...(b.inspiration?.apps?.length ? [
+      '## Inspiration from competitors', '', b.inspiration.category || '', '',
+      ...b.inspiration.apps.map((a) => `- **${a.name}**${a.colors.length ? ` (${a.colors.join(', ')})` : ''}: ${a.takeaway}`),
+      '', b.inspiration.standout ? `**How this look stands apart:** ${b.inspiration.standout}` : '', '',
+    ] : []),
     '## Name ideas', '',
     ...b.names.map((n) => `- **${n.name}** — ${n.why}${n.check?.taken ? ` (similar name already on the App Store: ${n.check.app})` : ''}`),
     '', 'Check the name is free on the App Store, as a domain and on Instagram before you commit.', '',

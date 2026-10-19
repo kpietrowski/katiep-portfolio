@@ -1,4 +1,4 @@
-// App Design Kit (/design): idea + style → kit (in the background) → email → kit page.
+// App Design Kit (/design): idea → kit (in the background) → email → kit page.
 (function () {
   var ideaForm = document.getElementById('step-idea');
   var stepEmail = document.getElementById('step-email');
@@ -55,7 +55,7 @@
     items[0].className = 'active';
     ticker = setInterval(function () {
       if (i < items.length - 1) { items[i].className = 'done'; i++; items[i].className = 'active'; }
-    }, 7000);
+    }, 8000);
   }
   function finishProgress(teaser) {
     clearInterval(ticker);
@@ -69,7 +69,8 @@
       note.appendChild(dot);
     }
     note.appendChild(document.createTextNode(
-      teaser && teaser.name ? 'Your design kit is ready. Meet "' + teaser.name + '" (plus four more name ideas).' : 'Your design kit is ready.'));
+      (teaser && teaser.competitors ? 'I studied ' + teaser.competitors + ' competitors. ' : '') +
+      (teaser && teaser.name ? 'Your design kit is ready. Meet "' + teaser.name + '" (plus four more name ideas).' : 'Your design kit is ready.')));
     note.className = 'progress-note ready';
   }
   function failProgress(msg) {
@@ -91,11 +92,9 @@
     e.preventDefault();
     hideError(ideaForm);
     var app = ideaForm.app.value.trim();
-    var style = (ideaForm.querySelector('input[name=style]:checked') || {}).value;
     var mic = document.getElementById('mic');
     if (mic && /is-(recording|working|asking)/.test(mic.className)) return showError(ideaForm, 'Give me a second to finish typing up what you said.');
     if (app.length < 25) return showError(ideaForm, 'Tell me a little more: what does your app do, and who is it for?', ideaForm.app);
-    if (!style) return showError(ideaForm, 'Pick a style you love.', ideaForm.querySelector('input[name=style]'));
 
     ideaForm.querySelector('button[type=submit]').disabled = true;
     ideaForm.hidden = true;
@@ -103,7 +102,7 @@
     startProgress();
     stepEmail.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-    analysis = post('/api/design-generate', { app: app, style: style, idea: ideaId || undefined, company: ideaForm.company.value });
+    analysis = post('/api/design-generate', { app: app, idea: ideaId || undefined, company: ideaForm.company.value });
     analysis.then(function (j) { finishProgress(j.teaser); }, function (err) { failProgress(err.message === 'failed' ? "I couldn't finish your design kit just now." : err.message); });
   });
 

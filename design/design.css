@@ -1,22 +1,7 @@
 /* App Design Kit (/design, /design/kit). Builds on /app/app.css and /idea/idea.css. */
 
-/* ---------- Builder: style picker ---------- */
+/* ---------- Builder ---------- */
 .from-report { text-align: center; font-size: 14px; color: var(--coral-deep); font-weight: 600; margin: -4px 0 0; }
-.styles { border: 0; padding: 0; margin: 8px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.styles legend { padding: 0; margin: 0 auto 14px; }
-.style { position: relative; cursor: pointer; }
-.style input { position: absolute; opacity: 0; pointer-events: none; }
-.style-card {
-  display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; gap: 8px 10px; align-items: center;
-  padding: 14px; border-radius: 16px; background: var(--cream); border: 2px solid var(--cream-dark); transition: border-color .15s, background .15s;
-}
-.style:hover .style-card { border-color: var(--peach); }
-.style input:checked + .style-card { border-color: var(--coral); background: #fff; box-shadow: 0 8px 22px -14px rgba(232,85,85,.7); }
-.style input:focus-visible + .style-card { outline: 3px solid var(--ink); outline-offset: 2px; }
-.sw { display: flex; grid-column: 1 / -1; }
-.sw i { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; margin-right: -7px; box-shadow: 0 0 0 1px rgba(26,26,26,.08); }
-.aa { font-size: 22px; line-height: 1; color: var(--ink); }
-.style-name { font-weight: 600; font-size: 14px; color: var(--ink); }
 .teaser-dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; }
 
 /* ---------- Kit page ---------- */
@@ -106,6 +91,19 @@
 .k-sw-label { display: block; padding: 10px 12px 0; font-size: 13px; font-weight: 600; color: var(--ink); }
 .k-sw-hex { display: block; padding: 2px 12px 12px; font-size: 13px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
 .k-gap { margin-top: 28px; }
+
+/* Inspiration */
+.k-insp-lead { max-width: 680px; margin: 0 0 22px; }
+.k-insp-apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.k-insp-app { background: #fff; border-radius: 20px; padding: 18px 20px; box-shadow: 0 10px 30px -22px rgba(26,26,26,.3); }
+.k-insp-head { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+.k-insp-head img { width: 52px; height: 52px; border-radius: 12px; flex: none; }
+.k-insp-name { font-weight: 700; font-size: 15px; line-height: 1.25; }
+.k-dots { display: flex; gap: 5px; margin-top: 6px; }
+.k-dot { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(26,26,26,.12); }
+.k-insp-app p { font-size: 15px; color: var(--ink-light); margin: 0; }
+.k-standout { display: flex; gap: 18px; align-items: center; margin-top: 18px; background: var(--k-soft); border-radius: 22px; padding: 20px 22px; }
+.k-standout p { margin: 4px 0 0; font-size: 17px; color: var(--ink); }
 
 /* Fonts */
 .k-font { background: #fff; border-radius: 20px; padding: 20px 22px; margin-bottom: 14px; box-shadow: 0 10px 30px -22px rgba(26,26,26,.3); }
