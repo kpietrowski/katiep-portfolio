@@ -50,7 +50,8 @@
     var names = (teaser && teaser.names || []).join(', ');
     note.textContent = 'Your report card is ready. I compared your idea with ' +
       (teaser && teaser.competitors || 'the top') + ' apps' + (names ? ' (' + names + '…)' : '') +
-      (teaser && teaser.reviews ? ' and read ' + teaser.reviews + ' reviews.' : '.');
+      (teaser && teaser.reviews ? ' and read ' + teaser.reviews + ' reviews.' : '.') +
+      (teaser && teaser.market ? ' Together they make an estimated ' + teaser.market.replace('/mo', ' a month') + '.' : '');
     note.className = 'progress-note ready';
   }
   function failProgress(msg) {
