@@ -58,6 +58,18 @@
 
     // Competitors
     var comps = el('div', { class: 'comps' });
+    function revenue(c) {
+      var r = c.revenue;
+      if (!r) return null;
+      var how = r.basis === 'free' ? 'Nothing to buy in the app'
+        : r.plan ? (r.basis === 'paid' ? 'Paid app, $' + r.plan.price : r.plan.name + ', $' + r.plan.price)
+        : '';
+      return el('div', { class: 'comp-rev' + (r.basis === 'free' ? ' none' : '') }, [
+        el('span', { class: 'comp-rev-k', text: 'Est. revenue' }),
+        el('span', { class: 'comp-rev-v', text: r.basis === 'free' ? '–' : r.label }),
+        how ? el('span', { class: 'comp-rev-how', text: how }) : null
+      ]);
+    }
     rep.competitors.forEach(function (c) {
       var notes = (a.competitors || []).filter(function (x) { return x.name === c.name; })[0] || {};
       comps.appendChild(el('div', { class: 'comp' }, [
@@ -66,13 +78,20 @@
           el('div', {}, [
             el('a', { class: 'comp-name', href: c.url, target: '_blank', rel: 'noopener', text: c.name }),
             el('div', { class: 'comp-meta', text: (c.rating ? '★ ' + c.rating + ' · ' : '') + Number(c.ratings).toLocaleString('en-US') + ' ratings · ' + c.price })
-          ])
+          ]),
+          revenue(c)
         ]),
         notes.loved_for ? el('p', {}, [el('strong', { text: 'Loved for: ' }), notes.loved_for]) : null,
         notes.complaints ? el('p', {}, [el('strong', { text: 'Complaints: ' }), notes.complaints]) : null
       ]));
     });
-    root.appendChild(section('', [h2('Your top ', 'competitors'), comps]));
+    var market = rep.market ? el('div', { class: 'market' }, [
+      el('span', { class: 'market-k', text: 'What this space makes' }),
+      el('div', { class: 'market-v', text: rep.market.label.replace('/mo', '') }),
+      el('p', { text: 'a month, estimated, for the ' + (rep.market.apps === 1 ? 'app' : rep.market.apps + ' apps') + ' below on the US App Store. People are already paying for this. Your job is to make the one they\u2019d rather pay for.' })
+    ]) : null;
+    root.appendChild(section('', [h2('Your top ', 'competitors'), market, comps,
+      rep.market ? el('p', { class: 'r-sub comp-note', text: 'Revenue is a rough estimate before Apple\u2019s cut, worked out from each app\u2019s ratings, time on the App Store and the prices on its App Store page. Apple doesn\u2019t publish real figures. New apps start smaller and grow with reviews and word of mouth.' }) : null]));
 
     // Love / hate
     function themes(list) { return el('ul', { class: 'themes' }, list.map(function (t) { return el('li', {}, [el('strong', { text: t.theme }), el('span', { text: t.detail })]); })); }

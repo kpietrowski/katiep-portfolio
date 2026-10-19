@@ -4,7 +4,7 @@
 // stores the report (locked). Returns { id, teaser } — the full report is only
 // returned by /api/idea-unlock, after the visitor gives their email.
 
-import { newId, saveReport, overLimit, askJSON, findCompetitors, getReviews, kvEnv, kvEnvNames, SEARCH_SYSTEM } from './_idea.js';
+import { newId, saveReport, overLimit, askJSON, findCompetitors, getReviews, kvEnv, kvEnvNames, SEARCH_SYSTEM, getInAppPurchases, estimateRevenue, money } from './_idea.js';
 
 
 
@@ -20,6 +20,8 @@ Rules:
   - compete: how much room there is. A = few or weak competitors, or big unmet complaints. B = real competitors but clear, repeated complaints to win on. C = crowded, you need a sharp angle. D = dominated by big, well-loved apps with few complaints. F = owned by a giant (Apple, Google, a household-name brand) and loved.
   - Use the ratings counts: apps with 100,000+ ratings and 4.7+ stars are strong; under 1,000 ratings is small.
 - If the idea is too big, say so kindly and show the smaller first version.
+- Never suggest ads or an ad-supported version. Katie's apps make money with a paywall: a subscription (usually yearly plus weekly or monthly) or a one-time purchase. Competitors' ads can be named as a weakness people complain about.
+- "price_signals": use the in-app purchase prices given (real App Store data) to say what similar apps charge.
 - "opening": 1-2 sentences on what all these apps get wrong that this app could get right.
 - "verdict": 2-3 sentences, encouraging but honest.
 
@@ -71,11 +73,19 @@ export default async function handler(req, res) {
     stage = 'app-store';
     const competitors = await findCompetitors(search_terms.length ? search_terms : [ideaText.slice(0, 40)]);
 
-    const reviews = await Promise.all(competitors.map((c) => getReviews(c.id)));
+    const [reviews, iapLists] = await Promise.all([
+      Promise.all(competitors.map((c) => getReviews(c.id))),
+      Promise.all(competitors.map((c) => getInAppPurchases(c.id))),
+    ]);
+    competitors.forEach((c, i) => { c.iaps = iapLists[i]; c.revenue = estimateRevenue(c, iapLists[i]); });
+    const withRev = competitors.filter((c) => c.revenue && c.revenue.high > 0);
+    const market = withRev.length ? { low: withRev.reduce((n, c) => n + c.revenue.low, 0), high: withRev.reduce((n, c) => n + c.revenue.high, 0), apps: withRev.length } : null;
+    if (market) market.label = `${money(market.low)}–${money(market.high)}/mo`;
     const sampled = reviews.reduce((n, r) => n + r.sampled, 0);
 
     const data = competitors.map((c, i) => ({
       name: c.name, seller: c.seller, rating: c.rating, ratings: c.ratings, price: c.price, genre: c.genre,
+      in_app_purchases: (c.iaps || []).slice(0, 5).map((x) => `${x.name} $${x.price}`),
       description: c.description.slice(0, 300),
       low_reviews: reviews[i].low.map((r) => `${r.stars}★ ${r.title}: ${r.text}`),
       five_star_reviews: reviews[i].high.map((r) => `${r.title}: ${r.text}`),
@@ -92,7 +102,8 @@ export default async function handler(req, res) {
       created: new Date().toISOString(),
       input: { idea: ideaText },
       search_terms,
-      competitors: competitors.map(({ description, screenshots, icon512, ...c }) => c),
+      competitors: competitors.map(({ description, screenshots, icon512, iaps, ...c }) => ({ ...c, plans: (iaps || []).slice(0, 4) })),
+      market,
       reviews_sampled: sampled,
       analysis,
       unlocked: false,
@@ -102,7 +113,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       id: report.id,
-      teaser: { competitors: report.competitors.length, names: report.competitors.slice(0, 3).map((c) => c.name), reviews: sampled },
+      teaser: { competitors: report.competitors.length, names: report.competitors.slice(0, 3).map((c) => c.name), reviews: sampled, market: market?.label },
     });
   } catch (err) {
     console.error(`idea-analyze [${stage}]:`, err.message);

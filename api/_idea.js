@@ -137,9 +137,90 @@ export async function findCompetitors(terms) {
     rating: app.averageUserRating ? Math.round(app.averageUserRating * 10) / 10 : null,
     ratings: app.userRatingCount || 0,
     price: app.formattedPrice || (app.price ? `$${app.price}` : 'Free'),
+    priceValue: Number(app.price) || 0,
+    released: app.releaseDate || null,
     genre: app.primaryGenreName,
     description: String(app.description || '').slice(0, 600),
   }));
+}
+
+// ---------- Revenue estimate ----------
+// Apple doesn't publish what apps earn. This is a rough, explainable estimate
+// from public signals: US rating count, months on the App Store, the upfront
+// price and the in-app purchase prices listed on the app's App Store page.
+//   monthly US downloads ≈ ratings × 100 (or × 40 for paid apps) ÷ months live (6–48)
+//   subscriptions: 2–5% of downloaders pay; each is worth ~1.3 × the yearly
+//   price (or 5 × monthly, or 10 × weekly) in its first year
+//   one-time purchases: 2–5% × the typical purchase price
+//   paid apps: downloads × price (0.6–1.2×)
+// Gross, before Apple's cut. Shown as a range and labelled as an estimate.
+
+export async function getInAppPurchases(appId) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), 7000);
+  try {
+    const r = await fetch(`https://apps.apple.com/us/app/id${appId}`, {
+      signal: ctl.signal,
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15', 'Accept-Language': 'en-US' },
+    });
+    if (!r.ok) return null;
+    const html = await r.text();
+    const i = html.indexOf('>In-App Purchases<');
+    // No list: only trust "nothing to buy" if the page layout is what we expect.
+    if (i < 0) return html.includes('>Age Rating<') && html.includes('>Category<') ? [] : null;
+    const block = html.slice(i, html.indexOf('</ul>', i) + 5);
+    const out = [];
+    const re = /<span>([^<]{1,90})<\/span>\s*<span>\$([\d,]+\.\d{2})<\/span>/g;
+    let m;
+    while ((m = re.exec(block)) && out.length < 12) out.push({ name: m[1].replace(/&amp;/g, '&').trim(), price: Number(m[2].replace(/,/g, '')) });
+    return out;
+  } catch {
+    return null; // unknown, not "none"
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+const round2 = (n) => { if (n < 100) return Math.round(n); const p = 10 ** (Math.floor(Math.log10(n)) - 1); return Math.round(n / p) * p; };
+export function money(n) {
+  if (n >= 1e6) return `$${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/, '')}M`;
+  if (n >= 1e3) return `$${(n / 1e3).toFixed(n >= 1e4 ? 0 : 1).replace(/\.0$/, '')}K`;
+  return `$${Math.round(n)}`;
+}
+
+export function estimateRevenue(c, iaps) {
+  // Ratings pile up over an app's whole life; count at most the last 4 years.
+  const months = Math.min(48, Math.max(6, c.released ? (Date.now() - Date.parse(c.released)) / 2.63e9 : 24));
+  const paid = c.priceValue > 0;
+  const downloads = (c.ratings || 0) * (paid ? 40 : 100) / months;
+  const plan = (re) => (iaps || []).filter((x) => re.test(x.name) && x.price > 0).sort((a, b) => b.price - a.price)[0];
+  const yearly = plan(/annual|year|12[ -]?month/i);
+  const monthly = !yearly && plan(/month/i);
+  const weekly = !yearly && !monthly && plan(/week/i);
+  let low = 0, high = 0, basis, model;
+  if (paid) {
+    basis = 'paid'; model = { name: 'Paid app', price: c.priceValue };
+    low = downloads * c.priceValue * 0.6; high = downloads * c.priceValue * 1.2;
+  } else if (yearly || monthly || weekly) {
+    basis = 'subscription';
+    model = yearly || monthly || weekly;
+    const value = yearly ? yearly.price * 1.3 : monthly ? monthly.price * 5 : weekly.price * 10;
+    low = downloads * 0.02 * value; high = downloads * 0.05 * value;
+  } else if (iaps && iaps.length) {
+    basis = 'purchases';
+    const prices = iaps.map((x) => x.price).filter((x) => x > 0).sort((a, b) => a - b);
+    model = { name: 'In-app purchases', price: prices[Math.floor(prices.length / 2)] || 0 };
+    low = downloads * 0.02 * model.price; high = downloads * 0.05 * model.price;
+  } else if (iaps) {
+    basis = 'free'; model = null; // free, nothing to buy
+  } else {
+    return null; // couldn't read the App Store page
+  }
+  return {
+    basis, plan: model, months: Math.round(months), downloads: round2(downloads),
+    low: round2(low), high: round2(high),
+    label: basis === 'free' ? 'Free, nothing to buy' : high < 100 ? 'Under $100/mo' : `${money(round2(low))}–${money(round2(high))}/mo`,
+  };
 }
 
 const clip = (s, n) => String(s || '').replace(/\s+/g, ' ').trim().slice(0, n);
@@ -179,10 +260,13 @@ export function toMarkdown(rep) {
   lines.push(`## One sentence`, '', a.idea_sentence, '');
   lines.push(`## Grades`, '', `- Build: ${a.build.grade} (${a.build.label}) — ${a.build.why}`, `- Compete: ${a.compete.grade} (${a.compete.label}) — ${a.compete.why}`, '');
   lines.push(`## Verdict`, '', a.verdict, '');
-  lines.push(`## Competitors`, '', '| App | Rating | Ratings | Price | Loved for | Complaints |', '| --- | --- | --- | --- | --- | --- |');
+  lines.push(`## Competitors`, '');
+  if (rep.market) lines.push(`Together these apps make an estimated **${rep.market.label}** on the US App Store (before Apple's cut). Rough estimate from ratings, time on the App Store and their prices; Apple doesn't publish real figures.`, '');
+  lines.push('| App | Rating | Ratings | Price / plans | Est. revenue | Loved for | Complaints |', '| --- | --- | --- | --- | --- | --- | --- |');
   rep.competitors.forEach((c) => {
     const n = (a.competitors || []).find((x) => x.name === c.name) || {};
-    lines.push(`| [${c.name}](${c.url}) | ${c.rating ?? '–'} | ${c.ratings.toLocaleString('en-US')} | ${c.price} | ${n.loved_for || ''} | ${n.complaints || ''} |`);
+    const plans = (c.plans || []).map((x) => `${x.name} $${x.price}`).join('; ') || c.price;
+    lines.push(`| [${c.name}](${c.url}) | ${c.rating ?? '–'} | ${c.ratings.toLocaleString('en-US')} | ${plans} | ${c.revenue?.label || '–'} | ${n.loved_for || ''} | ${n.complaints || ''} |`);
   });
   lines.push('');
   lines.push(`## What people love`, '', ...a.love.map((t) => `- **${t.theme}:** ${t.detail}`), '');
