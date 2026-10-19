@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FDF8F3">
-<title>App Idea Report Card: Is Your App Idea Any Good? | Katie P.</title>
-<meta name="description" content="Free: describe your app idea and get a report card. Your top App Store competitors, what their users love and hate, and grades for how hard it is to build and how much room there is to win.">
-<meta property="og:title" content="Is your app idea any good? Get your free App Idea Report Card">
+<title>App Idea Audit: Is Your App Idea Any Good? | Katie P.</title>
+<meta name="description" content="Free: describe your app idea and get a free audit. Your top App Store competitors, what their users love and hate, and grades for how hard it is to build and how much room there is to win.">
+<meta property="og:title" content="Is your app idea any good? Get your free App Idea Audit">
 <meta property="og:description" content="Your top 5 App Store competitors, what their users love and hate, and two honest grades.">
 <meta property="og:url" content="https://katiep.me/idea">
 <meta property="og:type" content="website">
 <!--
-  App Idea Report Card (free tool, App in 30 Days funnel).
+  App Idea Audit (free tool, App in 30 Days funnel).
   1. Idea (typed, or spoken → /api/voice-to-text, OpenAI Whisper) → /api/idea-analyze (competitors + reviews + grades, stored locked)
-  2. Email → /api/idea-unlock (Kit: "App Idea Report Card" + waitlist tags,
+  2. Email → /api/idea-unlock (Kit: "App Idea Audit" + waitlist tags,
      report link and grades as custom fields; a Kit automation emails it)
   3. → /idea/report?id=…
 -->
@@ -35,7 +35,7 @@
 <main>
 <section class="hero idea-hero">
   <div class="wrap narrow center">
-    <p class="kicker">Free tool &middot; App Idea Report Card</p>
+    <p class="kicker">Free tool &middot; App Idea Audit</p>
     <h1 class="display">Is your app idea <em>any good?</em></h1>
     <p class="lede center-lede">Tell me your idea (talk or type). I'll find your top 5 competitors on the App Store, read their 1-star and 5-star reviews, and grade your idea on how hard it is to build and how much room there is to win.</p>
   </div>
@@ -76,7 +76,7 @@
       </div>
 
       <form id="unlock" class="card-form" novalidate>
-        <h2 class="form-title">Where should I send your <em>report card?</em></h2>
+        <h2 class="form-title">Where should I send your <em>audit?</em></h2>
         <div class="row">
           <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
           <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
@@ -88,7 +88,7 @@
         </label>
         <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
         <p class="form-error" role="alert" hidden></p>
-        <button type="submit" class="pill-btn">Show me my report card</button>
+        <button type="submit" class="pill-btn">Show me my audit</button>
         <p class="fine">You'll also join the App in 30 Days waitlist. Unsubscribe anytime.</p>
       </form>
     </div>
@@ -99,7 +99,7 @@
   <div class="wrap">
     <div class="section-head center">
       <p class="kicker">What you get</p>
-      <h2 class="display">Your report card, <em>in a minute.</em></h2>
+      <h2 class="display">Your audit, <em>in a minute.</em></h2>
     </div>
     <div class="get-grid">
       <div class="get"><span class="get-grade">B</span><h3>Two honest grades</h3><p>How hard your app is to build as a first app, and how much room there is to win against what's already out there.</p></div>
@@ -117,7 +117,7 @@
       <p class="kicker">Hi, I'm Katie</p>
       <h2 class="display">This is how every one of my apps <em>starts.</em></h2>
       <p class="body">Before I build anything, I read what people hate about the apps that already exist. Their 1-star reviews tell me exactly what to build, and their 5-star reviews tell me what I can't skip. This tool does that research for you.</p>
-      <p class="body">It's also Day 1 of the App in 30 Days challenge. Bring your report card in, and you start the challenge with your research already done.</p>
+      <p class="body">It's also Day 1 of the App in 30 Days challenge. Bring your audit in, and you start the challenge with your research already done.</p>
       <a class="pill-btn" href="#top-tool">Grade my idea</a>
     </div>
   </div>

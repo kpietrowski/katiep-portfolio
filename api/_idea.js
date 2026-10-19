@@ -1,4 +1,4 @@
-// Shared pieces of the App Idea Report Card (katiep.me/idea).
+// Shared pieces of the App Idea Audit (katiep.me/idea).
 // Files in /api that start with "_" are not routes.
 //
 // Env: OPENAI_API_KEY, KV_REST_API_URL + KV_REST_API_TOKEN (Vercel KV / Upstash).
@@ -52,7 +52,7 @@ export async function loadReport(id) {
 }
 
 // Simple per-IP limit so nobody can run up the AI bill.
-// Generic storage for the other freebies (design kits, …), same TTL.
+// Generic storage for the other freebies (design systems, …), same TTL.
 export async function saveDoc(prefix, doc) {
   await kv.set(`${prefix}:${doc.id}`, JSON.stringify(doc), { ex: REPORT_TTL });
 }
@@ -100,14 +100,14 @@ export async function askJSON(system, user) {
   throw lastErr;
 }
 
-// Shared by the idea report and the design kit.
+// Shared by the idea audit and the design system.
 export const SEARCH_SYSTEM = `You turn an iPhone app idea into App Store search terms.
 Return JSON: {"search_terms": [3 short phrases a person would type into the App Store search box to find apps that solve this problem, most specific first, 1-4 words each]}.`;
 
 // ---------- Apple: public search + public reviews feed ----------
 
 async function getJSON(url) {
-  const r = await fetch(url, { headers: { 'User-Agent': 'katiep.me idea report' } });
+  const r = await fetch(url, { headers: { 'User-Agent': 'katiep.me idea audit' } });
   if (!r.ok) throw new Error(`${r.status} ${url}`);
   return r.json();
 }
@@ -256,7 +256,7 @@ export async function getReviews(appId) {
 export function toMarkdown(rep) {
   const a = rep.analysis;
   const lines = [];
-  lines.push(`# App Idea Report Card`, '');
+  lines.push(`# App Idea Audit`, '');
   lines.push(`Made at katiep.me/idea on ${rep.created.slice(0, 10)}. Report link: https://katiep.me/idea/report?id=${rep.id}`, '');
   lines.push(`## The idea, as entered`, '', ...(rep.input.idea ? [rep.input.idea] : [`**Problem:** ${rep.input.problem}`, '', `**How the app solves it:** ${rep.input.solution}`]), '');
   lines.push(`## One sentence`, '', a.idea_sentence, '');

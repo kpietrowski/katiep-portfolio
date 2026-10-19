@@ -1,4 +1,4 @@
-// App Design Kit (/design): idea → kit (in the background) → email → kit page.
+// App Design System (/design): idea → kit (in the background) → email → kit page.
 (function () {
   var ideaForm = document.getElementById('step-idea');
   var stepEmail = document.getElementById('step-email');
@@ -19,7 +19,7 @@
     });
   }
 
-  // Coming from an App Idea Report Card: bring the idea in.
+  // Coming from an App Idea Audit: bring the idea in.
   if (ideaId && /^[A-Za-z0-9_-]{6,40}$/.test(ideaId)) {
     fetch('/api/idea-report?id=' + encodeURIComponent(ideaId))
       .then(function (r) { if (!r.ok) throw 0; return r.json(); })
@@ -70,7 +70,7 @@
     }
     note.appendChild(document.createTextNode(
       (teaser && teaser.competitors ? 'I studied ' + teaser.competitors + ' competitors. ' : '') +
-      (teaser && teaser.name ? 'Your design kit is ready. Meet "' + teaser.name + '" (plus four more name ideas).' : 'Your design kit is ready.')));
+      (teaser && teaser.name ? 'Your design system is ready. Meet "' + teaser.name + '" (plus four more name ideas).' : 'Your design system is ready.')));
     note.className = 'progress-note ready';
   }
   function failProgress(msg) {
@@ -103,7 +103,7 @@
     stepEmail.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     analysis = post('/api/design-generate', { app: app, idea: ideaId || undefined, company: ideaForm.company.value });
-    analysis.then(function (j) { finishProgress(j.teaser); }, function (err) { failProgress(err.message === 'failed' ? "I couldn't finish your design kit just now." : err.message); });
+    analysis.then(function (j) { finishProgress(j.teaser); }, function (err) { failProgress(err.message === 'failed' ? "I couldn't finish your design system just now." : err.message); });
   });
 
   unlock.addEventListener('submit', function (e) {
@@ -112,7 +112,7 @@
     var email = unlock.email.value.trim();
     var phone = unlock.phone.value.trim();
     var consent = unlock.sms_consent.checked;
-    if (!email || email.indexOf('@') < 1) return showError(unlock, 'Please enter your email so I can send your design kit.', unlock.email);
+    if (!email || email.indexOf('@') < 1) return showError(unlock, 'Please enter your email so I can send your design system.', unlock.email);
     if (phone && phone.replace(/\D/g, '').length < 10) return showError(unlock, 'Please check your mobile number, or leave it blank.', unlock.phone);
     if (phone && !consent) return showError(unlock, 'Tick the box to get a text, or leave your number blank.', unlock.sms_consent);
     if (!analysis) return;
@@ -120,11 +120,11 @@
     var btn = unlock.querySelector('button[type=submit]');
     var label = btn.textContent;
     btn.disabled = true;
-    btn.textContent = 'Finishing your kit…';
+    btn.textContent = 'Finishing your design system…';
 
     analysis
       .then(function (j) {
-        btn.textContent = 'Opening your kit…';
+        btn.textContent = 'Opening your design system…';
         return post('/api/design-unlock', {
           id: j.id,
           first_name: unlock.first_name.value.trim(),

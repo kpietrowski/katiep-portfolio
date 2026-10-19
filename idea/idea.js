@@ -1,4 +1,4 @@
-// App Idea Report Card (/idea): idea → analysis (in the background) → email → report.
+// App Idea Audit (/idea): idea → analysis (in the background) → email → report.
 (function () {
   var ideaForm = document.getElementById('step-idea');
   var stepEmail = document.getElementById('step-email');
@@ -48,7 +48,7 @@
     stepEmail.querySelectorAll('.progress li').forEach(function (li) { li.className = 'done'; });
     var note = document.getElementById('progress-note');
     var names = (teaser && teaser.names || []).join(', ');
-    note.textContent = 'Your report card is ready. I compared your idea with ' +
+    note.textContent = 'Your audit is ready. I compared your idea with ' +
       (teaser && teaser.competitors || 'the top') + ' apps' + (names ? ' (' + names + '…)' : '') +
       (teaser && teaser.reviews ? ' and read ' + teaser.reviews + ' reviews.' : '.') +
       (teaser && teaser.market ? ' Together they make an estimated ' + teaser.market.replace('/mo', ' a month') + '.' : '');
@@ -93,7 +93,7 @@
     var email = unlock.email.value.trim();
     var phone = unlock.phone.value.trim();
     var consent = unlock.sms_consent.checked;
-    if (!email || email.indexOf('@') < 1) return showError(unlock, 'Please enter your email so I can send your report card.', unlock.email);
+    if (!email || email.indexOf('@') < 1) return showError(unlock, 'Please enter your email so I can send your audit.', unlock.email);
     if (phone && phone.replace(/\D/g, '').length < 10) return showError(unlock, 'Please check your mobile number, or leave it blank.', unlock.phone);
     if (phone && !consent) return showError(unlock, 'Tick the box to get a text, or leave your number blank.', unlock.sms_consent);
     if (!analysis) return;

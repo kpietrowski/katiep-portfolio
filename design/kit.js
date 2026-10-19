@@ -1,4 +1,4 @@
-// Renders an App Design Kit from /api/design-kit?id=…
+// Renders an App Design System from /api/design-kit?id=…
 // Everything from the kit is inserted as text (never as HTML); colours, fonts
 // and icon names are checked against strict patterns before they reach CSS.
 (function () {
@@ -24,16 +24,16 @@
     root.innerHTML = '';
     root.appendChild(el('div', { class: 'wrap narrow center report-loading' }, [
       el('p', { class: 'body', text: msg }),
-      el('a', { class: 'pill-btn', href: '/design', text: 'Make a design kit' })
+      el('a', { class: 'pill-btn', href: '/design', text: 'Make a design system' })
     ]));
   }
 
-  if (!id) return fail('This link is missing its design kit. Make a new one in a minute.');
+  if (!id) return fail('This link is missing its design system. Make a new one in a minute.');
 
   fetch('/api/design-kit?id=' + encodeURIComponent(id))
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(render)
-    .catch(function () { fail("I couldn't find this design kit. It may have expired, or the link is incomplete."); });
+    .catch(function () { fail("I couldn't find this design system. It may have expired, or the link is incomplete."); });
 
   // ---------- helpers ----------
   function safeHex(h, fallback) { return HEX.test(h || '') ? h : fallback; }
@@ -157,7 +157,7 @@
     b.icon = b.icon || {};
     b.screens = b.screens || { launch: {}, onboarding: {}, paywall: {} };
     var name = (b.names && b.names[0] && b.names[0].name) || 'Your app';
-    document.title = name + ': App Design Kit | Katie P.';
+    document.title = name + ': App Design System | Katie P.';
 
     loadFont(b.fonts.heading);
     if (b.fonts.body !== b.fonts.heading) loadFont(b.fonts.body);
@@ -167,7 +167,7 @@
 
     // Hero
     var hero = el('section', { class: 'k-hero' }, [el('div', { class: 'wrap narrow center' }, [
-      el('p', { class: 'kicker', text: (kit.first_name ? kit.first_name + "'s" : 'Your') + ' App Design Kit' }),
+      el('p', { class: 'kicker', text: (kit.first_name ? kit.first_name + "'s" : 'Your') + ' App Design System' }),
       icon(b.icon.glyph, b, 128, 'light'),
       el('h1', { class: 'k-title', text: name }),
       el('p', { class: 'k-tagline', text: b.screens.launch.tagline || '' }),
@@ -292,12 +292,12 @@
     root.appendChild(section('r-dark k-next', [el('div', { class: 'narrow center' }, [
       el('p', { class: 'kicker', text: 'Next step' }),
       el('h2', { class: 'display r-h2' }, ['Now let’s ', el('em', { text: 'build it.' })]),
-      el('p', { class: 'body', text: 'Download your kit as one file. On Day 3 of App in 30 Days, you drop it into your project and Claude turns it into your app’s colours, fonts and screens.' }),
+      el('p', { class: 'body', text: 'Download your design system as one file. On Day 3 of App in 30 Days, you drop it into your project and Claude turns it into your app’s colours, fonts and screens.' }),
       el('div', { class: 'k-actions' }, [
         el('a', { class: 'pill-btn', href: '/app', text: 'Join App in 30 Days' }),
-        el('a', { class: 'pill-btn ghost', href: '/api/design-kit?id=' + encodeURIComponent(kit.id) + '&format=md&download=1', text: 'Download my kit (brand.md)' })
+        el('a', { class: 'pill-btn ghost', href: '/api/design-kit?id=' + encodeURIComponent(kit.id) + '&format=md&download=1', text: 'Download my design system (brand.md)' })
       ]),
-      kit.input.idea ? null : el('p', { class: 'fine' }, ['Haven’t checked your idea yet? ', el('a', { href: '/idea', text: 'Get your App Idea Report Card' }), '.'])
+      kit.input.idea ? null : el('p', { class: 'fine' }, ['Haven’t checked your idea yet? ', el('a', { href: '/idea', text: 'Get your App Idea Audit' }), '.'])
     ])]));
   }
 })();

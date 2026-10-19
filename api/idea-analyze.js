@@ -1,5 +1,5 @@
 // POST /api/idea-analyze  { idea, company? }  (older clients: { problem, solution })
-// Step 1 of the App Idea Report Card. Finds the top competitors on the App
+// Step 1 of the App Idea Audit. Finds the top competitors on the App
 // Store, reads their most helpful and most recent reviews, grades the idea and
 // stores the report (locked). Returns { id, teaser } — the full report is only
 // returned by /api/idea-unlock, after the visitor gives their email.
@@ -8,7 +8,7 @@ import { newId, saveReport, overLimit, askJSON, findCompetitors, getReviews, kvE
 
 
 
-const ANALYSIS_SYSTEM = `You are Katie Pietrowski's App Idea Report Card. Katie teaches non-technical people (often moms) to build and launch a simple, paid iPhone app in 30 days: one problem, one core feature, a personalized onboarding and a paywall.
+const ANALYSIS_SYSTEM = `You are Katie Pietrowski's App Idea Audit. Katie teaches non-technical people (often moms) to build and launch a simple, paid iPhone app in 30 days: one problem, one core feature, a personalized onboarding and a paywall.
 
 You get the visitor's idea (typed or spoken, so it may ramble: find the core of it) and real App Store data: the top competing apps (rating, number of ratings, price) and a sample of their 1-2 star and 5 star reviews. Write a report that is warm, honest and specific. Plain words a beginner understands. No jargon, no hype.
 

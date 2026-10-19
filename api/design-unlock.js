@@ -3,13 +3,13 @@
 // Kit" and the waitlist; the kit link as a custom field so a Kit automation can
 // email it), unlocks the kit and returns its URL.
 //
-// Kit automation: trigger "tag added: App Design Kit" → email with
+// Kit automation: trigger "tag added: App Design System" → email with
 // {{ subscriber.design_kit_url }}.
 
 import { readSignup, subscribe, WAITLIST_TAG } from './_kit.js';
 import { loadDoc, saveDoc } from './_idea.js';
 
-export const DESIGN_TAG = process.env.KIT_DESIGN_TAG || 'App Design Kit';
+export const DESIGN_TAG = process.env.KIT_DESIGN_TAG || 'App Design System';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
   try {
     const kit = await loadDoc('design', req.body?.id);
-    if (!kit) return res.status(404).json({ error: "I couldn't find that design kit. Please make it again." });
+    if (!kit) return res.status(404).json({ error: "I couldn't find that design system. Please make it again." });
 
     const url = `https://katiep.me/design/kit?id=${kit.id}`;
     await subscribe({

@@ -1,4 +1,4 @@
-// Renders an App Idea Report Card from /api/idea-report?id=…
+// Renders an App Idea Audit from /api/idea-report?id=…
 // Everything from the report is inserted as text (never as HTML).
 (function () {
   var root = document.getElementById('report');
@@ -24,12 +24,12 @@
     ]));
   }
 
-  if (!id) return fail("This link is missing its report. Run your idea through the report card to get a new one.");
+  if (!id) return fail("This link is missing its report. Run your idea through the audit to get a new one.");
 
   fetch('/api/idea-report?id=' + encodeURIComponent(id))
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(render)
-    .catch(function () { fail("I couldn't find this report card. It may have expired, or the link is incomplete."); });
+    .catch(function () { fail("I couldn't find this audit. It may have expired, or the link is incomplete."); });
 
   function grade(kind, g) {
     return el('div', { class: 'grade-card grade-' + String(g.grade || '').toLowerCase() }, [
@@ -45,12 +45,12 @@
 
   function render(rep) {
     var a = rep.analysis;
-    document.title = 'App Idea Report Card: ' + a.idea_sentence;
+    document.title = 'App Idea Audit: ' + a.idea_sentence;
     root.innerHTML = '';
 
     // Header + grades
     root.appendChild(el('section', { class: 'r-hero' }, [el('div', { class: 'wrap narrow' }, [
-      el('p', { class: 'kicker', text: 'App Idea Report Card' + (rep.first_name ? ' for ' + rep.first_name : '') }),
+      el('p', { class: 'kicker', text: 'App Idea Audit' + (rep.first_name ? ' for ' + rep.first_name : '') }),
       el('h1', { class: 'display r-title', text: a.idea_sentence }),
       el('div', { class: 'grades' }, [grade('Build', a.build), grade('Compete', a.compete)]),
       el('p', { class: 'body verdict', text: a.verdict })
@@ -132,7 +132,7 @@
       ])
     ]));
 
-    // Next freebie: the App Design Kit, with this idea brought in
+    // Next freebie: the App Design System, with this idea brought in
     root.appendChild(section('r-tint', [
       el('div', { class: 'center' }, [
         el('p', { class: 'kicker', text: 'Free next step' }),
