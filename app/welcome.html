@@ -34,6 +34,20 @@
       <p class="lic-note" id="key-note">This takes a few seconds after checkout.</p>
     </div>
 
+    <div class="card-form lic-card lic-calls" id="calls-have" hidden>
+      <span class="lic-label">Your 4 calls with Katie</span>
+      <p class="lic-note">You added the call pack. Book your first call whenever you're ready. The link is in your email too.</p>
+      <a class="pill-btn" id="book" href="#" target="_blank" rel="noopener">Book a call</a>
+    </div>
+
+    <div class="card-form lic-card lic-calls" id="calls-offer" hidden>
+      <span class="lic-label">Optional add-on</span>
+      <h2 class="lic-offer-title">Want me in your corner all month?</h2>
+      <p class="lic-note">Four one-hour calls with me, spread across November. We'll pressure-test your idea, get you unstuck when something breaks, and get your App Store launch right. Most people only need the course; this is for anyone who wants a guide on speed dial.</p>
+      <div class="lic-offer-row"><b>4 one-hour calls</b><span>$1,200</span></div>
+      <a class="pill-btn" id="buy-calls" href="#">Add the calls</a>
+    </div>
+
     <ol class="lic-steps">
       <li><strong>Save your key.</strong> It's also in your welcome email, so you can always find it there.</li>
       <li><strong>Watch your inbox</strong> for the setup guide. It walks you through installing everything you need.</li>
@@ -61,6 +75,14 @@
           note.textContent = 'We also emailed it to ' + res.j.email + '.';
           copy.hidden = false;
           if (res.j.first_name) document.getElementById('hello').firstChild.textContent = "You're in, " + res.j.first_name + '. ';
+          if (res.j.calls) {
+            var have = document.getElementById('calls-have'); have.hidden = false;
+            var book = document.getElementById('book');
+            if (res.j.booking_url && /^https:\/\//.test(res.j.booking_url)) book.href = res.j.booking_url; else book.hidden = true;
+          } else if (res.j.calls_offer && /^https:\/\/(buy\.stripe\.com|checkout\.stripe\.com)\//.test(res.j.calls_offer)) {
+            document.getElementById('calls-offer').hidden = false;
+            document.getElementById('buy-calls').href = res.j.calls_offer;
+          }
           return;
         }
         if (++tries < 30) return setTimeout(poll, 2000);

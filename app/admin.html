@@ -83,6 +83,7 @@
         (l.stripe && l.stripe.amount ? ' · $' + (l.stripe.amount / 100).toFixed(2) : '') + (l.last_step ? ' · last step: ' + l.last_step : ''));
       c.appendChild(meta);
       if (l.status !== 'active') c.appendChild(el('div', 'adm-off', 'Switched off: ' + (l.revoked_reason || '') + ' (' + when(l.revoked_at) + ')'));
+      if (l.calls) c.appendChild(el('div', 'adm-meta', 'Call pack: ' + l.calls.status + ' (bought ' + when(l.calls.bought_at) + (l.calls.separate ? ', after the course' : ', at checkout') + ')'));
       c.appendChild(el('div', 'adm-meta', 'Computers: ' + (l.devices.length ? l.devices.map(function (d) { return d.label + ' (last ' + when(d.last) + ')'; }).join(', ') : 'none yet')));
       (l.flags || []).forEach(function (f) { c.appendChild(el('div', 'adm-flag', '⚑ ' + f.why + ' · ' + when(f.at))); });
       var acts = el('div', 'adm-actions');
