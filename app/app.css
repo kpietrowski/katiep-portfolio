@@ -378,3 +378,5 @@ form.known .row { display: none; }
 form.known-waitlist > *:not(.known-as):not(.hp) { display: none; }
 form.known-waitlist .known-as { font-size: 17px; color: var(--ink); padding: 6px 0; }
 .known-next { display: block; margin-top: 8px; font-size: 15px; color: var(--ink-light); }
+.thanks-h2 { font-size: clamp(30px, 4vw, 44px); margin-top: 64px; }
+.thanks .tool-grid { text-align: left; margin-top: 28px; }
