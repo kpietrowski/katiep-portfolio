@@ -60,6 +60,6 @@ export default async function handler(req, res) {
   } catch (err) {
     if (err.code === 413) return res.status(413).json({ error: 'That recording is too long. Try a shorter one, about 2 minutes.' });
     console.error('transcribe:', err.message);
-    return res.status(502).json({ error: "I couldn't turn that into text just now. Please try again or type it." });
+    return res.status(502).json({ error: "Couldn't turn that into text just now. Please try again or type it." });
   }
 }

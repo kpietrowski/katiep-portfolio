@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
   try {
     const report = await loadReport(req.body?.id);
-    if (!report) return res.status(404).json({ error: "I couldn't find that report. Please run it again." });
+    if (!report) return res.status(404).json({ error: "That report couldn't be found. Please run it again." });
 
     const url = `https://katiep.me/idea/report?id=${report.id}`;
     await subscribe({

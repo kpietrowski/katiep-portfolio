@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 
   try {
     const kit = await loadDoc('design', req.body?.id);
-    if (!kit) return res.status(404).json({ error: "I couldn't find that design system. Please make it again." });
+    if (!kit) return res.status(404).json({ error: "That design system couldn't be found. Please make it again." });
 
     const url = `https://katiep.me/design/kit?id=${kit.id}`;
     // Keep the tidier one-sentence idea if they already did the App Idea Audit.

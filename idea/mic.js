@@ -87,7 +87,7 @@
         var denied = err && (err.name === 'NotAllowedError' || err.name === 'SecurityError');
         set('idle', 'Tap to talk', denied
           ? "I need the microphone to listen. Allow it in your browser settings, or just type your idea below."
-          : "I couldn't reach your microphone. You can type your idea below instead.");
+          : "Couldn't reach your microphone. You can type your idea below instead.");
       });
     }
 
@@ -116,7 +116,7 @@
           set('done', 'Tap to add more', 'Got it. Read it over and fix anything I misheard, then grade your idea.');
         })
         .catch(function (err) {
-          set('idle', 'Tap to talk', (err && err.message) || "I couldn't turn that into text just now. Please try again or type it.");
+          set('idle', 'Tap to talk', (err && err.message) || "Couldn't turn that into text just now. Please try again or type it.");
         });
     }
 

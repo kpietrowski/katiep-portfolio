@@ -171,6 +171,6 @@ export default async function handler(req, res) {
     });
   } catch (err) {
     console.error(`design-generate [${stage}]:`, err.message);
-    return res.status(502).json({ error: "I couldn't finish your design system just now. Please try again in a minute.", stage });
+    return res.status(502).json({ error: "Your design system couldn't finish just now. Please try again in a minute.", stage });
   }
 }

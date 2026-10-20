@@ -75,7 +75,7 @@
     var idea = ideaForm.idea.value.trim();
     if (idea.length < 25) return showError(ideaForm, 'Tell me a little more: who would use your app, and what does it do?', ideaForm.idea);
     var mic = document.getElementById('mic');
-    if (mic && /is-(recording|working|asking)/.test(mic.className)) return showError(ideaForm, 'Give me a second to finish typing up what you said.');
+    if (mic && /is-(recording|working|asking)/.test(mic.className)) return showError(ideaForm, 'One second, still typing up what you said.');
 
     ideaForm.querySelector('button').disabled = true;
     ideaForm.hidden = true;
@@ -84,7 +84,7 @@
     stepEmail.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     analysis = post('/api/idea-analyze', { idea: idea, company: ideaForm.company.value });
-    analysis.then(function (j) { finishProgress(j.teaser); }, function (err) { failProgress(err.message === 'failed' ? "I couldn't finish your report just now." : err.message); });
+    analysis.then(function (j) { finishProgress(j.teaser); }, function (err) { failProgress(err.message === 'failed' ? "Your audit couldn't finish just now." : err.message); });
   });
 
   unlock.addEventListener('submit', function (e) {

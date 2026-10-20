@@ -33,7 +33,7 @@
   fetch('/api/design-kit?id=' + encodeURIComponent(id))
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(render)
-    .catch(function () { fail("I couldn't find this design system. It may have expired, or the link is incomplete."); });
+    .catch(function () { fail("This design system couldn't be found. It may have expired, or the link is incomplete."); });
 
   // ---------- helpers ----------
   function safeHex(h, fallback) { return HEX.test(h || '') ? h : fallback; }

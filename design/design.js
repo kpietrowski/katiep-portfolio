@@ -69,7 +69,7 @@
       note.appendChild(dot);
     }
     note.appendChild(document.createTextNode(
-      (teaser && teaser.competitors ? 'I studied ' + teaser.competitors + ' competitors. ' : '') +
+      (teaser && teaser.competitors ? 'Studied ' + teaser.competitors + ' competitors. ' : '') +
       (teaser && teaser.name ? 'Your design system is ready. Meet "' + teaser.name + '" (plus four more name ideas).' : 'Your design system is ready.')));
     note.className = 'progress-note ready';
   }
@@ -93,7 +93,7 @@
     hideError(ideaForm);
     var app = ideaForm.app.value.trim();
     var mic = document.getElementById('mic');
-    if (mic && /is-(recording|working|asking)/.test(mic.className)) return showError(ideaForm, 'Give me a second to finish typing up what you said.');
+    if (mic && /is-(recording|working|asking)/.test(mic.className)) return showError(ideaForm, 'One second, still typing up what you said.');
     if (app.length < 25) return showError(ideaForm, 'Tell me a little more: what does your app do, and who is it for?', ideaForm.app);
 
     ideaForm.querySelector('button[type=submit]').disabled = true;
@@ -103,7 +103,7 @@
     stepEmail.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     analysis = post('/api/design-generate', { app: app, idea: ideaId || undefined, company: ideaForm.company.value });
-    analysis.then(function (j) { finishProgress(j.teaser); }, function (err) { failProgress(err.message === 'failed' ? "I couldn't finish your design system just now." : err.message); });
+    analysis.then(function (j) { finishProgress(j.teaser); }, function (err) { failProgress(err.message === 'failed' ? "Your design system couldn't finish just now." : err.message); });
   });
 
   unlock.addEventListener('submit', function (e) {

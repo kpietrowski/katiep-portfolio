@@ -29,7 +29,7 @@
   fetch('/api/idea-report?id=' + encodeURIComponent(id))
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(render)
-    .catch(function () { fail("I couldn't find this audit. It may have expired, or the link is incomplete."); });
+    .catch(function () { fail("This audit couldn't be found. It may have expired, or the link is incomplete."); });
 
   function grade(kind, g) {
     return el('div', { class: 'grade-card grade-' + String(g.grade || '').toLowerCase() }, [
