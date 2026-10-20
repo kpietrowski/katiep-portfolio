@@ -9,6 +9,7 @@
 // Env: KIT_API_KEY. Optional: KIT_WAITLIST_TAG.
 
 import { readSignup, subscribe, WAITLIST_TAG } from './_kit.js';
+import { recordLead } from './_leads.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -26,6 +27,7 @@ export default async function handler(req, res) {
 
   try {
     await subscribe({ ...s, page: req.body?.referrer || 'katiep.me/app', tags: [WAITLIST_TAG] });
+    await recordLead(s.address, { first_name: s.firstName, source: 'waitlist' });
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('waitlist:', err.message);

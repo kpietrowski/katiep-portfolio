@@ -369,3 +369,12 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
   .pn2 { right: 64%; top: 24%; }
   .pn3 { right: 18%; top: 78%; }
 }
+
+/* Remembered visitor (app/remember.js) */
+.known-as { margin: 0; font-size: 16px; color: var(--ink-light); text-align: center; }
+.known-as b { color: var(--ink); }
+.known-as a { color: var(--blue); font-weight: 600; white-space: nowrap; }
+form.known .row { display: none; }
+form.known-waitlist > *:not(.known-as):not(.hp) { display: none; }
+form.known-waitlist .known-as { font-size: 17px; color: var(--ink); padding: 6px 0; }
+.known-next { display: block; margin-top: 8px; font-size: 15px; color: var(--ink-light); }

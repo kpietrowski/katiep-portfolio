@@ -11,6 +11,10 @@ const KIT = 'https://api.kit.com/v4';
 
 export const WAITLIST_TAG = process.env.KIT_WAITLIST_TAG || 'App in 30 Days waitlist';
 
+// Added by both free tools, so Katie can filter everyone who has told her their
+// app idea. The idea itself is in the "App idea" custom field.
+export const IDEA_SHARED_TAG = process.env.KIT_IDEA_SHARED_TAG || 'Shared an app idea';
+
 // Must match the words shown next to the SMS checkbox on /app and /idea.
 // Bump it whenever that text changes, so each consent record says what was agreed to.
 export const CONSENT_VERSION = 'app30-sms-v1';

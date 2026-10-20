@@ -135,7 +135,10 @@
           referrer: location.href
         });
       })
-      .then(function (j) { location.href = j.url.replace('https://katiep.me', ''); })
+      .then(function (j) {
+        if (window.kpMe) kpMe.save(unlock.first_name.value.trim(), email);
+        location.href = j.url.replace('https://katiep.me', '');
+      })
       .catch(function (err) {
         btn.disabled = false;
         btn.textContent = label;

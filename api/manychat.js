@@ -15,6 +15,7 @@
 
 import crypto from 'node:crypto';
 import { subscribe, isEmail, WAITLIST_TAG } from './_kit.js';
+import { recordLead } from './_leads.js';
 
 export const INSTAGRAM_TAG = process.env.KIT_INSTAGRAM_TAG || 'Source: Instagram DM';
 
@@ -49,6 +50,7 @@ export default async function handler(req, res) {
       fields: { 'Instagram': ig ? `@${ig}` : '' },
       tags: [WAITLIST_TAG, INSTAGRAM_TAG],
     });
+    await recordLead(email, { first_name: firstName, source: 'instagram', instagram: ig ? `@${ig}` : '' });
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('manychat:', err.message);

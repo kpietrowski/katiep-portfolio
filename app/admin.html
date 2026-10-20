@@ -28,6 +28,23 @@
     </form>
 
     <div id="app" hidden>
+      <div class="adm-tabs" role="tablist">
+        <button type="button" class="on" data-tab="leads">App ideas</button>
+        <button type="button" data-tab="students">Students</button>
+      </div>
+
+      <section id="tab-leads">
+        <div class="adm-stats" id="lead-stats"></div>
+        <div class="card-form lic-card">
+          <div class="adm-row">
+            <label class="field">Search names, emails and ideas<input id="lead-q" autocomplete="off"></label>
+            <label class="adm-check"><input type="checkbox" id="lead-ideas" checked> Only people who shared an idea</label>
+          </div>
+        </div>
+        <div id="leads"></div>
+      </section>
+
+      <section id="tab-students" hidden>
       <div class="adm-stats" id="stats"></div>
 
       <form class="card-form lic-card" id="search">
@@ -49,6 +66,7 @@
         </div>
         <p class="lic-note" id="created"></p>
       </form>
+      </section>
     </div>
   </div>
 </main>
@@ -108,12 +126,70 @@
     });
   }
 
+  // ---------- App ideas ----------
+  var LEADS = [];
+  function loadLeads() {
+    api('GET', '?leads=1').then(function (j) { LEADS = j.leads || []; renderLeads(); }).catch(function (e) { alert(e.message); });
+  }
+  function renderLeads() {
+    var q = document.getElementById('lead-q').value.trim().toLowerCase();
+    var onlyIdeas = document.getElementById('lead-ideas').checked;
+    var withIdea = LEADS.filter(function (l) { return l.idea || l.design; });
+    var s = document.getElementById('lead-stats'); s.innerHTML = '';
+    var day = Date.now() - 864e5;
+    [[LEADS.length, 'On the list'], [withIdea.length, 'Shared an idea'], [LEADS.filter(function (l) { return l.idea; }).length, 'Did the audit'],
+     [LEADS.filter(function (l) { return l.design; }).length, 'Made a design'], [LEADS.filter(function (l) { return new Date(l.first_seen) > day; }).length, 'New today']].forEach(function (p) {
+      var d = el('div', 'adm-stat'); d.appendChild(el('b', null, p[0])); d.appendChild(el('span', null, p[1])); s.appendChild(d);
+    });
+    var box = document.getElementById('leads'); box.innerHTML = '';
+    var list = (onlyIdeas ? withIdea : LEADS).filter(function (l) {
+      if (!q) return true;
+      return [l.email, l.first_name, l.idea && l.idea.sentence, l.idea && l.idea.typed, l.design && l.design.typed, l.design && l.design.name].join(' ').toLowerCase().indexOf(q) > -1;
+    });
+    if (!list.length) { box.appendChild(el('p', 'lic-note', LEADS.length ? 'Nobody matches.' : 'No one yet. Signups from the waitlist and both free tools show up here.')); return; }
+    list.forEach(function (l) {
+      var c = el('div', 'adm-lic adm-lead');
+      var who = el('div', 'adm-who');
+      who.appendChild(el('b', null, l.first_name || l.email.split('@')[0]));
+      who.appendChild(el('span', null, l.email + (l.instagram ? ' · ' + l.instagram : '') + ' · ' + (l.sources || []).join(', ') + ' · ' + when(l.last_seen)));
+      c.appendChild(who);
+      var idea = (l.idea && l.idea.sentence) || (l.design && l.design.typed);
+      if (idea) c.appendChild(el('p', 'adm-idea', idea));
+      var typed = l.idea && l.idea.typed;
+      if (typed && typed !== idea) c.appendChild(el('p', 'adm-typed', '“' + typed + '”'));
+      var bits = el('div', 'adm-links');
+      if (l.idea) {
+        bits.appendChild(el('span', 'adm-grade', 'Build ' + (l.idea.build || '–') + ' · Compete ' + (l.idea.compete || '–')));
+        var a = el('a', null, 'Their audit'); a.href = l.idea.report_url; a.target = '_blank'; a.rel = 'noopener'; bits.appendChild(a);
+      }
+      if (l.design) {
+        var d = el('a', null, 'Their design system' + (l.design.name ? ' (' + l.design.name + ')' : '')); d.href = l.design.kit_url; d.target = '_blank'; d.rel = 'noopener'; bits.appendChild(d);
+      }
+      var name = l.first_name || 'there';
+      var body = 'Hi ' + name + ',\n\nI saw your app idea' + (idea ? ': "' + idea + '"' : '') + ', and I love it. I think it\u2019s totally doable.\n\n';
+      var m = el('a', 'adm-mail', 'Email ' + (l.first_name || 'them'));
+      m.href = 'mailto:' + encodeURIComponent(l.email) + '?subject=' + encodeURIComponent('Your app idea') + '&body=' + encodeURIComponent(body);
+      bits.appendChild(m);
+      c.appendChild(bits);
+      box.appendChild(c);
+    });
+  }
+  document.getElementById('lead-q').addEventListener('input', renderLeads);
+  document.getElementById('lead-ideas').addEventListener('change', renderLeads);
+  document.querySelectorAll('.adm-tabs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.adm-tabs button').forEach(function (x) { x.className = x === b ? 'on' : ''; });
+      document.getElementById('tab-leads').hidden = b.dataset.tab !== 'leads';
+      document.getElementById('tab-students').hidden = b.dataset.tab !== 'students';
+    });
+  });
+
   function search(q) { api('GET', '?q=' + encodeURIComponent(q)).then(function (j) { render(j.licences); }).catch(function (e) { alert(e.message); }); }
 
   function open() {
     api('GET', '?stats=1').then(function () {
       try { localStorage.setItem('app30-admin', token); } catch (e) {}
-      document.getElementById('login').hidden = true; document.getElementById('app').hidden = false; stats();
+      document.getElementById('login').hidden = true; document.getElementById('app').hidden = false; stats(); loadLeads();
     }).catch(function (e) { var er = document.querySelector('#login .form-error'); er.textContent = e.message; er.hidden = false; });
   }
 

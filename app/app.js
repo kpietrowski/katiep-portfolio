@@ -41,6 +41,7 @@
         .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
         .then(function (res) {
           if (!res.ok) throw new Error(res.j && res.j.error || 'failed');
+          if (window.kpMe) kpMe.save(form.first_name.value.trim(), email);
           location.href = '/app/thanks';
         })
         .catch(function (e2) {

@@ -6,7 +6,9 @@
 // Kit automation: trigger "tag added: App Design System" → email with
 // {{ subscriber.design_kit_url }}.
 
-import { readSignup, subscribe, WAITLIST_TAG } from './_kit.js';
+import { readSignup, subscribe, WAITLIST_TAG, IDEA_SHARED_TAG } from './_kit.js';
+import { recordLead, shortIdea } from './_leads.js';
+import { kv } from './_idea.js';
 import { loadDoc, saveDoc } from './_idea.js';
 
 export const DESIGN_TAG = process.env.KIT_DESIGN_TAG || 'App Design System';
@@ -24,11 +26,21 @@ export default async function handler(req, res) {
     if (!kit) return res.status(404).json({ error: "I couldn't find that design system. Please make it again." });
 
     const url = `https://katiep.me/design/kit?id=${kit.id}`;
+    // Keep the tidier one-sentence idea if they already did the App Idea Audit.
+    const known = await kv.get(`lead:${s.address}`).catch(() => null);
     await subscribe({
       ...s,
       page: req.body?.referrer || 'katiep.me/design',
-      fields: { 'Design kit URL': url, 'Design app name': kit.brand.names?.[0]?.name },
-      tags: [DESIGN_TAG, WAITLIST_TAG],
+      fields: {
+        'Design kit URL': url,
+        'Design app name': kit.brand.names?.[0]?.name,
+        ...(known?.idea?.sentence ? {} : { 'App idea': shortIdea(kit.input?.app) }),
+      },
+      tags: [DESIGN_TAG, IDEA_SHARED_TAG, WAITLIST_TAG],
+    });
+    await recordLead(s.address, {
+      first_name: s.firstName, source: 'design system',
+      design: { typed: shortIdea(kit.input?.app, 600), name: kit.brand.names?.[0]?.name, kit_url: url },
     });
 
     if (!kit.unlocked) {

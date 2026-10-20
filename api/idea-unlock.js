@@ -9,7 +9,8 @@
 //   {{ subscriber.idea_report_url }}, {{ subscriber.idea_sentence }},
 //   {{ subscriber.idea_build_grade }}, {{ subscriber.idea_compete_grade }}.
 
-import { readSignup, subscribe, WAITLIST_TAG } from './_kit.js';
+import { readSignup, subscribe, WAITLIST_TAG, IDEA_SHARED_TAG } from './_kit.js';
+import { recordLead, shortIdea } from './_leads.js';
 import { loadReport, saveReport } from './_idea.js';
 
 export const IDEA_TAG = process.env.KIT_IDEA_TAG || 'App Idea Audit';
@@ -33,10 +34,19 @@ export default async function handler(req, res) {
       fields: {
         'Idea report URL': url,
         'Idea sentence': report.analysis.idea_sentence,
+        'App idea': report.analysis.idea_sentence,
         'Idea build grade': report.analysis.build?.grade,
         'Idea compete grade': report.analysis.compete?.grade,
       },
-      tags: [IDEA_TAG, WAITLIST_TAG],
+      tags: [IDEA_TAG, IDEA_SHARED_TAG, WAITLIST_TAG],
+    });
+    await recordLead(s.address, {
+      first_name: s.firstName, source: 'idea audit',
+      idea: {
+        sentence: report.analysis.idea_sentence,
+        typed: shortIdea(report.input?.idea || [report.input?.problem, report.input?.solution].filter(Boolean).join(' '), 600),
+        build: report.analysis.build?.grade, compete: report.analysis.compete?.grade, report_url: url,
+      },
     });
 
     if (!report.unlocked) {

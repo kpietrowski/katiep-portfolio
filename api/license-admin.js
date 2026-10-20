@@ -5,6 +5,7 @@
 // GET  ?flagged=1          → licences with something worth a look
 // GET  ?stats=1            → totals, and how many course files are published
 // GET  ?paths=1            → every published course file path
+// GET  ?leads=1            → everyone from the waitlist and free tools, with their app ideas
 // POST { action: 'create', email, name }             → a free key (comp a student)
 // POST { action: 'revoke' | 'restore', key, reason }
 // POST { action: 'clear_devices' | 'unflag', key }
@@ -16,6 +17,7 @@ import { kv } from './_idea.js';
 import { getLicence, saveLicence, keysForEmail, createLicence, setStatus, normKey, studentView } from './_license.js';
 import { subscribe } from './_kit.js';
 import { STUDENT_TAG } from './stripe-webhook.js';
+import { listLeads } from './_leads.js';
 
 const PATH = /^app30-[a-z0-9-]+\/[A-Za-z0-9._\/-]{1,160}$/;
 
@@ -50,6 +52,7 @@ export default async function handler(req, res) {
           course_files: await kv.scard('course:paths'),
         });
       }
+      if (req.query?.leads) return res.status(200).json({ leads: await listLeads(1000) });
       if (req.query?.paths) return res.status(200).json({ paths: (await kv.smembers('course:paths')).sort(), published: await kv.get('course:published') });
       if (req.query?.flagged) {
         const keys = await kv.smembers('lic-flagged');

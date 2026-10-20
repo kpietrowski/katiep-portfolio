@@ -47,7 +47,7 @@
       <h1 class="display hero-title">Make your first <span class="nowrap">money-making</span> app with Claude Code in <em>30 days.</em></h1>
       <p class="lede">No coding experience needed. 15+ Claude skills hold your hand through every step, from your idea to the App Store to your first paying users. It's how I built Tide, which made $25K in its first 45 days.</p>
 
-      <form class="waitlist card-form" id="join" novalidate>
+      <form class="waitlist card-form" id="join" novalidate data-remember="waitlist">
         <div class="row">
           <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
           <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
@@ -415,7 +415,7 @@
   <div class="wrap narrow center">
     <h2 class="display">Your idea has waited <em>long enough.</em></h2>
     <p class="body">Join the waitlist and you'll be the first to know when doors open.</p>
-    <form class="waitlist card-form" novalidate>
+    <form class="waitlist card-form" novalidate data-remember="waitlist">
       <div class="row">
         <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
         <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
@@ -463,6 +463,7 @@
   tick(); setInterval(tick, 1000);
 })();
 </script>
+<script src="/app/remember.js"></script>
 <script src="/app/app.js"></script>
 </body>
 </html>
