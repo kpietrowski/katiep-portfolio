@@ -38,6 +38,8 @@ p { margin: 0; }
 }
 .display em { font-style: italic; }
 h1.display { font-size: clamp(44px, 6.4vw, 82px); }
+.nowrap { white-space: nowrap; }
+h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wrap: balance; }
 .kicker { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral-deep); margin-bottom: 18px; }
 .kicker.light { color: var(--peach); }
 .lede { font-size: 20px; color: var(--ink-light); margin: 22px 0 28px; max-width: 32em; }
