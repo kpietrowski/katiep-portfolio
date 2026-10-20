@@ -38,7 +38,7 @@ export default async function handler(req, res) {
 
     const audio = await readBody(req);
     if (audio.length > MAX_BYTES) return res.status(413).json({ error: 'That recording is too long. Try a shorter one, about 2 minutes.' });
-    if (audio.length < 1000) return res.status(400).json({ error: "I didn't catch anything. Tap the microphone and try again." });
+    if (audio.length < 1000) return res.status(400).json({ error: "Nothing came through. Tap the microphone and try again." });
 
     const form = new FormData();
     form.append('file', new Blob([audio], { type }), `idea.${ext}`);
@@ -55,7 +55,7 @@ export default async function handler(req, res) {
     if (!r.ok) throw new Error(`whisper ${r.status}: ${j.error?.message || ''}`);
 
     const text = String(j.text || '').trim();
-    if (!text) return res.status(200).json({ text: '', error: "I didn't catch anything. Tap the microphone and try again." });
+    if (!text) return res.status(200).json({ text: '', error: "Nothing came through. Tap the microphone and try again." });
     return res.status(200).json({ text });
   } catch (err) {
     if (err.code === 413) return res.status(413).json({ error: 'That recording is too long. Try a shorter one, about 2 minutes.' });
