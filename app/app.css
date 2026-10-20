@@ -1,5 +1,5 @@
 /* App in 30 Days waitlist (/app, /app/thanks).
-   Brand: the katiep.me homepage palette and type (Fraunces + DM Sans,
+   Brand: the katiep.me homepage palette and type (Hedvig Letters Serif + DM Sans,
    coral on cream). Layout: a long-form launch page, one call to action
    repeated after every section. */
 
@@ -13,7 +13,7 @@
   --ink: #1A1A1A;
   --ink-light: #4A4A4A;
   --ink-muted: #7A7A7A;
-  --serif: 'Fraunces', Georgia, serif;
+  --serif: 'Hedvig Letters Serif', Georgia, serif;
   --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -36,7 +36,9 @@ p { margin: 0; }
   font-size: clamp(36px, 5.2vw, 64px); line-height: 1.04; letter-spacing: -0.02em;
   font-variation-settings: 'opsz' 144;
 }
-.display em { font-style: italic; }
+.display em, h1 em, h2 em, h3 em { font-style: normal; color: var(--coral-deep); }
+/* Hedvig has one weight and no italic: never fake them */
+:where(h1, h2, h3, .display) { font-synthesis: none; }
 h1.display { font-size: clamp(44px, 6.4vw, 82px); }
 .nowrap { white-space: nowrap; }
 h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wrap: balance; }
@@ -100,7 +102,7 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
 .p1 { left: 2%; top: 70px; transform: rotate(-9deg); }
 .p2 { left: 50%; top: 10px; transform: translateX(-50%); z-index: 2; }
 .p3 { right: 2%; top: 80px; transform: rotate(9deg); }
-.fan-note { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--ink-muted); }
+.fan-note { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; font-family: var(--serif); font-size: 17px; color: var(--ink-muted); }
 
 /* Ticker */
 .ticker { background: var(--coral); color: #fff; overflow: hidden; padding: 18px 0; }
@@ -128,7 +130,7 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
 
 .weeks { list-style: none; padding: 0; margin: 0 0 48px; border-top: 1.5px solid var(--ink); }
 .weeks li { display: grid; grid-template-columns: 160px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1.5px solid var(--ink); }
-.wk { font-family: var(--serif); font-style: italic; font-size: 28px; color: var(--coral-deep); line-height: 1.1; }
+.wk { font-family: var(--serif); font-size: 28px; color: var(--coral-deep); line-height: 1.1; }
 .weeks h3 { font-family: var(--serif); font-weight: 500; font-size: 26px; line-height: 1.2; margin: 0 0 6px; }
 .weeks p { color: var(--ink-light); max-width: 40em; }
 
@@ -139,7 +141,7 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
 
 .qa { padding: 26px 0; border-bottom: 1.5px solid rgba(26,26,26,.15); }
 .qa:last-child { border-bottom: 0; }
-.qa h3 { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 26px; margin: 0 0 8px; }
+.qa h3 { font-family: var(--serif); font-weight: 400; font-size: 26px; margin: 0 0 8px; }
 .qa p { color: var(--ink-light); font-size: 18px; }
 
 .foot { padding: 32px 0 40px; font-size: 14px; color: var(--ink-muted); text-align: center; }
@@ -161,7 +163,7 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
 .stat-badge span { display: block; font-size: 13px; font-weight: 600; margin-top: 4px; }
 .rating-badge { position: absolute; z-index: 3; right: 0; bottom: 70px; background: #fff; color: var(--ink); border-radius: 999px; padding: 9px 14px; font-size: 14px; font-weight: 700; box-shadow: 0 12px 26px -14px rgba(26,26,26,.45); }
 .rating-badge span { color: #E8A23B; }
-.tide-stage figcaption { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--ink-muted); }
+.tide-stage figcaption { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; font-family: var(--serif); font-size: 17px; color: var(--ink-muted); }
 
 /* Proof band */
 .proof { background: #fff; border-bottom: 1px solid var(--cream-dark); }
@@ -216,7 +218,7 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
 .inside-card b { font-family: var(--serif); font-weight: 500; font-size: 40px; line-height: 1; color: var(--coral-deep); font-variant-numeric: lining-nums; }
 .inside-card h3 { font-family: var(--serif); font-weight: 500; font-size: 24px; line-height: 1.2; margin: 6px 0 0; }
 .inside-card p { color: var(--ink-light); margin: 0; }
-.anchor { margin: -10px 0 22px; font-family: var(--serif); font-style: italic; font-size: 18px; color: rgba(253,248,243,.8); }
+.anchor { margin: -10px 0 22px; font-family: var(--serif); font-size: 18px; color: rgba(253,248,243,.8); }
 
 
 /* Doors banner */
@@ -229,7 +231,7 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
 .needs li { display: grid; grid-template-columns: 220px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1.5px solid rgba(26,26,26,.15); }
 .needs b { font-weight: 700; }
 .needs span { color: var(--ink-light); }
-.fine-left { font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--ink); margin: 0; }
+.fine-left { font-family: var(--serif); font-size: 19px; color: var(--ink); margin: 0; }
 .soon { background: #fff; border-radius: 24px; padding: 30px; box-shadow: 0 14px 34px -24px rgba(26,26,26,.35); }
 .soon h3 { font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.2; margin: 0 0 8px; }
 .soon p { color: var(--ink-light); margin: 0 0 20px; }

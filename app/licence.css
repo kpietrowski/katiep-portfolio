@@ -5,7 +5,7 @@
 .lic-main { padding: 56px 0 88px; }
 .lic-narrow { max-width: 620px; }
 .lic-title { font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 4.4vw, 46px); line-height: 1.12; margin: 8px 0 18px; }
-.lic-title em { font-style: italic; }
+.lic-title em { font-style: normal; color: var(--coral-deep); }
 .lic-lede { color: var(--ink-light); font-size: 17px; margin: 0 0 24px; }
 .lic-h2 { font-family: var(--serif); font-weight: 400; font-size: 28px; margin: 48px 0 14px; scroll-margin-top: 90px; }
 .lic-card { margin-bottom: 14px; }
