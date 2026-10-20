@@ -64,7 +64,7 @@ export default async function handler(req, res) {
     if (c > MANY_CLOUD) await flag(lic, `more than ${MANY_CLOUD} cloud fetches in a day`);
   }
 
-  if (req.query?.check) { await logUse('check'); return res.status(200).json({ ok: true, ...studentView(lic), name: lic.name }); }
+  if (req.query?.check) { await logUse('check'); const { key, ...view } = studentView(lic); return res.status(200).json({ ok: true, ...view, name: lic.name }); }
 
   if (req.query?.list) {
     const skill = String(req.query.list);

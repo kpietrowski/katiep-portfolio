@@ -24,7 +24,7 @@
   <div class="wrap lic-narrow">
     <p class="kicker">App in 30 Days</p>
     <h1 class="lic-title">Your course key <em>and computers.</em></h1>
-    <p class="lic-lede">Your key works on up to 3 computers. Got a new one? Clear your list here (once a month) and Claude will add the new computer next time you start a day.</p>
+    <p class="lic-lede">Download your course folder again, or manage your computers. Your course works on up to 3 computers. Got a new one? Clear your list here (once a month) and Claude will add the new computer next time you start a day.</p>
 
     <form class="card-form lic-card" id="dev-form" novalidate>
       <label class="field">Course key<input name="key" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="APP30-XXXX-XXXX-XXXX"></label>
@@ -39,6 +39,7 @@
       <p class="lic-note" id="dev-note"></p>
       <p class="form-error" role="alert" hidden></p>
       <button type="button" class="pill-btn" id="reset">Clear all my computers</button>
+      <a class="text-link" id="dl-again" href="#">Download your course folder again</a>
     </div>
 
     <h2 class="lic-h2" id="lost">Lost your key?</h2>
@@ -82,6 +83,7 @@
     btn.disabled = !!v.next_reset || !v.devices.length;
     document.getElementById('dev-note').textContent = v.status !== 'active' ? 'This key is switched off. Email katie@katiepietrowski.com if that seems wrong.'
       : v.next_reset ? 'You can clear your computers again on ' + day(v.next_reset) + '.' : 'You can clear your list once every 30 days.';
+    document.getElementById('dl-again').href = '/api/course-download?key=' + encodeURIComponent(creds.key) + '&email=' + encodeURIComponent(creds.email);
     list.hidden = false;
   }
 

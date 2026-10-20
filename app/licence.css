@@ -29,6 +29,9 @@
 .lic-offer-row span { font-family: var(--serif); font-size: 22px; }
 .lic-calls .pill-btn { width: 100%; text-align: center; text-decoration: none; }
 
+.lic-download .pill-btn { width: 100%; text-align: center; text-decoration: none; }
+.lic-card .text-link { display: block; margin-top: 14px; font-weight: 700; color: var(--coral-deep); text-align: center; }
+
 /* Admin */
 .adm { max-width: 980px; }
 .adm-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }

@@ -48,13 +48,20 @@
       <a class="pill-btn" id="buy-calls" href="#">Add the calls</a>
     </div>
 
+    <div class="card-form lic-card lic-download" id="dl-card" hidden>
+      <span class="lic-label">Your course</span>
+      <h2 class="lic-offer-title">Download your course folder</h2>
+      <a class="pill-btn" id="dl" href="#">Download App in 30 Days</a>
+      <p class="lic-note">Your key is already inside, so there's nothing to copy or paste.</p>
+    </div>
+
     <ol class="lic-steps">
-      <li><strong>Save your key.</strong> It's also in your welcome email, so you can always find it there.</li>
-      <li><strong>Watch your inbox</strong> for the setup guide. It walks you through installing everything you need.</li>
-      <li><strong>On Day 0, Claude will ask for your key.</strong> Paste it in once and you're set. It works on up to 3 of your computers, for life.</li>
+      <li><strong>Unzip the folder</strong> and put it somewhere easy, like Documents.</li>
+      <li><strong>Open the Claude desktop app</strong>, click <strong>Code</strong>, and choose the <strong>App in 30 Days</strong> folder.</li>
+      <li><strong>Type "set me up".</strong> Claude takes it from there, one step at a time. Your course works on up to 3 of your computers, for life.</li>
     </ol>
 
-    <p class="lic-fine">Lost your key later? Get it again at <a href="/app/devices#lost">katiep.me/app/devices</a>.</p>
+    <p class="lic-fine">Lost the folder or your key later? Get them again at <a href="/app/devices">katiep.me/app/devices</a>.</p>
   </div>
 </main>
 
@@ -74,6 +81,8 @@
           keyEl.textContent = res.j.key;
           note.textContent = 'We also emailed it to ' + res.j.email + '.';
           copy.hidden = false;
+          document.getElementById('dl-card').hidden = false;
+          document.getElementById('dl').href = '/api/course-download?session_id=' + encodeURIComponent(sid);
           if (res.j.first_name) document.getElementById('hello').firstChild.textContent = "You're in, " + res.j.first_name + '. ';
           if (res.j.calls) {
             var have = document.getElementById('calls-have'); have.hidden = false;
