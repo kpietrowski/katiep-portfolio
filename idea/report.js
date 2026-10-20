@@ -1,4 +1,4 @@
-// Renders an App Idea Audit from /api/idea-report?id=…
+// Renders an App Idea Engine from /api/idea-report?id=…
 // Everything from the report is inserted as text (never as HTML).
 (function () {
   var root = document.getElementById('report');
@@ -45,12 +45,12 @@
 
   function render(rep) {
     var a = rep.analysis;
-    document.title = 'App Idea Audit: ' + a.idea_sentence;
+    document.title = 'App Idea Engine: ' + a.idea_sentence;
     root.innerHTML = '';
 
     // Header + grades
     root.appendChild(el('section', { class: 'r-hero' }, [el('div', { class: 'wrap narrow' }, [
-      el('p', { class: 'kicker', text: 'App Idea Audit' + (rep.first_name ? ' for ' + rep.first_name : '') }),
+      el('p', { class: 'kicker', text: 'App Idea Engine' + (rep.first_name ? ' for ' + rep.first_name : '') }),
       el('h1', { class: 'display r-title', text: a.idea_sentence }),
       el('div', { class: 'grades' }, [grade('Build', a.build), grade('Compete', a.compete)]),
       el('p', { class: 'body verdict', text: a.verdict })
@@ -132,7 +132,7 @@
       ])
     ]));
 
-    // Next freebie: the App Design System, with this idea brought in
+    // Next freebie: the App Design Engine, with this idea brought in
     root.appendChild(section('r-tint', [
       el('div', { class: 'center' }, [
         el('p', { class: 'kicker', text: 'Free next step' }),

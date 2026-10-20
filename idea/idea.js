@@ -1,4 +1,4 @@
-// App Idea Audit (/idea): idea → analysis (in the background) → email → report.
+// App Idea Engine (/idea): idea → analysis (in the background) → email → report.
 (function () {
   var ideaForm = document.getElementById('step-idea');
   var stepEmail = document.getElementById('step-email');

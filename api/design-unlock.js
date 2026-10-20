@@ -3,7 +3,7 @@
 // Kit" and the waitlist; the kit link as a custom field so a Kit automation can
 // email it), unlocks the kit and returns its URL.
 //
-// Kit automation: trigger "tag added: App Design System" → email with
+// Kit automation: trigger "tag added: App Design Engine" → email with
 // {{ subscriber.design_kit_url }}.
 
 import { readSignup, subscribe, WAITLIST_TAG, IDEA_SHARED_TAG } from './_kit.js';
@@ -11,7 +11,7 @@ import { recordLead, shortIdea } from './_leads.js';
 import { kv } from './_idea.js';
 import { loadDoc, saveDoc } from './_idea.js';
 
-export const DESIGN_TAG = process.env.KIT_DESIGN_TAG || 'App Design System';
+export const DESIGN_TAG = process.env.KIT_DESIGN_TAG || 'App Design Engine';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     if (!kit) return res.status(404).json({ error: "That design system couldn't be found. Please make it again." });
 
     const url = `https://katiep.me/design/kit?id=${kit.id}`;
-    // Keep the tidier one-sentence idea if they already did the App Idea Audit.
+    // Keep the tidier one-sentence idea if they already did the App Idea Engine.
     const known = await kv.get(`lead:${s.address}`).catch(() => null);
     await subscribe({
       ...s,

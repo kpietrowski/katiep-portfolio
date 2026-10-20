@@ -72,7 +72,7 @@ export function toBrandMarkdown(kit) {
   const b = kit.brand;
   const row = (k, label) => `| ${label} | \`${b.palette.light[k]}\` | \`${b.palette.dark[k]}\` |`;
   return [
-    '# App Design System',
+    '# App Design Engine',
     '',
     `Made at katiep.me/design on ${kit.created.slice(0, 10)}. Kit link: https://katiep.me/design/kit?id=${kit.id}`,
     '',

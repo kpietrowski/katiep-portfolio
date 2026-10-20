@@ -1,4 +1,4 @@
-// Shared pieces of the App Idea Audit (katiep.me/idea).
+// Shared pieces of the App Idea Engine (katiep.me/idea).
 // Files in /api that start with "_" are not routes.
 //
 // Env: OPENAI_API_KEY, KV_REST_API_URL + KV_REST_API_TOKEN (Vercel KV / Upstash).
@@ -256,7 +256,7 @@ export async function getReviews(appId) {
 export function toMarkdown(rep) {
   const a = rep.analysis;
   const lines = [];
-  lines.push(`# App Idea Audit`, '');
+  lines.push(`# App Idea Engine`, '');
   lines.push(`Made at katiep.me/idea on ${rep.created.slice(0, 10)}. Report link: https://katiep.me/idea/report?id=${rep.id}`, '');
   lines.push(`## The idea, as entered`, '', ...(rep.input.idea ? [rep.input.idea] : [`**Problem:** ${rep.input.problem}`, '', `**How the app solves it:** ${rep.input.solution}`]), '');
   lines.push(`## One sentence`, '', a.idea_sentence, '');

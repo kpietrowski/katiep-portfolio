@@ -1,11 +1,11 @@
 // POST /api/idea-unlock  { id, first_name?, email, phone?, sms_consent?, referrer?, company? }
-// Step 2 of the App Idea Audit. Adds the visitor to Kit (tags "App Idea
+// Step 2 of the App Idea Engine. Adds the visitor to Kit (tags "App Idea
 // Audit" and the waitlist; saves the report link, the one-sentence idea
 // and both grades as custom fields so the Kit email can include them), unlocks
 // the report and returns it.
 //
 // The report email itself is sent by a Kit automation:
-//   trigger "tag added: App Idea Audit" → email using
+//   trigger "tag added: App Idea Engine" → email using
 //   {{ subscriber.idea_report_url }}, {{ subscriber.idea_sentence }},
 //   {{ subscriber.idea_build_grade }}, {{ subscriber.idea_compete_grade }}.
 
@@ -13,7 +13,7 @@ import { readSignup, subscribe, WAITLIST_TAG, IDEA_SHARED_TAG } from './_kit.js'
 import { recordLead, shortIdea } from './_leads.js';
 import { loadReport, saveReport } from './_idea.js';
 
-export const IDEA_TAG = process.env.KIT_IDEA_TAG || 'App Idea Audit';
+export const IDEA_TAG = process.env.KIT_IDEA_TAG || 'App Idea Engine';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });

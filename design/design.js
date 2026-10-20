@@ -1,4 +1,4 @@
-// App Design System (/design): idea → kit (in the background) → email → kit page.
+// App Design Engine (/design): idea → kit (in the background) → email → kit page.
 (function () {
   var ideaForm = document.getElementById('step-idea');
   var stepEmail = document.getElementById('step-email');
@@ -19,7 +19,7 @@
     });
   }
 
-  // Coming from an App Idea Audit: bring the idea in.
+  // Coming from an App Idea Engine: bring the idea in.
   if (ideaId && /^[A-Za-z0-9_-]{6,40}$/.test(ideaId)) {
     fetch('/api/idea-report?id=' + encodeURIComponent(ideaId))
       .then(function (r) { if (!r.ok) throw 0; return r.json(); })

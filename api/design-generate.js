@@ -1,18 +1,18 @@
 // POST /api/design-generate  { app, idea?, company? }
-// Step 1 of the App Design System. `app` is one free-text answer (typed or
+// Step 1 of the App Design Engine. `app` is one free-text answer (typed or
 // spoken): what the app is and who it's for. No style picker: the AI chooses
 // the look from the topic and from studying the top competitors' icons and
 // screenshots on the App Store (inspiration, never copying).
 // Builds names, palette, fonts, icon and screen copy, checks names against the
 // App Store and colours for readability, stores the kit (locked) and returns
-// { id, teaser }. `idea` is an optional App Idea Audit id.
+// { id, teaser }. `idea` is an optional App Idea Engine id.
 
 import { newId, saveDoc, overLimit, askJSON, kvEnv, loadReport, findCompetitors, SEARCH_SYSTEM } from './_idea.js';
 import { FONTS, ICONS, fixPalette, nameClash } from './_design.js';
 
 const HEX = /^#[0-9A-Fa-f]{6}$/;
 
-const SYSTEM = `You are Katie Pietrowski's App Design System. Katie teaches non-technical people to build a simple, paid iPhone app in 30 days. You create a starter brand kit for the visitor's app: a visual style, names, colours, fonts, an icon and the words on three key screens. Make it feel specific to THIS app and THIS person, never generic.
+const SYSTEM = `You are Katie Pietrowski's App Design Engine. Katie teaches non-technical people to build a simple, paid iPhone app in 30 days. You create a starter brand kit for the visitor's app: a visual style, names, colours, fonts, an icon and the words on three key screens. Make it feel specific to THIS app and THIS person, never generic.
 
 How to choose the look:
 - Start from the topic and the person using the app: how should they feel when they open it (calm, energised, safe, delighted, focused)?
@@ -89,7 +89,7 @@ export default async function handler(req, res) {
       return res.status(429).json({ error: "You've made a lot of kits this hour. Please try again a little later." });
     }
 
-    // Optional: their App Idea Audit (its findings and search terms).
+    // Optional: their App Idea Engine (its findings and search terms).
     let ideaContext = '';
     let terms = null;
     if (req.body?.idea) {
