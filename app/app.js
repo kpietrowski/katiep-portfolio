@@ -17,8 +17,8 @@
       e.preventDefault();
       err.hidden = true;
       var email = form.email.value.trim();
-      var phone = form.phone.value.trim();
-      var consent = form.sms_consent.checked;
+      var phone = form.phone ? form.phone.value.trim() : '';
+      var consent = !!(form.sms_consent && form.sms_consent.checked);
 
       if (!email || email.indexOf('@') < 1) return fail('Please enter your email so I can let you know when doors open.', form.email);
       if (phone && phone.replace(/\D/g, '').length < 10) return fail('Please check your mobile number, or leave it blank.', form.phone);
