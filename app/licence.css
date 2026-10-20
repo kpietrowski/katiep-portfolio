@@ -1,11 +1,11 @@
 /* App in 30 Days licence pages (/app/welcome, /app/devices, /app/admin). Builds on /app/app.css. */
 [hidden] { display: none !important; }
 .top-link { font-size: 14px; font-weight: 600; text-decoration: none; color: var(--ink-light); }
-.top-link:hover { color: var(--coral-deep); }
+.top-link:hover { color: var(--blue-deep); }
 .lic-main { padding: 56px 0 88px; }
 .lic-narrow { max-width: 620px; }
 .lic-title { font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 4.4vw, 46px); line-height: 1.12; margin: 8px 0 18px; }
-.lic-title em { font-style: normal; color: var(--coral-deep); }
+.lic-title em { font-style: normal; color: var(--blue-deep); }
 .lic-lede { color: var(--ink-light); font-size: 17px; margin: 0 0 24px; }
 .lic-h2 { font-family: var(--serif); font-weight: 400; font-size: 28px; margin: 48px 0 14px; scroll-margin-top: 90px; }
 .lic-card { margin-bottom: 14px; }
@@ -17,7 +17,7 @@
 .lic-steps strong { color: var(--ink); }
 .lic-fine { margin-top: 28px; font-size: 14px; color: var(--ink-muted); }
 .lic-devices { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.lic-devices li { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 14px; background: var(--cream); }
+.lic-devices li { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 14px; background: var(--bg); }
 .lic-devices li span { font-size: 14px; color: var(--ink-muted); }
 .lic-devices li.empty { color: var(--ink-muted); }
 .lic-key-input { font-family: ui-monospace, Menlo, monospace; }
@@ -25,12 +25,12 @@
 /* Call pack */
 .lic-calls { gap: 10px; }
 .lic-offer-title { font-family: var(--serif); font-weight: 400; font-size: 24px; line-height: 1.2; margin: 0; }
-.lic-offer-row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 14px; border-radius: 14px; background: var(--cream); }
+.lic-offer-row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 14px; border-radius: 14px; background: var(--bg); }
 .lic-offer-row span { font-family: var(--serif); font-size: 22px; }
 .lic-calls .pill-btn { width: 100%; text-align: center; text-decoration: none; }
 
 .lic-download .pill-btn { width: 100%; text-align: center; text-decoration: none; }
-.lic-card .text-link { display: block; margin-top: 14px; font-weight: 700; color: var(--coral-deep); text-align: center; }
+.lic-card .text-link { display: block; margin-top: 14px; font-weight: 700; color: var(--blue-deep); text-align: center; }
 
 /* Admin */
 .adm { max-width: 980px; }
@@ -48,5 +48,5 @@
 .adm-off { color: #B42318; font-weight: 700; }
 .adm-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .adm-actions button { border: 1.5px solid var(--ink); background: none; border-radius: 999px; padding: 7px 14px; font: 600 13px var(--sans); cursor: pointer; }
-.adm-actions button:hover { background: var(--cream-dark); }
-.adm-log { font: 12px/1.5 ui-monospace, Menlo, monospace; color: var(--ink-muted); max-height: 160px; overflow: auto; background: var(--cream); border-radius: 10px; padding: 8px 10px; }
+.adm-actions button:hover { background: var(--bg-2); }
+.adm-log { font: 12px/1.5 ui-monospace, Menlo, monospace; color: var(--ink-muted); max-height: 160px; overflow: auto; background: var(--bg); border-radius: 10px; padding: 8px 10px; }
