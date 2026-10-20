@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FDF8F3">
 <title>App in 30 Days: Make Your First Money-Making App with Claude Code | Katie P.</title>
-<meta name="description" content="Have an app idea? Build it in November, with no coding experience. Katie has built 10+ iPhone apps with AI; her latest, Tide, made $25K in its first 45 days. Doors open October 29. $97.">
+<meta name="description" content="Have an app idea? Build it in November, with no coding experience. Katie has built 10+ iPhone apps with AI; her latest, Tide, made $25K in its first 45 days. Doors open next week. $97.">
 <meta property="og:title" content="Make your first money-making app with Claude Code in 30 days">
 <meta property="og:description" content="You bring the idea. Claude writes the code. I'll walk you through every step until it's live on the App Store.">
 <meta property="og:url" content="https://katiep.me/app">
@@ -24,7 +24,7 @@
 </head>
 <body>
 
-<div class="doorbar" id="doorbar" role="status"><span id="doortext">Doors open Thursday, October 29</span></div>
+<div class="doorbar" id="doorbar" role="status"><span id="doortext">Doors open next week. Join the waitlist to know as soon as they open.</span></div>
 
 <header class="top">
   <div class="wrap top-inner">
@@ -39,7 +39,7 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="kicker">The App in 30 Days challenge &middot; doors open Oct 29</p>
+      <p class="kicker">The App in 30 Days challenge &middot; doors open <span class="door-when">next week</span></p>
       <h1 class="display hero-title">Make your first <span class="nowrap">money-making</span> app with Claude Code in <em>30 days.</em></h1>
       <p class="lede">No coding experience needed. 15+ Claude skills hold your hand through every step, from your idea to the App Store to your first paying users. It's how I built Tide, which made $25K in its first 45 days.</p>
 
@@ -68,9 +68,9 @@
 <!-- TICKER -->
 <div class="ticker" aria-hidden="true">
   <div class="track">
-    <span>15+ Claude skills</span><span>Your idea, live on the App Store</span><span>Doors open October 29</span>
-    <span>15+ Claude skills</span><span>Your idea, live on the App Store</span><span>Doors open October 29</span>
-    <span>15+ Claude skills</span><span>Your idea, live on the App Store</span><span>Doors open October 29</span>
+    <span>15+ Claude skills</span><span>Your idea, live on the App Store</span><span>Doors open <span class="door-when">next week</span></span>
+    <span>15+ Claude skills</span><span>Your idea, live on the App Store</span><span>Doors open <span class="door-when">next week</span></span>
+    <span>15+ Claude skills</span><span>Your idea, live on the App Store</span><span>Doors open <span class="door-when">next week</span></span>
   </div>
 </div>
 
@@ -201,13 +201,13 @@
   <div class="wrap split">
     <div>
       <p class="kicker">The details</p>
-      <h2 class="display">Doors open <em>October 29.</em></h2>
-      <p class="body">We build together through November, one day at a time. Doors are only open for four days, so everyone starts on the same day.</p>
+      <h2 class="display">Doors open <em><span class="door-when">next week</span>.</em></h2>
+      <p class="body">Join the waitlist to know as soon as they open. Doors are only open for four days, so everyone starts on the same day, and we build together through November, one day at a time.</p>
       <ul class="dates">
-        <li><b>Thu, Oct 29</b><span>Doors open</span></li>
-        <li><b>Sun, Nov 1</b><span>Doors close at midnight ET</span></li>
-        <li><b>Mon, Nov 2</b><span>Day 0: we start together</span></li>
-        <li><b>Mon, Nov 30</b><span>The goal: your app on the App Store</span></li>
+        <li><b>Doors open</b><span>The waitlist hears first</span></li>
+        <li><b>4 days later</b><span>Doors close</span></li>
+        <li><b>The Monday after</b><span>Day 0: we start together</span></li>
+        <li><b>30 days</b><span>The goal: your app on the App Store</span></li>
       </ul>
     </div>
     <div class="price-card">
@@ -313,7 +313,7 @@
     </div>
     <div class="qa">
       <h3>"When does it start, and what does it cost?"</h3>
-      <p>Doors open Thursday, October 29 and close Sunday, November 1 at midnight ET. We all start on Monday, November 2. It's $97, one payment.</p>
+      <p>Doors open <span class="door-when">next week</span> and stay open for just four days. We all start together the Monday after and build through November. It's $97, one payment. Join the waitlist to know as soon as they open.</p>
     </div>
     <div class="qa">
       <h3>"What if I get stuck?"</h3>
@@ -352,7 +352,9 @@
 </footer>
 
 <script>
-// Doors banner: counts down to Oct 29, then to close (Nov 1, 11:59 pm ET), then says closed.
+// Doors banner and every "next week" on the page: "next week" until Mon Oct 26,
+// then "this week", then "tomorrow"; once open, counts down to close (Nov 1,
+// 11:59 pm ET); then says closed.
 (function () {
   var open = Date.UTC(2026, 9, 29, 4, 0, 0);    // Thu Oct 29, 12:00 am ET
   var close = Date.UTC(2026, 10, 2, 4, 59, 0);  // Sun Nov 1, 11:59 pm ET (EST)
@@ -362,8 +364,9 @@
   function tick() {
     var now = Date.now();
     if (now < open) {
-      var days = Math.ceil((open - now) / 864e5);
-      txt.textContent = days > 1 ? 'Doors open Thursday, October 29 \u00b7 ' + days + ' days to go' : 'Doors open tomorrow, Thursday, October 29';
+      var when = now < open - 3 * 864e5 ? 'next week' : now < open - 864e5 ? 'this week' : 'tomorrow';
+      document.querySelectorAll('.door-when').forEach(function (el) { el.textContent = when; });
+      txt.textContent = 'Doors open ' + when + '. Join the waitlist to know as soon as they open.';
     } else if (now < close) {
       var s = Math.floor((close - now) / 1000), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
       txt.textContent = 'Doors are open \u00b7 closing in ' + (d ? d + 'd ' : '') + pad(h) + 'h ' + pad(m) + 'm' + (d ? '' : ' ' + pad(s % 60) + 's');
