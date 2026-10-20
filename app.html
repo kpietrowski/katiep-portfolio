@@ -24,6 +24,8 @@
 </head>
 <body>
 
+<div class="doorbar" id="doorbar" role="status"><span id="doortext">Doors open Thursday, October 29</span></div>
+
 <header class="top">
   <div class="wrap top-inner">
     <a class="wordmark" href="/">katie p.</a>
@@ -203,6 +205,34 @@
   </div>
 </section>
 
+<!-- BEFORE YOU JOIN -->
+<section class="block before">
+  <div class="wrap split">
+    <div>
+      <p class="kicker">Before you join</p>
+      <h2 class="display">What you'll <em>need.</em></h2>
+      <ul class="needs">
+        <li><b>A Mac</b><span>One that can run Apple's current version of Xcode. iPhone apps are built on a Mac.</span></li>
+        <li><b>A paid Claude plan</b><span>Pro is about $20 a month, paid to Anthropic. It's what runs Claude Code.</span></li>
+        <li><b>An Apple Developer account</b><span>$99 a year, paid to Apple, when you're ready to publish. Day 0 walks you through it.</span></li>
+        <li><b>An iPhone</b><span>To test your app for real before it goes live.</span></li>
+      </ul>
+      <p class="fine-left">No coding experience. No design skills. Just an idea you care about.</p>
+    </div>
+    <div class="soon">
+      <p class="kicker">Free updates</p>
+      <h3>Coming soon, free for you</h3>
+      <p>The course keeps growing, and every new skill lands in your course automatically.</p>
+      <ul class="checks">
+        <li>Your brand and app icon, made with Claude</li>
+        <li>App Store screenshots that sell</li>
+        <li>App Store keywords, so people can find you</li>
+        <li>A ping on your phone every time you make a sale</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section class="block blush">
   <div class="wrap split about">
@@ -307,6 +337,31 @@
     © 2026 Katie Pietrowski &middot; <a href="/privacy">Privacy policy</a> &middot; <a href="/terms">Terms</a></div>
 </footer>
 
+<script>
+// Doors banner: counts down to Oct 29, then to close (Nov 1, 11:59 pm ET), then says closed.
+(function () {
+  var open = Date.UTC(2026, 9, 29, 4, 0, 0);    // Thu Oct 29, 12:00 am ET
+  var close = Date.UTC(2026, 10, 2, 4, 59, 0);  // Sun Nov 1, 11:59 pm ET (EST)
+  var bar = document.getElementById('doorbar'), txt = document.getElementById('doortext');
+  if (!bar) return;
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tick() {
+    var now = Date.now();
+    if (now < open) {
+      var days = Math.ceil((open - now) / 864e5);
+      txt.textContent = days > 1 ? 'Doors open Thursday, October 29 \u00b7 ' + days + ' days to go' : 'Doors open tomorrow, Thursday, October 29';
+    } else if (now < close) {
+      var s = Math.floor((close - now) / 1000), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
+      txt.textContent = 'Doors are open \u00b7 closing in ' + (d ? d + 'd ' : '') + pad(h) + 'h ' + pad(m) + 'm' + (d ? '' : ' ' + pad(s % 60) + 's');
+      bar.className = 'doorbar open';
+    } else {
+      txt.textContent = 'Doors are closed. Join the waitlist to hear about the next round.';
+      bar.className = 'doorbar closed';
+    }
+  }
+  tick(); setInterval(tick, 1000);
+})();
+</script>
 <script src="/app/app.js"></script>
 </body>
 </html>

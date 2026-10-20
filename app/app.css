@@ -218,6 +218,23 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
 .inside-card p { color: var(--ink-light); margin: 0; }
 .anchor { margin: -10px 0 22px; font-family: var(--serif); font-style: italic; font-size: 18px; color: rgba(253,248,243,.8); }
 
+
+/* Doors banner */
+.doorbar { background: var(--ink); color: var(--cream); text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 10px max(16px, env(safe-area-inset-left, 0px)); font-variant-numeric: tabular-nums; }
+.doorbar.open { background: var(--coral-deep); }
+
+/* Before you join */
+.before .split { align-items: start; }
+.needs { list-style: none; margin: 24px 0 18px; padding: 0; border-top: 1.5px solid var(--ink); }
+.needs li { display: grid; grid-template-columns: 220px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1.5px solid rgba(26,26,26,.15); }
+.needs b { font-weight: 700; }
+.needs span { color: var(--ink-light); }
+.fine-left { font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--ink); margin: 0; }
+.soon { background: #fff; border-radius: 24px; padding: 30px; box-shadow: 0 14px 34px -24px rgba(26,26,26,.35); }
+.soon h3 { font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.2; margin: 0 0 8px; }
+.soon p { color: var(--ink-light); margin: 0 0 20px; }
+.soon .checks { font-size: 17px; margin: 0; }
+
 /* Phones */
 @media (max-width: 900px) {
   .hero { padding: 36px 0 56px; }
@@ -251,4 +268,7 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
   .dates li { grid-template-columns: 1fr; gap: 2px; }
   .text-link { width: 100%; text-align: center; }
   .inside-grid { grid-template-columns: 1fr; }
+  .needs li { grid-template-columns: 1fr; gap: 2px; }
+  .soon { padding: 22px; }
+  .doorbar { font-size: 11px; letter-spacing: .06em; }
 }
