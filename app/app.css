@@ -380,3 +380,20 @@ form.known-waitlist .known-as { font-size: 17px; color: var(--ink); padding: 6px
 .known-next { display: block; margin-top: 8px; font-size: 15px; color: var(--ink-light); }
 .thanks-h2 { font-size: clamp(30px, 4vw, 44px); margin-top: 64px; }
 .thanks .tool-grid { text-align: left; margin-top: 28px; }
+
+/* Founding price */
+.value-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; max-width: 1040px; margin: 0 auto; align-items: stretch; }
+.value-card { background: #fff; border-radius: 22px; padding: 28px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 14px 34px -24px rgba(11,26,69,.35); }
+.value-what { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-muted); }
+.value-card b { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 5vw, 60px); line-height: 1; color: var(--ink); font-synthesis: none; font-variant-numeric: lining-nums; }
+.value-card p { color: var(--ink-light); margin: 0; }
+.value-card.is-you { background: var(--ink); color: #fff; transform: translateY(-8px); box-shadow: 0 30px 60px -28px rgba(11,26,69,.6); }
+.value-card.is-you .value-what { color: var(--lime); }
+.value-card.is-you b { color: var(--lime); }
+.value-card.is-you p { color: rgba(255,255,255,.85); }
+.value-note { text-align: center; font-family: var(--serif); font-size: 21px; max-width: 34em; margin: 40px auto 0; color: var(--ink); text-wrap: balance; }
+.founding { display: inline-block; margin: 0 0 14px; background: var(--lime); color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; border-radius: 999px; padding: 6px 12px; }
+@media (max-width: 900px) {
+  .value-grid { grid-template-columns: 1fr; max-width: 520px; }
+  .value-card.is-you { transform: none; }
+}
