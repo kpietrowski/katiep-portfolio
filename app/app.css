@@ -174,7 +174,7 @@ h1.hero-title { font-size: clamp(38px, 4.9vw, 64px); line-height: 1.06; text-wra
 
 /* Tide spotlight */
 .tide-spot .split { align-items: center; }
-.tide-pair { display: flex; gap: 18px; justify-content: center; }
+.tide-pair { display: flex; gap: 18px; justify-content: center; align-items: flex-start; }
 .tide-pair img { width: min(46%, 240px); height: auto; filter: drop-shadow(0 24px 34px rgba(26,26,26,.18)); }
 .tide-pair img:last-child { margin-top: 48px; }
 .tide-rating { font-weight: 700; margin: 0 0 24px; }
