@@ -85,6 +85,9 @@ task, use the \`app30-next\` skill. Every \`app30-…\` skill in \`.claude/skill
 loads its real steps with \`${FETCH}\`: always run that command from this
 folder.
 
+When they want something to look different, or can't find the words for
+what's wrong, use the \`app30-point-at-it\` skill so they can tap the spot.
+
 Never show or repeat the course key in the chat, and never commit
 \`.app30/key\`.
 
@@ -149,11 +152,11 @@ export default async function handler(req, res) {
     add('CLAUDE.md', CLAUDE_TOP + template);
     add('START HERE.txt', START_HERE);
     add('.claude/settings.json', JSON.stringify({
-      permissions: { allow: ['Bash(bash .app30/fetch.sh *)', 'Bash(bash ./.app30/fetch.sh *)'] },
+      permissions: { allow: ['Bash(bash .app30/fetch.sh *)', 'Bash(bash ./.app30/fetch.sh *)', 'Bash(python3 .app30/tools/point-at-it/point-at-it.py *)'] },
     }, null, 2) + '\n');
     add('.app30/fetch.sh', await read('app30-day-zero/scripts/app30-fetch.sh'), true);
     add('.app30/key', lic.key + '\n');
-    add('.gitignore', '.app30/key\n.app30/cache/\n.DS_Store\n');
+    add('.gitignore', '.app30/key\n.app30/cache/\n.app30/feedback/\n.app30/tools/\n.DS_Store\n');
     add('docs/README.md', '# docs\n\nYour app\'s plans live here: the brief, pricing, onboarding, paywall and more. Claude writes and updates them as you go.\n');
 
     res.setHeader('Content-Type', 'application/zip');
