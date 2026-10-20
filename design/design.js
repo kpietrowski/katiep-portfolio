@@ -110,8 +110,8 @@
     e.preventDefault();
     hideError(unlock);
     var email = unlock.email.value.trim();
-    var phone = unlock.phone.value.trim();
-    var consent = unlock.sms_consent.checked;
+    var phone = unlock.phone ? unlock.phone.value.trim() : '';
+    var consent = !!(unlock.sms_consent && unlock.sms_consent.checked);
     if (!email || email.indexOf('@') < 1) return showError(unlock, 'Please enter your email so I can send your design system.', unlock.email);
     if (phone && phone.replace(/\D/g, '').length < 10) return showError(unlock, 'Please check your mobile number, or leave it blank.', unlock.phone);
     if (phone && !consent) return showError(unlock, 'Tick the box to get a text, or leave your number blank.', unlock.sms_consent);
