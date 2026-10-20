@@ -173,30 +173,110 @@
   </div>
 </section>
 
-<!-- POINT AT IT -->
-<section class="block point">
-  <div class="wrap split">
-    <div>
-      <p class="kicker">Point at it</p>
-      <h2 class="display">Can't describe it? Just <em>point at it.</em></h2>
-      <p class="body">You'll know something looks wrong long before you know what it's called. You don't need to. Tap the spot on your app's screen, write "make this bigger" or "wrong colour", and Claude fixes every note, then shows you the result.</p>
-      <ul class="checks">
-        <li>Tap the spot, write a few words</li>
-        <li>Claude fixes each note and tells you what it changed</li>
-        <li>Love another app's look? Drop in a screenshot for inspiration</li>
-      </ul>
+<!-- INSIDE THE CHALLENGE -->
+<section class="block inside-life">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="kicker">What it's like inside</p>
+      <h2 class="display">You're never <em>on your own.</em></h2>
     </div>
-    <figure class="point-demo" aria-label="Tide's Updates screen with three notes pinned on it">
-      <div class="point-phone">
-        <img src="/app/tide-updates.webp" alt="" width="560" height="1148" loading="lazy" decoding="async">
-        <span class="pp" style="left:50%;top:11.1%"><i>1</i></span>
-        <span class="pp" style="left:25%;top:16.8%"><i>2</i></span>
-        <span class="pp" style="left:88.6%;top:92.8%"><i>3</i></span>
-        <span class="pn pn1"><b>1</b>Make the title bigger</span>
-        <span class="pn pn2"><b>2</b>Too faint, hard to read</span>
-        <span class="pn pn3"><b>3</b>Make this coral</span>
+
+    <!-- 1. Claude guides you -->
+    <div class="life-row">
+      <div class="life-copy">
+        <p class="life-num">Every day</p>
+        <h3 class="life-title">Claude tells you exactly what to do next.</h3>
+        <p class="body">Open your app in Claude Code and type "what's next?" Claude knows where you left off, tells you in plain English what it's building, and stops to ask you to look before it moves on. No guessing, no tutorials to pause and rewind.</p>
       </div>
-    </figure>
+      <figure class="mock cc" aria-label="An example of Claude Code guiding a student through Day 6">
+        <div class="cc-bar"><i></i><i></i><i></i><span>sprout &middot; Claude Code</span></div>
+        <div class="cc-body">
+          <div class="cc-you">what's next?</div>
+          <div class="cc-claude">
+            <p><b>You're on Day 6: your main screen.</b> Yesterday we saved your first plant. Today we'll build the big "Water" button and the countdown to the next watering.</p>
+            <ul class="cc-tasks">
+              <li class="done">Read your app brief</li>
+              <li class="done">Added the watering schedule to your plant list</li>
+              <li class="working">Building the big "Water" button&hellip;</li>
+              <li>Run it on the pretend iPhone</li>
+            </ul>
+            <p class="cc-turn"><b>Your turn:</b> the Simulator is open. Tap <b>Water</b>. Does the countdown start over?</p>
+          </div>
+          <div class="cc-input"><span>Yes! It worked</span><b aria-hidden="true">&uarr;</b></div>
+        </div>
+      </figure>
+    </div>
+
+    <!-- 2. Point at it -->
+    <div class="life-row flip">
+      <div class="life-copy">
+        <p class="life-num">When it doesn't look right</p>
+        <h3 class="life-title">Point at what you want changed.</h3>
+        <p class="body">You'll know something looks off long before you know what it's called. So skip the words. A page opens with your app's screen: tap the spot, type "make this bigger" or "too faint", and Claude fixes every note and tells you what it changed.</p>
+      </div>
+      <figure class="point-demo" aria-label="An example: Tide's Updates screen with three notes pinned on it">
+        <div class="point-phone">
+          <img src="/app/tide-updates.webp" alt="" width="560" height="1148" loading="lazy" decoding="async">
+          <span class="pp" style="left:50%;top:11.1%"><i>1</i></span>
+          <span class="pp" style="left:25%;top:16.8%"><i>2</i></span>
+          <span class="pp" style="left:88.6%;top:92.8%"><i>3</i></span>
+          <span class="pn pn1"><b>1</b>Make the title bigger</span>
+          <span class="pn pn2"><b>2</b>Too faint, hard to read</span>
+          <span class="pn pn3"><b>3</b>Make this blue</span>
+        </div>
+      </figure>
+    </div>
+
+    <!-- 3. Slack -->
+    <div class="life-row">
+      <div class="life-copy">
+        <p class="life-num">When you're stuck</p>
+        <h3 class="life-title">Ask in Slack. Get an answer fast.</h3>
+        <p class="body">A private Slack with a channel for every week. Claude answers the quick questions in seconds, any time of day, using everything in the course. I'm in there too, for the questions that need a human.</p>
+      </div>
+      <figure class="mock sl" aria-label="An example of the App in 30 Days Slack">
+        <div class="sl-side">
+          <b>App in 30 Days</b>
+          <span># announcements</span>
+          <span># week-1-idea</span>
+          <span class="on"># week-2-build</span>
+          <span># week-3-paid</span>
+          <span># week-4-launch</span>
+          <span># wins</span>
+        </div>
+        <div class="sl-main">
+          <div class="sl-head"># week-2-build</div>
+          <div class="sl-msg"><span class="av a1">J</span><div><p class="sl-who">Jess <time>9:42 PM</time></p><p>Xcode says "No such module RevenueCat" and won't build. What did I break?</p></div></div>
+          <div class="sl-msg"><span class="av bot">C</span><div><p class="sl-who">Claude <em>APP</em> <time>9:42 PM</time></p><p>Nothing's broken. The package just didn't finish downloading. In Claude Code, say "RevenueCat won't build" and it will re-download it and build again.</p></div></div>
+          <div class="sl-msg"><span class="av a1">J</span><div><p class="sl-who">Jess <time>9:45 PM</time></p><p>That fixed it!</p></div></div>
+          <div class="sl-msg"><span class="av a2">M</span><div><p class="sl-who">Maria <time>10:03 AM</time></p><p>Is $4.99 a month too cheap for my meal planner?</p></div></div>
+          <div class="sl-msg"><img class="av" src="/app/katie.jpg" alt="" width="40" height="40" loading="lazy"><div><p class="sl-who">Katie <time>10:11 AM</time></p><p>Probably! Check what your top 3 competitors charge first (Day 2 walks you through it). Most meal planners are $7&ndash;10, so I'd start at $7.99 with a free trial.</p></div></div>
+        </div>
+      </figure>
+    </div>
+
+    <!-- 4. Video -->
+    <div class="life-row flip">
+      <div class="life-copy">
+        <p class="life-num">For the fiddly bits</p>
+        <h3 class="life-title">Watch me set up the tricky parts.</h3>
+        <p class="body">A few steps happen outside Claude Code, like App Store Connect and RevenueCat. For those, I recorded short videos of me doing it on my own screen, click by click, so you can follow along.</p>
+      </div>
+      <figure class="mock vid" aria-label="An example video lesson">
+        <div class="vid-frame">
+          <img src="/app/katie.jpg" alt="" width="800" height="835" loading="lazy" decoding="async" id="vid-img">
+          <span class="vid-play" aria-hidden="true"></span>
+          <span class="vid-tag">Day 15</span>
+        </div>
+        <div class="vid-bar">
+          <div><b>Setting up RevenueCat</b><span>Step by step, on my screen</span></div>
+          <span class="vid-time">8:42</span>
+        </div>
+        <div class="vid-track"><i></i></div>
+      </figure>
+    </div>
+
+    <p class="fine-center">Examples, to show what each part looks like.</p>
   </div>
 </section>
 
