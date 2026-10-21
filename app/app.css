@@ -397,3 +397,12 @@ form.known-waitlist .known-as { font-size: 17px; color: var(--ink); padding: 6px
   .value-grid { grid-template-columns: 1fr; max-width: 520px; }
   .value-card.is-you { transform: none; }
 }
+
+/* Legal pages */
+.legal { max-width: 720px; }
+.legal .display { font-size: clamp(36px, 5vw, 56px); margin-bottom: 8px; }
+.legal .body { margin: 18px 0 8px; }
+.legal h2 { font-family: var(--serif); font-weight: 400; font-size: 26px; margin: 36px 0 8px; font-synthesis: none; }
+.legal p { color: var(--ink-light); font-size: 18px; line-height: 1.6; margin: 0 0 12px; }
+.legal a { color: var(--blue); }
+.legal .updated { font-size: 14px; color: var(--ink-muted); margin-top: 36px; }
