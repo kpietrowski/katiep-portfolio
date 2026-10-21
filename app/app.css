@@ -406,3 +406,5 @@ form.known-waitlist .known-as { font-size: 17px; color: var(--ink); padding: 6px
 .legal p { color: var(--ink-light); font-size: 18px; line-height: 1.6; margin: 0 0 12px; }
 .legal a { color: var(--blue); }
 .legal .updated { font-size: 14px; color: var(--ink-muted); margin-top: 36px; }
+.legal-list { margin: 0 0 12px; padding-left: 22px; color: var(--ink-light); font-size: 18px; line-height: 1.6; display: grid; gap: 6px; }
+.legal strong { color: var(--ink); }
