@@ -54,8 +54,17 @@
   function smsDone() { try { return localStorage.getItem('kp_sms') === '1'; } catch (e) { return false; } }
   function finish(text) {
     var t = done.querySelector('.done-title'); if (t) t.textContent = text;
+    // Remember where Text Me sits so Watch on Instagram lands in the same spot.
+    var textMe = pf.querySelector('button[type=submit]');
+    var targetTop = textMe ? textMe.getBoundingClientRect().top + screen.scrollTop : null;
     setStep(3);
     show(done);
+    var ig = done.querySelector('.ig-btn');
+    if (ig && targetTop !== null) {
+      ig.style.marginTop = '0px';
+      var delta = targetTop - (ig.getBoundingClientRect().top + screen.scrollTop);
+      if (delta > 0) ig.style.marginTop = delta + 'px';
+    }
     var v = s2.querySelector('video'); if (v) v.pause();
   }
   function toStep2() {

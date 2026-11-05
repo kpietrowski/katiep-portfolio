@@ -146,7 +146,7 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
 /* Thank-you screen: one Instagram reel */
 .s2-screen .step-done { padding: 0; display: flex; flex-direction: column; gap: 12px; text-align: left; }
 .s2-screen .step-done[hidden] { display: none; }
-.reel-card { position: relative; display: block; align-self: center; width: auto; height: min(472px, calc(100vh - 300px)); height: min(472px, calc(100svh - 300px)); aspect-ratio: 3 / 4; max-width: 100%; border-radius: 22px; overflow: hidden; background: var(--ink); box-shadow: 0 18px 40px -18px rgba(11,26,69,.45); }
+.reel-card { border-radius: 22px; overflow: hidden; background: var(--ink); box-shadow: 0 18px 40px -18px rgba(11,26,69,.45); }
 .reel-card img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .reel-ph { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding: 18px; color: rgba(255,255,255,.6); font: 600 13px var(--sans); background: radial-gradient(120% 80% at 50% 30%, #1E3A8A 0%, var(--ink) 70%); }
 .reel-card .play-btn { pointer-events: none; }
@@ -154,10 +154,17 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
 .ig-icon { display: inline-grid; place-items: center; width: 22px; height: 22px; }
 .ig-icon svg, .ig-icon img { width: 22px; height: 22px; }
 .foot .credit { display: inline-block; margin-top: 6px; font-size: 12px; }
-.s2-screen .step-done .ig-btn { width: 100%; }
 /* Step 2 video and step 3 reel preview: one shared size */
-.s2-screen .katie-video, .s2-screen .reel-card { --frame-h: min(472px, calc(100vh - 300px)); height: auto; aspect-ratio: 3 / 4; width: min(100%, calc(var(--frame-h) * 0.75)); max-width: 100%; margin: 0 auto; align-self: center; }
-@supports (height: 100svh) { .s2-screen .katie-video, .s2-screen .reel-card { --frame-h: min(472px, calc(100svh - 300px)); } }
+.s2-screen { --frame-h: min(472px, calc(100vh - 300px)); }
+@supports (height: 100svh) { .s2-screen { --frame-h: min(472px, calc(100svh - 300px)); } }
+.s2-screen .katie-video { display: block; position: relative; height: auto; aspect-ratio: 3 / 4; width: min(100%, calc(var(--frame-h) * 0.75)); max-width: 100%; margin: 0 auto; align-self: center; border-radius: 22px; overflow: hidden; }
+.s2-screen .katie-video > video, .s2-screen .katie-video > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+/* Headlines line up with the left edge of the video */
+.s2-screen .step2-title { width: min(100%, calc(var(--frame-h) * 0.75)); align-self: center; margin: 0 auto; }
+/* Watch on Instagram matches Text Me's width (Text Me sits inside a 14px-padded card) */
+.s2-screen .step-done .ig-btn { width: calc(100% - 28px); align-self: center; }
+.s2-screen .s3-title { white-space: nowrap; }
+@media (max-width: 560px) { .s2-screen .step2-title { font-size: min(40px, 10vw); } }
 @media (max-width: 359px) { #join .row { grid-template-columns: 1fr; } h1.hero-title { font-size: 35px; } .wrap { padding: 0 14px; } }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -226,8 +233,8 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
     </div>
 
     <div class="step-done" id="step-done" hidden>
-      <h2 class="step2-title">Watch on Instagram</h2>
-            <a class="reel-card" href="https://www.instagram.com/reel/DbgBDNGxyKq/" target="_blank" rel="noopener" aria-label="Watch the reel on Instagram">
+      <h2 class="step2-title s3-title">Watch on Instagram</h2>
+            <a class="katie-video reel-card" href="https://www.instagram.com/reel/DbgBDNGxyKq/" target="_blank" rel="noopener" aria-label="Watch the reel on Instagram">
         <img src="/app/reel-cover.jpg?v=3" alt="Katie's Instagram reel" width="720" height="960">
         <span class="play-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.6-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span>
       </a>
@@ -242,6 +249,6 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
     © 2026 Katie Pietrowski &middot; <a href="/app/privacy">Privacy policy</a> &middot; <a href="/earnings">Earnings disclaimer</a><br><span class="credit">Instagram icon by Freepik from <a href="https://www.flaticon.com/free-icon/instagram-logo_87390" rel="noopener" target="_blank">Flaticon</a></span></div>
 </footer>
 
-<script src="/app/waitlist-steps.js?v=9"></script>
+<script src="/app/waitlist-steps.js?v=10"></script>
 </body>
 </html>
