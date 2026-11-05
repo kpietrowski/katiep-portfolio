@@ -110,4 +110,9 @@
     me = { first_name: known.first_name || '', email: known.email };
     toStep2();
   }
+  // Desktop: put the cursor in the first field so people can just type.
+  // (Not on phones: it would pop the keyboard over the page.)
+  if (window.matchMedia && matchMedia('(pointer: fine)').matches && !join.hidden && join.first_name) {
+    try { join.first_name.focus({ preventScroll: true }); } catch (x) {}
+  }
 })();

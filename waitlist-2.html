@@ -56,6 +56,10 @@
   .step2-title { font-size: 24px; }
   .katie-video { max-width: 100%; }
 }
+/* Inputs: white with a blue outline, like the focused state */
+.join-card .field input { background: #fff; border: 1.5px solid var(--blue); }
+.join-card .field input:focus { background: #fff; border-color: var(--blue); box-shadow: 0 0 0 4px var(--blue-light); }
+.join-card .field input::placeholder { color: var(--ink-muted); }
 /* Mobile-first tune-up: form and button above the fold in Instagram/TikTok browsers */
 .join-card { scroll-margin-top: 12px; }
 @media (max-width: 560px) {
