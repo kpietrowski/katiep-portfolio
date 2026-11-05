@@ -53,7 +53,7 @@
   }
   function smsDone() { try { return localStorage.getItem('kp_sms') === '1'; } catch (e) { return false; } }
   function finish(text) {
-    done.querySelector('.done-title').textContent = text;
+    var t = done.querySelector('.done-title'); if (t) t.textContent = text;
     setStep(3);
     show(done);
     var v = s2.querySelector('video'); if (v) v.pause();
@@ -100,7 +100,7 @@
     post({ first_name: me.first_name, email: me.email, phone: phone, sms_consent: true, referrer: location.href })
       .then(function () {
         try { localStorage.setItem('kp_sms', '1'); } catch (x) {}
-        finish("Perfect. I'll text you the moment doors open.");
+        finish("You're all set!");
       })
       .catch(function (e2) { btn.disabled = false; btn.textContent = label; err(pf, friendly(e2)); });
   });
