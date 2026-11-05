@@ -6,11 +6,11 @@
   var card = document.querySelector('.join-card');
   if (!card) return;
   var join = card.querySelector('#join');
-  var s2 = card.querySelector('#step2');
-  var done = card.querySelector('#step-done');
-  var pf = card.querySelector('#phone-form');
-  var steps = card.querySelectorAll('.steps .step');
-  var line = card.querySelector('.steps .line');
+  var screen = document.getElementById('s2-screen');
+  var s2 = document.getElementById('step2');
+  var done = document.getElementById('step-done');
+  var pf = document.getElementById('phone-form');
+  var steppers = document.querySelectorAll('ol.steps');
   var PREVIEW = !!window.KP_PREVIEW;
   var me = { first_name: '', email: '' };
 
@@ -31,20 +31,25 @@
     return m && m !== 'failed' && m !== 'Not configured' && m.indexOf('Could not') !== 0 ? m : 'Something went wrong. Please try again in a moment.';
   }
   function setStep(n) {
-    [0, 1].forEach(function (i) {
-      var el = steps[i], k = i + 1;
-      el.classList.toggle('is-on', n === k);
-      el.classList.toggle('is-done', n > k);
-      el.querySelector('.dot').textContent = n > k ? '\u2713' : String(k);
-      if (n === k) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
+    [].forEach.call(steppers, function (ol) {
+      var steps = ol.querySelectorAll('.step');
+      [0, 1].forEach(function (i) {
+        var el = steps[i], k = i + 1;
+        el.classList.toggle('is-on', n === k);
+        el.classList.toggle('is-done', n > k);
+        el.querySelector('.dot').textContent = n > k ? '\u2713' : String(k);
+        if (n === k) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
+      });
     });
-    line.classList.toggle('is-done', n > 1);
   }
+  // Step 1 lives in the card; step 2 and the thank-you open as a full screen.
   function show(pane) {
-    [join, s2, done].forEach(function (p) { p.hidden = p !== pane; });
-    var top = card.getBoundingClientRect().top;
-    var phone = window.matchMedia && matchMedia('(max-width: 900px)').matches;
-    if (top < 0 || (phone && top > 24)) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var full = pane !== join;
+    s2.hidden = pane !== s2;
+    done.hidden = pane !== done;
+    screen.hidden = !full;
+    document.documentElement.classList.toggle('s2-open', full);
+    if (full) screen.scrollTop = 0;
   }
   function smsDone() { try { return localStorage.getItem('kp_sms') === '1'; } catch (e) { return false; } }
   function finish(text) {
@@ -107,10 +112,22 @@
 
   // Returning visitor who already joined on this browser: go straight to step 2.
   var known = window.kpMe && kpMe.get();
+  // Their card shows "You're on the list" plus a button that opens step 2.
   if (known && join.classList.contains('known-waitlist')) {
     me = { first_name: known.first_name || '', email: known.email };
-    toStep2();
+    setStep(2);
+    var watch = document.createElement('button');
+    watch.type = 'button'; watch.className = 'pill-btn'; watch.textContent = "Watch Katie's video";
+    watch.addEventListener('click', toStep2);
+    card.appendChild(watch);
   }
+  screen.querySelector('.s2-close').addEventListener('click', function () {
+    var v = s2.querySelector('video'); if (v) v.pause();
+    screen.hidden = true;
+    document.documentElement.classList.remove('s2-open');
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !screen.hidden && !document.body.classList.contains('editing')) screen.querySelector('.s2-close').click(); });
+
   // Buttons look "off" (gray) until the form is filled in.
   var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   function gate(form, ready) {

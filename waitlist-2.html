@@ -57,12 +57,26 @@
   .katie-video { max-width: 100%; }
 }
 /* Inputs: white with a blue outline, like the focused state */
-.join-card .field input { background: #fff; border: 1.5px solid var(--blue); }
-.join-card .field input:focus { background: #fff; border-color: var(--blue); box-shadow: 0 0 0 4px var(--blue-light); }
-.join-card .field input::placeholder { color: var(--ink-muted); }
+.join-card .field input, .s2-screen .field input { background: #fff; border: 1.5px solid var(--blue); }
+.join-card .field input:focus, .s2-screen .field input:focus { background: #fff; border-color: var(--blue); box-shadow: 0 0 0 4px var(--blue-light); }
+.join-card .field input::placeholder, .s2-screen .field input::placeholder { color: var(--ink-muted); }
 /* Buttons stay gray until the fields are filled in */
-.join-card .pill-btn.is-off, .join-card .pill-btn.is-off:hover { background: #ECEBE7; color: #9A9FB0; box-shadow: none; cursor: default; }
-.join-card .pill-btn { transition: background .2s, color .2s, box-shadow .2s, transform .15s; }
+.join-card .pill-btn.is-off, .join-card .pill-btn.is-off:hover, .s2-screen .pill-btn.is-off, .s2-screen .pill-btn.is-off:hover { background: #ECEBE7; color: #9A9FB0; box-shadow: none; cursor: default; }
+.join-card .pill-btn, .s2-screen .pill-btn { transition: background .2s, color .2s, box-shadow .2s, transform .15s; }
+/* Step 2 is a full screen of its own */
+.s2-screen { position: fixed; inset: 0; z-index: 40; background: var(--bg); overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; animation: s2in .25s ease-out; }
+.s2-screen[hidden] { display: none; }
+@keyframes s2in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.s2-inner { max-width: 520px; margin: 0 auto; padding: max(18px, env(safe-area-inset-top, 0px)) 18px calc(32px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 18px; }
+.s2-top { display: flex; align-items: center; gap: 10px; }
+.s2-top .steps { flex: 1; }
+.s2-close { flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(11,26,69,.06); color: var(--ink-light); font-size: 22px; line-height: 1; cursor: pointer; }
+.s2-screen .step2 { gap: 16px; }
+.s2-screen .katie-video { max-width: 420px; box-shadow: 0 18px 40px -18px rgba(11,26,69,.45); }
+.s2-screen .step-done { padding: 40px 0; }
+html.s2-open, html.s2-open body { overflow: hidden; }
+body.editing .s2-screen[hidden] { display: block !important; position: static; animation: none; }
+@media (max-width: 560px) { .s2-screen .katie-video { max-width: 100%; } }
 /* Mobile-first tune-up: form and button above the fold in Instagram/TikTok browsers */
 .join-card { scroll-margin-top: 12px; }
 @media (max-width: 560px) {
@@ -81,7 +95,8 @@
   .field input { width: 100%; min-width: 0; }
   .field { gap: 4px; }
   .field input { font-size: 16px; padding: 12px 13px; border-radius: 12px; }
-  .join-card .pill-btn { min-height: 54px; padding: 14px 18px; }
+  .join-card .pill-btn, .s2-screen .pill-btn { min-height: 54px; padding: 14px 18px; }
+  .s2-screen .card-form { padding: 16px; border-radius: 20px; }
   #join .fine { margin: 0; }
   .step2 { gap: 14px; }
   .step2-title { font-size: 25px; }
@@ -133,29 +148,6 @@
           <button type="submit" class="pill-btn">Join the waitlist</button>
           <p class="fine">You'll be the first to know when doors open.</p>
         </form>
-
-        <div class="step2" id="step2" hidden>
-          <h2 class="step2-title">You're on the list<span class="s2-name"></span>!</h2>
-          <p class="step2-lede">Watch this quick video from me. Then, if you'd like a text the moment doors open, add your number below.</p>
-          <div class="katie-video">
-            <video controls playsinline preload="metadata" poster="/app/katie-video.jpg"><source src="/app/katie-video.mp4" type="video/mp4">Your browser can't play this video.</video>
-          </div>
-          <form class="card-form" id="phone-form" novalidate>
-            <label class="field"><span class="lbl">Mobile number</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" enterkeyhint="done" placeholder="(508) 555-0123"></label>
-            <label class="consent">
-              <input type="checkbox" name="sms_consent">
-              <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/app/privacy">Privacy policy</a>.</span>
-            </label>
-            <p class="form-error" role="alert" hidden></p>
-            <button type="submit" class="pill-btn">Yes, text me</button>
-            <button type="button" class="skip-link">No thanks, email is enough</button>
-          </form>
-        </div>
-
-        <div class="step-done" id="step-done" hidden>
-          <p class="done-title"></p>
-          <p class="known-next">While you wait: <a href="/idea">grade your app idea</a> or <a href="/design">design your app</a>, free.</p>
-        </div>
       </div>
     </div>
 
@@ -171,6 +163,42 @@
 </section>
 
 </main>
+
+<div class="s2-screen" id="s2-screen" hidden role="dialog" aria-modal="true" aria-label="A video from Katie">
+  <div class="s2-inner">
+    <div class="s2-top">
+      <ol class="steps" aria-label="Step 2 of 2">
+        <li class="step is-on" aria-current="step"><span class="dot">1</span><span class="txt">Join the waitlist</span></li>
+        <li class="line" aria-hidden="true"></li>
+        <li class="step"><span class="dot">2</span><span class="txt">A video from Katie</span></li>
+      </ol>
+      <button type="button" class="s2-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="step2" id="step2" hidden>
+      <h2 class="step2-title">You're on the list<span class="s2-name"></span>!</h2>
+      <p class="step2-lede">Watch this quick video from me. Then, if you'd like a text the moment doors open, add your number below.</p>
+      <div class="katie-video">
+        <video controls playsinline preload="metadata" poster="/app/katie-video.jpg"><source src="/app/katie-video.mp4" type="video/mp4">Your browser can't play this video.</video>
+      </div>
+      <form class="card-form" id="phone-form" novalidate>
+        <label class="field"><span class="lbl">Mobile number</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" enterkeyhint="done" placeholder="(508) 555-0123"></label>
+        <label class="consent">
+          <input type="checkbox" name="sms_consent">
+          <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/app/privacy">Privacy policy</a>.</span>
+        </label>
+        <p class="form-error" role="alert" hidden></p>
+        <button type="submit" class="pill-btn">Yes, text me</button>
+        <button type="button" class="skip-link">No thanks, email is enough</button>
+      </form>
+    </div>
+
+    <div class="step-done" id="step-done" hidden>
+      <p class="done-title"></p>
+      <p class="known-next">While you wait: <a href="/idea">grade your app idea</a> or <a href="/design">design your app</a>, free.</p>
+    </div>
+  </div>
+</div>
+
 
 <footer class="foot">
   <div class="wrap">
