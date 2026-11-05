@@ -26,14 +26,14 @@
 /* Two-step waitlist: 1 join, 2 video from Katie + optional mobile */
 .join-card { background: #fff; border-radius: 24px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05), 0 18px 40px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 18px; text-align: left; }
 .join-card .card-form { background: none; box-shadow: none; padding: 0; border-radius: 0; }
-.steps { list-style: none; margin: 0; padding: 0 0 18px; display: flex; align-items: center; justify-content: center; gap: 10px; border-bottom: 1px solid var(--bg-2); }
-.steps .step { display: flex; align-items: center; gap: 9px; font: 600 15px var(--sans); color: var(--ink-muted); white-space: nowrap; opacity: .55; transition: opacity .2s, color .2s; }
-.steps .dot { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 700; background: var(--bg-2); color: var(--ink-muted); transition: background .2s, color .2s; }
-.steps .step.is-on, .steps .step.is-done { color: var(--ink); opacity: 1; }
-.steps .step.is-on .dot { background: var(--blue); color: #fff; box-shadow: 0 0 0 4px var(--blue-light); }
+.steps { list-style: none; margin: 0; padding: 5px; display: flex; gap: 4px; background: var(--bg-2); border-radius: 999px; }
+.steps .line { display: none; }
+.steps .step { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 12px; border-radius: 999px; font: 600 15px var(--sans); color: var(--ink-muted); white-space: nowrap; opacity: .7; transition: background .2s, color .2s, opacity .2s, box-shadow .2s; }
+.steps .dot { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; background: rgba(11,26,69,.08); color: var(--ink-muted); transition: background .2s, color .2s; }
+.steps .step.is-on { background: var(--blue); color: #fff; opacity: 1; box-shadow: 0 4px 12px rgba(43,85,245,.3); }
+.steps .step.is-on .dot { background: rgba(255,255,255,.22); color: #fff; }
+.steps .step.is-done { background: #fff; color: var(--ink); opacity: 1; }
 .steps .step.is-done .dot { background: var(--lime); color: var(--ink); }
-.steps .line { flex: 0 0 36px; height: 2px; border-radius: 2px; background: var(--bg-2); transition: background .2s; }
-.steps .line.is-done { background: var(--blue); }
 .step2 { display: flex; flex-direction: column; gap: 16px; }
 .step2[hidden], .step-done[hidden], .join-card form[hidden] { display: none; }
 .step2-title { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.15; margin: 0; color: var(--ink); }
@@ -50,9 +50,8 @@
 .step-done .known-next a { color: var(--blue); font-weight: 600; }
 @media (max-width: 560px) {
   .join-card { padding: 18px; gap: 16px; }
-  .steps { gap: 7px; padding-bottom: 16px; } .steps .line { flex-basis: 20px; }
-  .steps .step { font-size: 13.5px; gap: 7px; }
-  .steps .dot { width: 24px; height: 24px; font-size: 12px; }
+  .steps .step { font-size: 13px; gap: 6px; padding: 9px 6px; }
+  .steps .dot { width: 20px; height: 20px; font-size: 11px; }
   .step2-title { font-size: 24px; }
   .katie-video { max-width: 100%; }
 }
