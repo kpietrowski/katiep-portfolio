@@ -173,6 +173,16 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
 .aty-with { align-self: flex-end; font-family: 'Caveat', 'Bradley Hand', cursive; font-weight: 500; font-size: 24px; line-height: 1; color: rgba(31,74,51,.62); transform: rotate(-4deg); margin: 2px -14px 0 0; }
 @media (max-width: 560px) { .aty-with { font-size: 20px; margin-right: -10px; } }
 @media (max-width: 560px) { .aty-logo { margin-bottom: 12px; } .aty-word { font-size: 40px; } .aty-sub { font-size: 10.5px; margin-top: 6px; } }
+/* Phones: keep the Join button above the fold with the wordmark added */
+.aty-lock { position: relative; }
+@media (max-width: 560px) {
+  .hero { padding-top: 10px; }
+  .aty-logo { margin-bottom: 10px; }
+  .aty-word { font-size: 36px; }
+  .aty-with { position: absolute; right: -58px; bottom: -6px; margin: 0; font-size: 19px; }
+  h1.hero-title { font-size: 35px; }
+  .hero .lede { font-size: 15px; margin: 12px 0 12px; }
+}
 @media (max-width: 359px) { #join .row { grid-template-columns: 1fr; } h1.hero-title { font-size: 35px; } .wrap { padding: 0 14px; } }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
