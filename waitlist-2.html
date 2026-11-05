@@ -80,15 +80,15 @@
 
       <div class="join-card">
         <ol class="steps" aria-label="Two steps to join">
-          <li class="step is-on" aria-current="step"><span class="dot">1</span>Join the waitlist</li>
+          <li class="step is-on" aria-current="step"><span class="dot">1</span><span class="txt">Join the waitlist</span></li>
           <li class="line" aria-hidden="true"></li>
-          <li class="step"><span class="dot">2</span>A video from Katie</li>
+          <li class="step"><span class="dot">2</span><span class="txt">A video from Katie</span></li>
         </ol>
 
         <form class="waitlist card-form" id="join" novalidate data-remember="waitlist">
           <div class="row">
-            <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
-            <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
+            <label class="field"><span class="lbl">First name</span><input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
+            <label class="field"><span class="lbl">Email</span><input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
           </div>
           <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
           <p class="form-error" role="alert" hidden></p>
@@ -103,7 +103,7 @@
             <video controls playsinline preload="metadata" poster="/app/katie-video.jpg"><source src="/app/katie-video.mp4" type="video/mp4">Your browser can't play this video.</video>
           </div>
           <form class="card-form" id="phone-form" novalidate>
-            <label class="field">Mobile number<input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>
+            <label class="field"><span class="lbl">Mobile number</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>
             <label class="consent">
               <input type="checkbox" name="sms_consent">
               <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/app/privacy">Privacy policy</a>.</span>
