@@ -57,8 +57,19 @@
     // Remember where Text Me sits so Watch on Instagram lands in the same spot.
     var textMe = pf.querySelector('button[type=submit]');
     var targetTop = textMe ? textMe.getBoundingClientRect().top + screen.scrollTop : null;
+    var heyTitle = s2.querySelector('.step2-title');
+    var heyH = heyTitle ? heyTitle.getBoundingClientRect().height : 0;
     setStep(3);
     show(done);
+    // Shrink "Watch on Instagram" until it fits on one line over the video,
+    // and keep it the same height as "Hey!" so the reel sits where the video did.
+    var t3 = done.querySelector('.s3-title');
+    if (t3) {
+      t3.style.fontSize = '';
+      var size = parseFloat(getComputedStyle(t3).fontSize);
+      while (t3.scrollWidth > t3.clientWidth + 1 && size > 20) { size -= 1; t3.style.fontSize = size + 'px'; }
+      if (heyH) { t3.style.height = heyH + 'px'; t3.style.display = 'flex'; t3.style.alignItems = 'flex-end'; }
+    }
     var ig = done.querySelector('.ig-btn');
     if (ig && targetTop !== null) {
       ig.style.marginTop = '0px';
