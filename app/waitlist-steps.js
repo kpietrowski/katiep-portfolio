@@ -116,6 +116,19 @@
     v.addEventListener('ended', function () { wrap.classList.remove('playing'); });
   })();
 
+  // Format US numbers as they're typed: (508) 555-0123. Numbers starting with + are left alone.
+  pf.phone.addEventListener('input', function () {
+    var v = pf.phone.value;
+    if (/^\s*\+/.test(v)) return;
+    var d = v.replace(/\D/g, '');
+    if (d.length === 11 && d.charAt(0) === '1') d = d.slice(1);
+    d = d.slice(0, 10);
+    var out = d.length < 4 ? (d.length ? '(' + d : '')
+      : d.length < 7 ? '(' + d.slice(0, 3) + ') ' + d.slice(3)
+      : '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6);
+    if (out !== v) pf.phone.value = out;
+  });
+
   // Buttons look "off" (gray) until the form is filled in.
   var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   function gate(form, ready) {
