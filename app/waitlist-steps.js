@@ -95,8 +95,7 @@
     e.preventDefault();
     pf.querySelector('.form-error').hidden = true;
     var phone = pf.phone.value.trim();
-    if (phone.replace(/\D/g, '').length < 10) return err(pf, 'Please enter your mobile number, or tap "No thanks" below.', pf.phone);
-    if (!pf.sms_consent.checked) return err(pf, 'Tick the box so I can text you.', pf.sms_consent);
+    if (phone.replace(/\D/g, '').length < 10) return err(pf, 'Please enter your mobile number.', pf.phone);
     var btn = pf.querySelector('button[type=submit]'), label = btn.textContent;
     btn.disabled = true; btn.textContent = 'Saving…';
     post({ first_name: me.first_name, email: me.email, phone: phone, sms_consent: true, referrer: location.href })
@@ -105,9 +104,6 @@
         finish("Perfect. I'll text you the moment doors open.");
       })
       .catch(function (e2) { btn.disabled = false; btn.textContent = label; err(pf, friendly(e2)); });
-  });
-  pf.querySelector('.skip-link').addEventListener('click', function () {
-    finish("No problem. Watch your inbox: I'll email you the moment doors open.");
   });
 
   // Returning visitor who already joined on this browser: go straight to step 2.
@@ -128,6 +124,16 @@
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !screen.hidden && !document.body.classList.contains('editing')) screen.querySelector('.s2-close').click(); });
 
+  // Gray play button over the video; native controls appear once it's playing.
+  (function () {
+    var wrap = s2.querySelector('.katie-video'), v = wrap && wrap.querySelector('video'), b = wrap && wrap.querySelector('.play-btn');
+    if (!v || !b) return;
+    b.addEventListener('click', function () { v.controls = true; var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); });
+    v.addEventListener('play', function () { wrap.classList.add('playing'); });
+    v.addEventListener('pause', function () { wrap.classList.remove('playing'); });
+    v.addEventListener('ended', function () { wrap.classList.remove('playing'); });
+  })();
+
   // Buttons look "off" (gray) until the form is filled in.
   var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   function gate(form, ready) {
@@ -137,7 +143,7 @@
     sync(); setTimeout(sync, 400); setTimeout(sync, 1500); // catch browser autofill
   }
   gate(join, function () { return join.first_name.value.trim() && EMAIL.test(join.email.value.trim()); });
-  gate(pf, function () { return pf.phone.value.replace(/\D/g, '').length >= 10 && pf.sms_consent.checked; });
+  gate(pf, function () { return pf.phone.value.replace(/\D/g, '').length >= 10; });
 
   // Desktop: put the cursor in the first field so people can just type.
   // (Not on phones: it would pop the keyboard over the page.)

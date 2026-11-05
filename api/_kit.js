@@ -15,9 +15,10 @@ export const WAITLIST_TAG = process.env.KIT_WAITLIST_TAG || 'App in 30 Days wait
 // app idea. The idea itself is in the "App idea" custom field.
 export const IDEA_SHARED_TAG = process.env.KIT_IDEA_SHARED_TAG || 'Shared an app idea';
 
-// Must match the words shown next to the SMS checkbox on /app and /idea.
+// Names the SMS consent wording a number was collected under. v2: /waitlist-2 step 2,
+// "By tapping Text Me, you agree to receive marketing text messages…" (no checkbox).
 // Bump it whenever that text changes, so each consent record says what was agreed to.
-export const CONSENT_VERSION = 'app30-sms-v1';
+export const CONSENT_VERSION = 'app30-sms-v2';
 
 export async function kit(path, body, method = 'POST') {
   const r = await fetch(KIT + path, {
