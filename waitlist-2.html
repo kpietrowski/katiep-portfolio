@@ -38,7 +38,7 @@
 .step2[hidden], .step-done[hidden], .join-card form[hidden] { display: none; }
 .step2-title { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.15; margin: 0; color: var(--ink); }
 .step2-lede { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink-light); }
-.katie-video { width: 100%; max-width: 280px; margin: 0 auto; aspect-ratio: 9 / 16; border-radius: 18px; overflow: hidden; background: var(--ink); }
+.katie-video { width: 100%; max-width: 340px; margin: 0 auto; aspect-ratio: 3 / 4; border-radius: 18px; overflow: hidden; background: var(--ink); }
 .katie-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .video-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--bg); text-align: center; padding: 20px; background: radial-gradient(120% 80% at 50% 30%, #1E3A8A 0%, var(--ink) 70%); }
 .video-ph .play { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--blue); font-size: 22px; padding-left: 4px; box-shadow: 0 10px 24px rgba(43,85,245,.45); }
@@ -54,7 +54,7 @@
   .steps .step { font-size: 13.5px; gap: 7px; }
   .steps .dot { width: 24px; height: 24px; font-size: 12px; }
   .step2-title { font-size: 24px; }
-  .katie-video { max-width: 240px; }
+  .katie-video { max-width: 100%; }
 }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -102,7 +102,7 @@
           <h2 class="step2-title">You're on the list<span class="s2-name"></span>!</h2>
           <p class="step2-lede">Watch this quick video from me. Then, if you'd like a text the moment doors open, add your number below.</p>
           <div class="katie-video">
-            <div class="video-ph"><span class="play" aria-hidden="true">&#9654;</span><b>Video coming soon</b></div>
+            <video controls playsinline preload="metadata" poster="/app/katie-video.jpg"><source src="/app/katie-video.mp4" type="video/mp4">Your browser can't play this video.</video>
           </div>
           <form class="card-form" id="phone-form" novalidate>
             <label class="field">Mobile number<input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>

@@ -35,7 +35,7 @@
       var el = steps[i], k = i + 1;
       el.classList.toggle('is-on', n === k);
       el.classList.toggle('is-done', n > k);
-      el.querySelector('.dot').textContent = n > k ? '✓' : String(k);
+      el.querySelector('.dot').textContent = n > k ? '\u2713' : String(k);
       if (n === k) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
     });
     line.classList.toggle('is-done', n > 1);
