@@ -24,7 +24,7 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=DM+Sans:wght@400;500;600;700&family=Gloock&family=Archivo:wght@800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/app/app.css?v=3">
 <style>/* waitlist-2 overrides */ .field { font-size: 15.6px; } .hero .kicker { font-size: 16px; } .tide-stage figcaption a { color: var(--blue); text-underline-offset: 3px; } .tide-stage .rev-proof { position: absolute; z-index: 3; left: 6px; top: 439px; width: 236px; margin: 0; background: #fff; border-radius: 12px; padding: 4px 2px; box-shadow: 0 18px 36px -16px rgba(11,26,69,.45); } .tide-stage .rev-proof img { position: static; display: block; width: 100%; height: auto; filter: none; } @media (max-width: 900px) { .tide-stage .rev-proof { top: 350px; width: 210px; } } @media (max-width: 560px) { .tide-stage .rev-proof { top: 313px; width: 180px; } }</style>
 <style>
@@ -165,6 +165,11 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
 .s2-screen .step-done .ig-btn { width: calc(100% - 28px); align-self: center; }
 .s2-screen .s3-title { white-space: nowrap; overflow: hidden; }
 @media (max-width: 560px) { .s2-screen .step2-title { font-size: min(40px, 10vw); } }
+/* App & Yap Challenge wordmark */
+.aty-logo { display: flex; flex-direction: column; align-items: center; text-align: center; color: #1F4A33; margin: 0 0 18px; }
+.aty-word { font-family: 'Gloock', Georgia, serif; font-weight: 400; font-size: 54px; line-height: 0.95; letter-spacing: -0.01em; }
+.aty-sub { font-family: 'Archivo', 'DM Sans', sans-serif; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 0.45em; padding-left: 0.45em; margin-top: 8px; }
+@media (max-width: 560px) { .aty-logo { margin-bottom: 12px; } .aty-word { font-size: 40px; } .aty-sub { font-size: 10.5px; margin-top: 6px; } }
 @media (max-width: 359px) { #join .row { grid-template-columns: 1fr; } h1.hero-title { font-size: 35px; } .wrap { padding: 0 14px; } }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -180,7 +185,7 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="kicker">The App &amp; Yap Challenge</p>
+      <div class="aty-logo" role="img" aria-label="The App &amp; Yap Challenge"><span class="aty-word">App &amp; Yap</span><span class="aty-sub">Challenge</span></div>
       <h1 class="display hero-title">Make your first <span class="nowrap">money-making</span> app with <span class="nowrap">Claude Code</span> in <em>30 days.</em></h1>
       <p class="lede">No coding experience needed. 15+ Claude skills hold your hand through every step, from idea to the App Store to your first paying users from yapping. It's how I built Tide, which made $24,000+ in its first 60 days.</p>
 
