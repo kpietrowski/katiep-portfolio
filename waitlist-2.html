@@ -26,10 +26,10 @@
 /* Two-step waitlist: 1 join, 2 video from Katie + optional mobile */
 .join-card { background: #fff; border-radius: 24px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05), 0 18px 40px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 18px; text-align: left; }
 .join-card .card-form { background: none; box-shadow: none; padding: 0; border-radius: 0; }
-.steps { list-style: none; margin: 0 auto; padding: 3px; display: flex; gap: 2px; width: 100%; max-width: 420px; background: rgba(11,26,69,.05); border-radius: 12px; }
+.steps { list-style: none; margin: 0 auto; padding: 4px; display: flex; gap: 3px; width: 100%; background: rgba(11,26,69,.05); border-radius: 14px; }
 .steps .line { display: none; }
-.steps .step { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px; padding: 7px 10px; border-radius: 9px; font: 500 14px var(--sans); color: var(--ink-muted); white-space: nowrap; transition: background .2s, color .2s, box-shadow .2s; }
-.steps .dot { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600; background: rgba(11,26,69,.07); color: var(--ink-muted); transition: background .2s, color .2s; }
+.steps .step { flex: 1; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 12px; border-radius: 11px; font: 500 16px var(--sans); color: var(--ink-muted); white-space: nowrap; transition: background .2s, color .2s, box-shadow .2s; }
+.steps .dot { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12.5px; font-weight: 600; background: rgba(11,26,69,.07); color: var(--ink-muted); transition: background .2s, color .2s; }
 .steps .step.is-on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(11,26,69,.12); }
 .steps .step.is-on .dot { background: rgba(11,26,69,.08); color: var(--ink); }
 .steps .step.is-done { color: var(--ink-light); }
@@ -50,7 +50,8 @@
 .step-done .known-next a { color: var(--blue); font-weight: 600; }
 @media (max-width: 560px) {
   .join-card { padding: 18px; gap: 16px; }
-  .steps .step { font-size: 13px; gap: 6px; padding: 7px 6px; }
+  .steps .step { font-size: 15px; gap: 7px; padding: 10px 8px; white-space: normal; line-height: 1.2; }
+  .steps .txt { text-align: left; }
   .step2-title { font-size: 24px; }
   .katie-video { max-width: 100%; }
 }
@@ -81,7 +82,7 @@
   .foot { padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)); }
 }
 .steps .step { min-width: 0; } .steps .txt { overflow: hidden; text-overflow: ellipsis; }
-@media (max-width: 380px) { .steps .step { font-size: 12.5px; gap: 5px; padding: 7px 4px; } }
+@media (max-width: 380px) { .steps .step { font-size: 13.5px; gap: 5px; padding: 10px 4px; } .steps .dot { width: 20px; height: 20px; font-size: 11px; } }
 @media (max-width: 359px) { #join .row { grid-template-columns: 1fr; } h1.hero-title { font-size: 30px; } .wrap { padding: 0 14px; } }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -111,7 +112,7 @@
         <ol class="steps" aria-label="Two steps to join">
           <li class="step is-on" aria-current="step"><span class="dot">1</span><span class="txt">Join the waitlist</span></li>
           <li class="line" aria-hidden="true"></li>
-          <li class="step"><span class="dot">2</span><span class="txt">A video from Katie</span></li>
+          <li class="step"><span class="dot">2</span><span class="txt">A video from me (Katie)</span></li>
         </ol>
 
         <form class="waitlist card-form" id="join" novalidate data-remember="waitlist">
