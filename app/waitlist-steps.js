@@ -43,7 +43,8 @@
   function show(pane) {
     [join, s2, done].forEach(function (p) { p.hidden = p !== pane; });
     var top = card.getBoundingClientRect().top;
-    if (top < 0) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var phone = window.matchMedia && matchMedia('(max-width: 900px)').matches;
+    if (top < 0 || (phone && top > 24)) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   function smsDone() { try { return localStorage.getItem('kp_sms') === '1'; } catch (e) { return false; } }
   function finish(text) {

@@ -54,6 +54,35 @@
   .step2-title { font-size: 24px; }
   .katie-video { max-width: 100%; }
 }
+/* Mobile-first tune-up: form and button above the fold in Instagram/TikTok browsers */
+.join-card { scroll-margin-top: 12px; }
+@media (max-width: 560px) {
+  .top { position: static; }
+  .top-inner { height: 48px; }
+  .wordmark { font-size: 20px; }
+  .wrap { padding: 0 18px; }
+  .hero { padding: 16px 0 40px; }
+  .hero-grid { gap: 28px; }
+  .hero .kicker { margin-bottom: 10px; letter-spacing: 0.1em; }
+  h1.hero-title { font-size: 34px; line-height: 1.08; }
+  .hero .lede { font-size: 16.5px; line-height: 1.5; margin: 14px 0 18px; }
+  .join-card { padding: 14px; gap: 14px; border-radius: 20px; }
+  .join-card .card-form { gap: 12px; }
+  #join .row { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; }
+  .field input { width: 100%; min-width: 0; }
+  .field { gap: 4px; }
+  .field input { font-size: 16px; padding: 12px 13px; border-radius: 12px; }
+  .join-card .pill-btn { min-height: 54px; padding: 14px 18px; }
+  #join .fine { margin: 0; }
+  .step2 { gap: 14px; }
+  .step2-title { font-size: 25px; }
+  .step2-lede { font-size: 15.5px; }
+  .skip-link { padding: 12px; }
+  .foot { padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)); }
+}
+.steps .step { min-width: 0; } .steps .txt { overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 380px) { .steps .step { font-size: 12.5px; gap: 5px; padding: 7px 4px; } }
+@media (max-width: 359px) { #join .row { grid-template-columns: 1fr; } h1.hero-title { font-size: 30px; } .wrap { padding: 0 14px; } }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -75,7 +104,7 @@
   <div class="wrap hero-grid">
     <div class="hero-copy">
       <p class="kicker">The App &amp; Yap Challenge</p>
-      <h1 class="display hero-title">Make your first <span class="nowrap">money-making</span> app with Claude Code in <em>30 days.</em></h1>
+      <h1 class="display hero-title">Make your first <span class="nowrap">money-making</span> app with <span class="nowrap">Claude Code</span> in <em>30 days.</em></h1>
       <p class="lede">No coding experience needed. 15+ Claude skills hold your hand through every step, from your idea to the App Store to your first paying users from yapping. It's how I built Tide, which made $24,000+ in its first 60 days.</p>
 
       <div class="join-card">
@@ -87,8 +116,8 @@
 
         <form class="waitlist card-form" id="join" novalidate data-remember="waitlist">
           <div class="row">
-            <label class="field"><span class="lbl">First name</span><input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
-            <label class="field"><span class="lbl">Email</span><input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
+            <label class="field"><span class="lbl">First name</span><input type="text" name="first_name" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="Your first name"></label>
+            <label class="field"><span class="lbl">Email</span><input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" placeholder="you@email.com" required></label>
           </div>
           <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
           <p class="form-error" role="alert" hidden></p>
@@ -103,7 +132,7 @@
             <video controls playsinline preload="metadata" poster="/app/katie-video.jpg"><source src="/app/katie-video.mp4" type="video/mp4">Your browser can't play this video.</video>
           </div>
           <form class="card-form" id="phone-form" novalidate>
-            <label class="field"><span class="lbl">Mobile number</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(508) 555-0123"></label>
+            <label class="field"><span class="lbl">Mobile number</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" enterkeyhint="done" placeholder="(508) 555-0123"></label>
             <label class="consent">
               <input type="checkbox" name="sms_consent">
               <span>Text me when doors open. I agree to receive marketing text messages from Katie Pietrowski at the number above, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/app/privacy">Privacy policy</a>.</span>
@@ -122,7 +151,7 @@
     </div>
 
     <figure class="tide-stage">
-        <img class="tide-back" src="/app/tide-updates.webp" alt="" width="560" height="1148" decoding="async">
+        <img class="tide-back" loading="lazy" src="/app/tide-updates.webp" alt="" width="560" height="1148" decoding="async">
         <img class="tide-front" src="/app/tide-timer.webp" alt="Tide, the contraction timer app Katie built" width="560" height="1148" decoding="async" fetchpriority="high">
         <div class="stat-badge"><b>$24,820</b><span>in Tide's first 60 days</span></div>
         <div class="rev-proof"><img src="/app/tide-revenue.png" alt="Tide revenue: $24,820" width="522" height="80" decoding="async"></div>
