@@ -109,14 +109,20 @@
   // Returning visitor who already joined on this browser: go straight to step 2.
   var known = window.kpMe && kpMe.get();
   // Their card shows "You're on the list" plus a button that opens step 2.
-  if (known && join.classList.contains('known-waitlist')) {
-    me = { first_name: known.first_name || '', email: known.email };
+  // remember.js marks the form on DOMContentLoaded, so check after it has run.
+  function checkKnown() {
+    var k = window.kpMe && kpMe.get();
+    if (!k || !join.classList.contains('known-waitlist') || card.querySelector('.watch-btn')) return;
+    me = { first_name: k.first_name || '', email: k.email };
     setStep(2);
     var watch = document.createElement('button');
-    watch.type = 'button'; watch.className = 'pill-btn'; watch.textContent = "Watch Katie's video";
+    watch.type = 'button'; watch.className = 'pill-btn watch-btn'; watch.textContent = "Watch Katie's video";
     watch.addEventListener('click', toStep2);
     card.appendChild(watch);
+    var notYou = join.querySelector('.not-you');
+    if (notYou) notYou.addEventListener('click', function () { watch.remove(); setStep(1); });
   }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', checkKnown); else checkKnown();
   screen.querySelector('.s2-close').addEventListener('click', function () {
     var v = s2.querySelector('video'); if (v) v.pause();
     screen.hidden = true;
