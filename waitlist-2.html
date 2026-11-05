@@ -50,7 +50,8 @@
 .step-done .known-next a { color: var(--blue); font-weight: 600; }
 @media (max-width: 560px) {
   .join-card { padding: 18px; gap: 16px; }
-  .steps .step { font-size: 15px; gap: 7px; padding: 10px 8px; white-space: normal; line-height: 1.2; }
+  .steps .step { flex: 1 1 auto; font-size: 14px; gap: 6px; padding: 12px 6px; white-space: nowrap; line-height: 1.2; }
+  .steps .dot { width: 20px; height: 20px; font-size: 11.5px; }
   .steps .txt { text-align: left; }
   .step2-title { font-size: 24px; }
   .katie-video { max-width: 100%; }
@@ -112,7 +113,7 @@
         <ol class="steps" aria-label="Two steps to join">
           <li class="step is-on" aria-current="step"><span class="dot">1</span><span class="txt">Join the waitlist</span></li>
           <li class="line" aria-hidden="true"></li>
-          <li class="step"><span class="dot">2</span><span class="txt">A video from me (Katie)</span></li>
+          <li class="step"><span class="dot">2</span><span class="txt">A video from Katie</span></li>
         </ol>
 
         <form class="waitlist card-form" id="join" novalidate data-remember="waitlist">
