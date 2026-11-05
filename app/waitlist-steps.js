@@ -123,12 +123,6 @@
     if (notYou) notYou.addEventListener('click', function () { watch.remove(); setStep(1); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', checkKnown); else checkKnown();
-  screen.querySelector('.s2-close').addEventListener('click', function () {
-    var v = s2.querySelector('video'); if (v) v.pause();
-    screen.hidden = true;
-    document.documentElement.classList.remove('s2-open');
-  });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !screen.hidden && !document.body.classList.contains('editing')) screen.querySelector('.s2-close').click(); });
 
   // Gray play button over the video; native controls appear once it's playing.
   (function () {

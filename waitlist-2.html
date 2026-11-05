@@ -136,6 +136,13 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
   .join-card .pill-btn { min-height: 50px; padding: 12px 18px; }
 }
 .join-card .field input, .s2-screen .field input { font-size: 18px; }
+/* Step 2: headline, video and phone field all fit on one phone screen */
+.s2-inner { padding-top: max(14px, calc(env(safe-area-inset-top, 0px) + 10px)); gap: 12px; }
+.s2-screen .step2 { gap: 12px; }
+.s2-screen .step2-title { margin: 0; }
+.s2-screen .katie-video { width: auto; max-width: 100%; height: min(472px, calc(100vh - 300px)); height: min(472px, calc(100svh - 300px)); aspect-ratio: 3 / 4; margin: 0 auto; }
+.s2-screen .card-form { padding: 14px; gap: 10px; }
+@media (max-width: 560px) { .s2-screen .step2-title { font-size: 40px; } }
 @media (max-width: 359px) { #join .row { grid-template-columns: 1fr; } h1.hero-title { font-size: 35px; } .wrap { padding: 0 14px; } }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -190,12 +197,10 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
 
 <div class="s2-screen" id="s2-screen" hidden role="dialog" aria-modal="true" aria-label="A video from Katie">
   <div class="s2-inner">
-    <button type="button" class="s2-close" aria-label="Close">&times;</button>
     <div class="step2" id="step2" hidden>
       <h2 class="step2-title">Hey!</h2>
-      <p class="step2-lede">A quick video from me :)</p>
       <div class="katie-video">
-        <video playsinline preload="metadata" poster="/app/katie-video.jpg?v=2"><source src="/app/katie-video.mp4?v=2" type="video/mp4">Your browser can't play this video.</video><button type="button" class="play-btn" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.6-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></button>
+        <video playsinline preload="metadata" poster="/app/katie-video.jpg?v=3"><source src="/app/katie-video.mp4?v=2" type="video/mp4">Your browser can't play this video.</video><button type="button" class="play-btn" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.6-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></button>
       </div>
       <form class="card-form" id="phone-form" novalidate>
         <label class="field"><span class="lbl">Your phone number</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" enterkeyhint="done" placeholder="(508) 555-0123"></label>
@@ -219,6 +224,6 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
 </footer>
 
 <script src="/app/remember.js"></script>
-<script src="/app/waitlist-steps.js?v=3"></script>
+<script src="/app/waitlist-steps.js?v=4"></script>
 </body>
 </html>
