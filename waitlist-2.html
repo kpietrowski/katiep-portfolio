@@ -60,6 +60,9 @@
 .join-card .field input { background: #fff; border: 1.5px solid var(--blue); }
 .join-card .field input:focus { background: #fff; border-color: var(--blue); box-shadow: 0 0 0 4px var(--blue-light); }
 .join-card .field input::placeholder { color: var(--ink-muted); }
+/* Buttons stay gray until the fields are filled in */
+.join-card .pill-btn.is-off, .join-card .pill-btn.is-off:hover { background: #ECEBE7; color: #9A9FB0; box-shadow: none; cursor: default; }
+.join-card .pill-btn { transition: background .2s, color .2s, box-shadow .2s, transform .15s; }
 /* Mobile-first tune-up: form and button above the fold in Instagram/TikTok browsers */
 .join-card { scroll-margin-top: 12px; }
 @media (max-width: 560px) {

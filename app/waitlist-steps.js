@@ -71,6 +71,7 @@
     e.preventDefault();
     join.querySelector('.form-error').hidden = true;
     var email = join.email.value.trim();
+    if (!join.first_name.value.trim()) return err(join, 'Please enter your first name.', join.first_name);
     if (!email || email.indexOf('@') < 1) return err(join, 'Please enter your email so I can let you know when doors open.', join.email);
     var btn = join.querySelector('button[type=submit]'), label = btn.textContent;
     btn.disabled = true; btn.textContent = 'Adding you…';
@@ -110,6 +111,17 @@
     me = { first_name: known.first_name || '', email: known.email };
     toStep2();
   }
+  // Buttons look "off" (gray) until the form is filled in.
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function gate(form, ready) {
+    var b = form.querySelector('button[type=submit]');
+    function sync() { var ok = ready(); b.classList.toggle('is-off', !ok); b.setAttribute('aria-disabled', ok ? 'false' : 'true'); }
+    ['input', 'change', 'keyup'].forEach(function (t) { form.addEventListener(t, sync); });
+    sync(); setTimeout(sync, 400); setTimeout(sync, 1500); // catch browser autofill
+  }
+  gate(join, function () { return join.first_name.value.trim() && EMAIL.test(join.email.value.trim()); });
+  gate(pf, function () { return pf.phone.value.replace(/\D/g, '').length >= 10 && pf.sms_consent.checked; });
+
   // Desktop: put the cursor in the first field so people can just type.
   // (Not on phones: it would pop the keyboard over the page.)
   if (window.matchMedia && matchMedia('(pointer: fine)').matches && !join.hidden && join.first_name) {
