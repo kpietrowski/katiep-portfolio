@@ -147,7 +147,7 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
 .s2-screen .step-done { padding: 4px 0 8px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
 .s2-screen .step-done[hidden] { display: none; }
 .s2-screen .done-title { font-family: var(--serif); font-weight: 400; font-size: 32px; line-height: 1.12; margin: 0; color: var(--ink); text-wrap: balance; }
-.reel-card { position: relative; display: block; height: min(520px, calc(100vh - 290px)); height: min(520px, calc(100svh - 290px)); aspect-ratio: 9 / 16; max-width: 100%; border-radius: 22px; overflow: hidden; background: var(--ink); box-shadow: 0 18px 40px -18px rgba(11,26,69,.45); }
+.reel-card { position: relative; display: block; height: min(520px, calc(100vh - 290px)); height: min(520px, calc(100svh - 290px)); aspect-ratio: 600 / 937; max-width: 100%; border-radius: 22px; overflow: hidden; background: var(--ink); box-shadow: 0 18px 40px -18px rgba(11,26,69,.45); }
 .reel-card img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .reel-ph { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding: 18px; color: rgba(255,255,255,.6); font: 600 13px var(--sans); background: radial-gradient(120% 80% at 50% 30%, #1E3A8A 0%, var(--ink) 70%); }
 .reel-card .play-btn { pointer-events: none; }
@@ -181,7 +181,7 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
           <li class="step"><span class="dot">2</span><span class="txt">A video from Katie</span></li>
         </ol>
 
-        <form class="waitlist card-form" id="join" novalidate data-remember="waitlist">
+        <form class="waitlist card-form" id="join" novalidate>
           <div class="row">
             <label class="field"><span class="lbl">First name</span><input type="text" name="first_name" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="Your first name"></label>
             <label class="field"><span class="lbl">Email</span><input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" placeholder="you@email.com" required></label>
@@ -224,11 +224,11 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
 
     <div class="step-done" id="step-done" hidden>
       <h2 class="done-title"></h2>
-            <a class="reel-card" href="https://www.instagram.com/reel/DbgBDNGxyKq/" target="_blank" rel="noopener" aria-label="Watch the reel on Instagram">
-        <img src="/app/reel-cover.jpg" alt="Katie's Instagram reel" width="720" height="1280">
+            <a class="reel-card" href="https://www.instagram.com/reel/DbwEwuvSdmb/" target="_blank" rel="noopener" aria-label="Watch the reel on Instagram">
+        <img src="/app/reel-cover.jpg?v=2" alt="Katie's Instagram reel, 67.5K views" width="600" height="937">
         <span class="play-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.6-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span>
       </a>
-      <a class="pill-btn ig-btn" href="https://www.instagram.com/reel/DbgBDNGxyKq/" target="_blank" rel="noopener"><span class="ig-icon" aria-hidden="true"><img src="/app/ig-glyph.png" alt="" width="22" height="22"></span>Watch in Instagram</a>
+      <a class="pill-btn ig-btn" href="https://www.instagram.com/reel/DbwEwuvSdmb/" target="_blank" rel="noopener"><span class="ig-icon" aria-hidden="true"><img src="/app/ig-glyph.png" alt="" width="22" height="22"></span>Watch in Instagram</a>
     </div>
   </div>
 </div>
@@ -239,7 +239,6 @@ body.editing .s2-screen[hidden] { display: block !important; position: static; a
     © 2026 Katie Pietrowski &middot; <a href="/app/privacy">Privacy policy</a> &middot; <a href="/earnings">Earnings disclaimer</a><br><span class="credit">Instagram icon by Freepik from <a href="https://www.flaticon.com/free-icon/instagram-logo_87390" rel="noopener" target="_blank">Flaticon</a></span></div>
 </footer>
 
-<script src="/app/remember.js"></script>
-<script src="/app/waitlist-steps.js?v=5"></script>
+<script src="/app/waitlist-steps.js?v=6"></script>
 </body>
 </html>

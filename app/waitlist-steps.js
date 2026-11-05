@@ -61,7 +61,6 @@
   function toStep2() {
     var n = s2.querySelector('.s2-name');
     if (n) n.textContent = me.first_name ? ', ' + me.first_name : '';
-    if (smsDone()) return finish("You're all set. I'll be in touch the moment doors open.");
     setStep(2);
     show(s2);
   }
@@ -106,23 +105,6 @@
       .catch(function (e2) { btn.disabled = false; btn.textContent = label; err(pf, friendly(e2)); });
   });
 
-  // Returning visitor who already joined on this browser: go straight to step 2.
-  var known = window.kpMe && kpMe.get();
-  // Their card shows "You're on the list" plus a button that opens step 2.
-  // remember.js marks the form on DOMContentLoaded, so check after it has run.
-  function checkKnown() {
-    var k = window.kpMe && kpMe.get();
-    if (!k || !join.classList.contains('known-waitlist') || card.querySelector('.watch-btn')) return;
-    me = { first_name: k.first_name || '', email: k.email };
-    setStep(2);
-    var watch = document.createElement('button');
-    watch.type = 'button'; watch.className = 'pill-btn watch-btn'; watch.textContent = "Watch Katie's video";
-    watch.addEventListener('click', toStep2);
-    card.appendChild(watch);
-    var notYou = join.querySelector('.not-you');
-    if (notYou) notYou.addEventListener('click', function () { watch.remove(); setStep(1); });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', checkKnown); else checkKnown();
 
   // Gray play button over the video; native controls appear once it's playing.
   (function () {
