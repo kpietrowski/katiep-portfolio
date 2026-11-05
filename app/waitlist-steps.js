@@ -95,7 +95,7 @@
     e.preventDefault();
     pf.querySelector('.form-error').hidden = true;
     var phone = pf.phone.value.trim();
-    if (phone.replace(/\D/g, '').length < 10) return err(pf, 'Please enter your mobile number.', pf.phone);
+    if (phone.replace(/\D/g, '').length < 10) return err(pf, 'Please enter your phone number.', pf.phone);
     var btn = pf.querySelector('button[type=submit]'), label = btn.textContent;
     btn.disabled = true; btn.textContent = 'Saving…';
     post({ first_name: me.first_name, email: me.email, phone: phone, sms_consent: true, referrer: location.href })
