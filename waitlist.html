@@ -4,22 +4,184 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FAF7EF">
-<title>App in 30 Days: Make Your First Money-Making App with Claude Code | Katie P.</title>
-<meta name="description" content="Join the waitlist for App in 30 Days: make your first money-making app with Claude Code, with no coding experience. Katie has built 10+ iPhone apps with AI; her latest, Tide, made $25,000 in its first 60 days.">
-<meta property="og:title" content="Make your first money-making app with Claude Code in 30 days">
+<title>The App &amp; Yap Challenge: Make Your First Money-Making App with Claude Code | Katie P.</title>
+<meta name="description" content="Join the waitlist for the App &amp; Yap Challenge: make your first money-making app with Claude Code, with no coding experience. Katie has built 10+ iPhone apps with AI; her latest, Tide, made $24,000+ in its first 60 days.">
+<meta property="og:title" content="The App &amp; Yap Challenge: make your first money-making app with Claude Code in 30 days">
 <meta property="og:description" content="You bring the idea. Claude writes the code. I'll walk you through every step until it's live on the App Store.">
 <meta property="og:url" content="https://katiep.me/waitlist">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://katiep.me/app/katie.jpg">
+<meta property="og:image" content="https://katiep.me/api/og-waitlist?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The App &amp; Yap Challenge: make your first money-making app with Claude Code in 30 days. Katie Pietrowski.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://katiep.me/api/og-waitlist?v=1">
 <!--
-  Simple waitlist page (katiep.me/waitlist): just name + email. The full sales
+  Variation of the simple waitlist page (katiep.me/waitlist-2), a copy of /waitlist to edit separately: just name + email. The full sales
   page is katiep.me/app. The form posts to /api/waitlist (Kit tag
   "App in 30 Days waitlist") via /app/app.js, then goes to /app/thanks.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/app/app.css">
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=DM+Sans:wght@400;500;600;700&family=Gloock&family=Archivo:wght@800&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app/app.css?v=3">
+<style>/* waitlist-2 overrides */ .field { font-size: 15.6px; } .hero .kicker { font-size: 16px; } .tide-stage figcaption a { color: var(--blue); text-underline-offset: 3px; } .tide-stage .rev-proof { position: absolute; z-index: 3; left: 6px; top: 439px; width: 236px; margin: 0; background: #fff; border-radius: 12px; padding: 4px 2px; box-shadow: 0 18px 36px -16px rgba(11,26,69,.45); } .tide-stage .rev-proof img { position: static; display: block; width: 100%; height: auto; filter: none; } @media (max-width: 900px) { .tide-stage .rev-proof { top: 350px; width: 210px; } } @media (max-width: 560px) { .tide-stage .rev-proof { top: 313px; width: 180px; } }</style>
+<style>
+/* Two-step waitlist: 1 join, 2 video from Katie + optional mobile */
+.join-card { background: #fff; border-radius: 24px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05), 0 18px 40px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 18px; text-align: left; }
+.join-card .card-form { background: none; box-shadow: none; padding: 0; border-radius: 0; }
+.steps { list-style: none; margin: 0 auto; padding: 4px; display: flex; gap: 3px; width: 100%; background: rgba(11,26,69,.05); border-radius: 14px; }
+.steps .line { display: none; }
+.steps .step { flex: 1; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 12px; border-radius: 11px; font: 500 16px var(--sans); color: var(--ink-muted); white-space: nowrap; transition: background .2s, color .2s, box-shadow .2s; }
+.steps .dot { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12.5px; font-weight: 600; background: rgba(11,26,69,.07); color: var(--ink-muted); transition: background .2s, color .2s; }
+.steps .step.is-on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(11,26,69,.12); }
+.steps .step.is-on .dot { background: rgba(11,26,69,.08); color: var(--ink); }
+.steps .step.is-done { color: var(--ink-light); }
+.steps .step.is-done .dot { background: var(--lime); color: var(--ink); }
+.step2 { display: flex; flex-direction: column; gap: 16px; }
+.step2[hidden], .step-done[hidden], .join-card form[hidden] { display: none; }
+.step2-title { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.15; margin: 0; color: var(--ink); }
+.step2-lede { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink-light); }
+.katie-video { width: 100%; max-width: 340px; margin: 0 auto; aspect-ratio: 3 / 4; border-radius: 18px; overflow: hidden; background: var(--ink); }
+.katie-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.video-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--bg); text-align: center; padding: 20px; background: radial-gradient(120% 80% at 50% 30%, #1E3A8A 0%, var(--ink) 70%); }
+.video-ph .play { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--blue); font-size: 22px; padding-left: 4px; box-shadow: 0 10px 24px rgba(43,85,245,.45); }
+.video-ph b { font: 600 15px var(--sans); }
+.skip-link { background: none; border: 0; padding: 4px; font: 600 14px var(--sans); color: var(--ink-muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; align-self: center; }
+.skip-link:hover { color: var(--ink); }
+.step-done { text-align: center; padding: 6px 0; }
+.step-done .done-title { font-family: var(--serif); font-size: 26px; line-height: 1.2; margin: 0 0 6px; color: var(--ink); }
+.step-done .known-next a { color: var(--blue); font-weight: 600; }
+@media (max-width: 560px) {
+  .join-card { padding: 18px; gap: 16px; }
+  .steps .step { flex: 1 1 auto; font-size: 14px; gap: 6px; padding: 12px 6px; white-space: nowrap; line-height: 1.2; }
+  .steps .dot { width: 20px; height: 20px; font-size: 11.5px; }
+  .steps .txt { text-align: left; }
+  .step2-title { font-size: 24px; }
+  .katie-video { max-width: 100%; }
+}
+/* Inputs: white with a blue outline, like the focused state */
+.join-card .field input, .s2-screen .field input { background: #fff; border: 1.5px solid var(--blue); }
+.join-card .field input:focus, .s2-screen .field input:focus { background: #fff; border-color: var(--blue); box-shadow: 0 0 0 4px var(--blue-light); }
+.join-card .field input::placeholder, .s2-screen .field input::placeholder { color: var(--ink-muted); }
+/* Buttons stay gray until the fields are filled in */
+.join-card .pill-btn.is-off, .join-card .pill-btn.is-off:hover, .s2-screen .pill-btn.is-off, .s2-screen .pill-btn.is-off:hover { background: #ECEBE7; color: #9A9FB0; box-shadow: none; cursor: default; }
+.join-card .pill-btn, .s2-screen .pill-btn { transition: background .2s, color .2s, box-shadow .2s, transform .15s; }
+/* Step 2 is a full screen of its own */
+.s2-screen { position: fixed; inset: 0; z-index: 40; background: var(--bg); overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; animation: s2in .25s ease-out; }
+.s2-screen[hidden] { display: none; }
+@keyframes s2in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.s2-inner { max-width: 520px; margin: 0 auto; padding: max(28px, calc(env(safe-area-inset-top, 0px) + 16px)) 18px calc(32px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 18px; }
+.s2-top { display: flex; align-items: center; gap: 10px; }
+.s2-top .steps { flex: 1; }
+.s2-close { position: absolute; z-index: 2; top: max(12px, env(safe-area-inset-top, 0px)); right: 12px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(11,26,69,.06); color: var(--ink-light); font-size: 22px; line-height: 1; cursor: pointer; }
+.s2-screen .step2 { gap: 16px; }
+.s2-screen .katie-video { max-width: 420px; box-shadow: 0 18px 40px -18px rgba(11,26,69,.45); }
+.s2-screen .step-done { padding: 40px 0; }
+html.s2-open, html.s2-open body { overflow: hidden; }
+body.editing .s2-screen[hidden] { display: block !important; position: static; animation: none; }
+@media (max-width: 560px) { .s2-screen .katie-video { max-width: 100%; } }
+.sms-fine { margin: 0; font-size: 12px; line-height: 1.5; color: var(--ink-muted); text-align: center; }
+.sms-fine a { color: inherit; }
+/* Big gray play button in the middle of the video */
+.katie-video { position: relative; }
+.s2-screen .step2-title { font-size: 48px; line-height: 1.05; }
+@media (max-width: 560px) { .s2-screen .step2-title { font-size: 42px; } }
+.play-btn { position: absolute; inset: 0; margin: auto; width: 78px; height: 78px; border-radius: 50%; border: 0; padding: 0; display: grid; place-items: center; cursor: pointer; background: rgba(60,60,67,.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 8px 24px rgba(0,0,0,.25); transition: transform .15s, background .15s; }
+.play-btn:hover { background: rgba(60,60,67,.7); transform: scale(1.05); }
+.play-btn svg { width: 34px; height: 34px; fill: #fff; margin-left: 5px; }
+.katie-video.playing .play-btn { display: none; }
+/* Mobile-first tune-up: form and button above the fold in Instagram/TikTok browsers */
+.join-card { scroll-margin-top: 12px; }
+@media (max-width: 560px) {
+  .top { position: static; }
+  .top-inner { height: 48px; }
+  .wordmark { font-size: 20px; }
+  .wrap { padding: 0 18px; }
+  .hero { padding: 26px 0 40px; }
+  .hero-grid { gap: 28px; }
+  .hero .kicker { margin-bottom: 10px; letter-spacing: 0.1em; }
+  h1.hero-title { font-size: 41px; line-height: 1.05; }
+  .hero .lede { font-size: 16.5px; line-height: 1.5; margin: 14px 0 18px; }
+  .join-card { padding: 14px; gap: 14px; border-radius: 20px; }
+  .join-card .card-form { gap: 12px; }
+  #join .row { grid-template-columns: minmax(0,1fr); gap: 12px; }
+  .field input { width: 100%; min-width: 0; }
+  .field { gap: 4px; }
+  .field input { font-size: 16px; padding: 12px 13px; border-radius: 12px; }
+  .join-card .pill-btn, .s2-screen .pill-btn { min-height: 54px; padding: 14px 18px; }
+  .s2-screen .card-form { padding: 16px; border-radius: 20px; }
+  #join .fine { margin: 0; }
+  .step2 { gap: 14px; }
+  .step2-title { font-size: 25px; }
+  .step2-lede { font-size: 15.5px; }
+  .skip-link { padding: 12px; }
+  .foot { padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)); }
+}
+.steps .step { min-width: 0; } .steps .txt { overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 380px) { .steps .step { font-size: 13.5px; gap: 5px; padding: 10px 4px; } .steps .dot { width: 20px; height: 20px; font-size: 11px; } }
+@media (max-width: 900px) { .tide-stage { margin-bottom: 52px; } .tide-stage figcaption { bottom: -44px; } }
+@media (max-width: 560px) {
+  .hero { padding-top: 14px; }
+  .hero .kicker { margin-bottom: 8px; font-size: 14px; }
+  h1.hero-title { font-size: 38px; line-height: 1.04; }
+  .hero .lede { font-size: 15.5px; line-height: 1.45; margin: 14px 0 14px; }
+  .join-card { padding: 12px; gap: 10px; }
+  .join-card .card-form { gap: 9px; }
+  #join .row { gap: 8px; }
+  .field { gap: 3px; }
+  .field input { padding: 10px 12px; }
+  .steps .step { padding-top: 9px; padding-bottom: 9px; }
+  .join-card .pill-btn { min-height: 50px; padding: 12px 18px; }
+}
+.join-card .field input, .s2-screen .field input { font-size: 18px; }
+/* Step 2: headline, video and phone field all fit on one phone screen */
+.s2-inner { padding-top: max(14px, calc(env(safe-area-inset-top, 0px) + 10px)); gap: 12px; }
+.s2-screen .step2 { gap: 12px; }
+.s2-screen .step2-title { margin: 0; }
+.s2-screen .katie-video { width: auto; max-width: 100%; height: min(472px, calc(100vh - 300px)); height: min(472px, calc(100svh - 300px)); aspect-ratio: 3 / 4; margin: 0 auto; }
+.s2-screen .card-form { padding: 14px; gap: 10px; }
+@media (max-width: 560px) { .s2-screen .step2-title { font-size: 40px; } }
+/* Thank-you screen: one Instagram reel */
+.s2-screen .step-done { padding: 0; display: flex; flex-direction: column; gap: 12px; text-align: left; }
+.s2-screen .step-done[hidden] { display: none; }
+.reel-card { border-radius: 22px; overflow: hidden; background: var(--ink); box-shadow: 0 18px 40px -18px rgba(11,26,69,.45); }
+.reel-card img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.reel-ph { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding: 18px; color: rgba(255,255,255,.6); font: 600 13px var(--sans); background: radial-gradient(120% 80% at 50% 30%, #1E3A8A 0%, var(--ink) 70%); }
+.reel-card .play-btn { pointer-events: none; }
+.ig-btn { width: 100%; gap: 10px; text-decoration: none; min-height: 54px; }
+.ig-icon { display: inline-grid; place-items: center; width: 22px; height: 22px; }
+.ig-icon svg, .ig-icon img { width: 22px; height: 22px; }
+.foot .credit { display: inline-block; margin-top: 6px; font-size: 12px; }
+/* Step 2 video and step 3 reel preview: one shared size */
+.s2-screen { --frame-h: min(472px, calc(100vh - 300px)); }
+@supports (height: 100svh) { .s2-screen { --frame-h: min(472px, calc(100svh - 300px)); } }
+.s2-screen .katie-video { display: block; position: relative; height: auto; aspect-ratio: 3 / 4; width: min(100%, calc(var(--frame-h) * 0.75)); max-width: 100%; margin: 0 auto; align-self: center; border-radius: 22px; overflow: hidden; }
+.s2-screen .katie-video > video, .s2-screen .katie-video > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+/* Headlines line up with the left edge of the video */
+.s2-screen .step2-title { width: min(100%, calc(var(--frame-h) * 0.75)); align-self: center; margin: 0 auto; }
+/* Watch on Instagram matches Text Me's width (Text Me sits inside a 14px-padded card) */
+.s2-screen .step-done .ig-btn { width: calc(100% - 28px); align-self: center; }
+.s2-screen .s3-title { white-space: nowrap; overflow: hidden; }
+@media (max-width: 560px) { .s2-screen .step2-title { font-size: min(40px, 10vw); } }
+/* App & Yap Challenge wordmark */
+.aty-logo { display: flex; flex-direction: column; align-items: center; text-align: center; color: #1F4A33; margin: 0 0 30px; }
+.aty-word { font-family: 'Gloock', Georgia, serif; font-weight: 400; font-size: 54px; line-height: 0.95; letter-spacing: -0.01em; }
+.aty-sub { font-family: 'Archivo', 'DM Sans', sans-serif; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 0.45em; padding-left: 0.45em; margin-top: 8px; }
+.aty-lock { display: inline-flex; flex-direction: column; align-items: center; }
+.aty-with { align-self: flex-end; font-family: 'Caveat', 'Bradley Hand', cursive; font-weight: 500; font-size: 24px; line-height: 1; color: rgba(31,74,51,.62); transform: rotate(-4deg); margin: 2px -14px 0 0; }
+@media (max-width: 560px) { .aty-with { font-size: 20px; margin-right: -10px; } }
+@media (max-width: 560px) { .aty-logo { margin-bottom: 12px; } .aty-word { font-size: 40px; } .aty-sub { font-size: 10.5px; margin-top: 6px; } }
+/* Phones: keep the Join button above the fold with the wordmark added */
+.aty-lock { position: relative; }
+@media (max-width: 560px) {
+  .hero { padding-top: 10px; }
+  .aty-logo { margin-bottom: 24px; }
+  .aty-word { font-size: 36px; }
+  .aty-with { position: absolute; right: -58px; bottom: -6px; margin: 0; font-size: 19px; }
+}
+@media (max-width: 359px) { #join .row { grid-template-columns: 1fr; } h1.hero-title { font-size: 35px; } .wrap { padding: 0 14px; } }
+</style>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -27,52 +189,81 @@
 </head>
 <body class="simple">
 
-<header class="top">
-  <div class="wrap top-inner">
-    <span class="wordmark">katie p.</span>
-  </div>
-</header>
-
 <main>
 
 <!-- HERO -->
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="kicker">The App in 30 Days challenge</p>
-      <h1 class="display hero-title">Make your first <span class="nowrap">money-making</span> app with Claude Code in <em>30 days.</em></h1>
-      <p class="lede">No coding experience needed. 15+ Claude skills hold your hand through every step, from your idea to the App Store to your first paying users. It's how I built Tide, which made $25,000 in its first 60 days.</p>
+      <div class="aty-logo" role="img" aria-label="The App &amp; Yap Challenge with Katie P"><div class="aty-lock"><span class="aty-word">App &amp; Yap</span><span class="aty-sub">Challenge</span><span class="aty-with">with Katie P</span></div></div>
+      <h1 class="display hero-title">Make your first <span class="nowrap">money-making</span> app with <span class="nowrap">Claude Code</span> in <em>30 days.</em></h1>
+      <p class="lede">No coding experience needed. 15+ Claude skills hold your hand through every step, from idea to the App Store to your first paying users from yapping. It's how I built Tide, which made $24,000+ in its first 60 days.</p>
 
-      <form class="waitlist card-form" id="join" novalidate data-remember="waitlist">
-        <div class="row">
-          <label class="field">First name<input type="text" name="first_name" autocomplete="given-name" placeholder="Your first name"></label>
-          <label class="field">Email<input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@email.com" required></label>
-        </div>
-        <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
-        <p class="form-error" role="alert" hidden></p>
-        <button type="submit" class="pill-btn">Join the waitlist</button>
-        <p class="fine">You'll be the first to know when doors open. Unsubscribe anytime.</p>
-      </form>
+      <div class="join-card">
+        <ol class="steps" aria-label="Two steps to join">
+          <li class="step is-on" aria-current="step"><span class="dot">1</span><span class="txt">Join the waitlist</span></li>
+          <li class="line" aria-hidden="true"></li>
+          <li class="step"><span class="dot">2</span><span class="txt">A video from Katie</span></li>
+        </ol>
+
+        <form class="waitlist card-form" id="join" novalidate>
+          <div class="row">
+            <label class="field"><span class="lbl">First name</span><input type="text" name="first_name" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="Your first name"></label>
+            <label class="field"><span class="lbl">Email</span><input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" placeholder="you@email.com" required></label>
+          </div>
+          <div class="hp" aria-hidden="true"><label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+          <p class="form-error" role="alert" hidden></p>
+          <button type="submit" class="pill-btn">Join the waitlist</button>
+          <p class="fine">You'll be the first to know when doors open.</p>
+        </form>
+      </div>
     </div>
 
     <figure class="tide-stage">
-        <img class="tide-back" src="/app/tide-updates.webp" alt="" width="560" height="1148" decoding="async">
+        <img class="tide-back" loading="lazy" src="/app/tide-updates.webp" alt="" width="560" height="1148" decoding="async">
         <img class="tide-front" src="/app/tide-timer.webp" alt="Tide, the contraction timer app Katie built" width="560" height="1148" decoding="async" fetchpriority="high">
-        <div class="stat-badge"><b>$25,000</b><span>in Tide's first 60 days</span></div>
+        <div class="stat-badge"><b>$24,820</b><span>in Tide's first 60 days</span></div>
+        <div class="rev-proof"><img src="/app/tide-revenue.png" alt="Tide revenue: $24,820" width="522" height="80" decoding="async"></div>
         <div class="rating-badge"><span aria-hidden="true">&#9733;</span> 4.9 &middot; 315 ratings</div>
-        <figcaption>Tide, my latest app, built with Claude</figcaption>
+        <figcaption><a href="https://apps.apple.com/us/app/tide-contraction-timer/id6795967947" target="_blank" rel="noopener">Tide</a>, my latest app, built with Claude Code</figcaption>
       </figure>
   </div>
 </section>
 
 </main>
 
+<div class="s2-screen" id="s2-screen" hidden role="dialog" aria-modal="true" aria-label="A video from Katie">
+  <div class="s2-inner">
+    <div class="step2" id="step2" hidden>
+      <h2 class="step2-title">Hey!</h2>
+      <div class="katie-video">
+        <video playsinline preload="metadata" poster="/app/katie-video.jpg?v=6"><source src="/app/katie-video.mp4?v=5" type="video/mp4">Your browser can't play this video.</video><button type="button" class="play-btn" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.6-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></button>
+      </div>
+      <form class="card-form" id="phone-form" novalidate>
+        <label class="field"><span class="lbl">Your phone number</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" enterkeyhint="done" placeholder="(508) 555-0123"></label>
+        <p class="form-error" role="alert" hidden></p>
+        <button type="submit" class="pill-btn">Text Me</button>
+        <p class="sms-fine">By tapping Text Me, you agree to receive marketing text messages from Katie Pietrowski at this number, which may be sent by automated means. Consent isn't required to join. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/app/privacy">Privacy policy</a>.</p>
+      </form>
+    </div>
+
+    <div class="step-done" id="step-done" hidden>
+      <h2 class="step2-title s3-title">Watch on Instagram</h2>
+            <a class="katie-video reel-card" href="https://www.instagram.com/reel/DbgBDNGxyKq/" target="_blank" rel="noopener" aria-label="Watch the reel on Instagram">
+        <img src="/app/reel-cover.jpg?v=3" alt="Katie's Instagram reel" width="720" height="960">
+        <span class="play-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.6-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span>
+      </a>
+      <a class="pill-btn ig-btn" href="https://www.instagram.com/reel/DbgBDNGxyKq/" target="_blank" rel="noopener">Watch on Instagram<span class="ig-icon" aria-hidden="true"><img src="/app/ig-glyph.png" alt="" width="22" height="22"></span></a>
+    </div>
+  </div>
+</div>
+
+
 <footer class="foot">
   <div class="wrap">
-    © 2026 Katie Pietrowski &middot; <a href="/app/privacy">Privacy policy</a> &middot; <a href="/earnings">Earnings disclaimer</a></div>
+    © 2026 Katie Pietrowski &middot; <a href="/app/privacy">Privacy policy</a> &middot; <a href="/earnings">Earnings disclaimer</a><br><span class="credit">Instagram icon by Freepik from <a href="https://www.flaticon.com/free-icon/instagram-logo_87390" rel="noopener" target="_blank">Flaticon</a></span></div>
 </footer>
 
-<script src="/app/remember.js"></script>
-<script src="/app/app.js"></script>
+<script src="/app/waitlist-steps.js?v=11"></script>
 </body>
 </html>
