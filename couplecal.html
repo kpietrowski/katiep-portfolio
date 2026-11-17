@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#D4E4FB">
+<title>Together: Couple Calendar</title>
+<meta name="description" content="The shared calendar for couples. See the whole week together and stay on the same page.">
+<meta property="og:title" content="Together: Couple Calendar">
+<meta property="og:description" content="The shared calendar for couples. See the whole week together and stay on the same page.">
+<meta property="og:image" content="https://katiep.me/images/couplecal-icon.jpg">
+<meta property="og:url" content="https://katiep.me/couplecal">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://katiep.me/images/couplecal-icon.jpg">
+<link rel="apple-touch-icon" href="/images/couplecal-icon.jpg">
+<style>
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { margin:0; }
+  body { min-height:100vh; font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
+    background:#D4E4FB; color:#0E2A4A; }
+
+  #iab { display:none; }
+  .arrow { position:fixed; top:6px; right:34px; z-index:30; width:120px; height:120px; pointer-events:none; }
+
+  .wrap { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:calc(env(safe-area-inset-top) + 40px) 26px calc(env(safe-area-inset-bottom) + 34px); }
+
+  .brand { display:flex; align-items:center; gap:14px; margin-bottom:34px; width:100%; max-width:360px; }
+  .brand img { width:64px; height:64px; border-radius:15px; box-shadow:0 1px 0 rgba(0,0,0,.08), 0 6px 18px rgba(0,0,0,.12); }
+  .brand .name { font-size:21px; font-weight:800; letter-spacing:-.01em; line-height:1.15; }
+  .brand .tag { font-size:15px; font-weight:500; color:#4F6584; margin-top:2px; }
+
+  .view { display:none; width:100%; max-width:360px; }
+  h1 { font-size:30px; font-weight:800; letter-spacing:-.02em; line-height:1.1; margin:0 0 22px; }
+  .hl { background:linear-gradient(transparent 52%, #7FD2BE 52%, #7FD2BE 92%, transparent 92%); padding:0 2px; }
+
+  .btn { appearance:none; border:0; display:block; width:100%; margin-top:12px; padding:18px;
+    border-radius:16px; background:#0E2A4A; color:#D4E4FB; font:inherit; font-size:18px;
+    font-weight:700; text-align:center; text-decoration:none; cursor:pointer; }
+  .btn.accent { background:#7FD2BE; color:#0E2A4A; }
+  .then { font-size:17px; font-weight:500; color:#4F6584; margin:16px 0; line-height:1.4; }
+  .foot { font-size:16px; font-weight:500; color:#4F6584; margin-top:26px; line-height:1.5; }
+  p { font-size:17px; line-height:1.5; color:#0E2A4A; opacity:.85; margin:0 0 8px; }
+</style>
+</head>
+<body>
+  <div id="iab">
+    <svg class="arrow" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M14 84 C 36 88, 72 74, 104 12" stroke="#0E2A4A" stroke-width="5" stroke-linecap="round"/>
+      <path d="M85 24 L 104 12 L 105 34" stroke="#0E2A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="wrap">
+    <div class="brand">
+      <img src="/images/couplecal-icon.jpg" alt="">
+      <div>
+        <div class="name">Together</div>
+        <div class="tag">Couple Calendar</div>
+      </div>
+    </div>
+
+    <div class="view" id="escape">
+      <h1>Open this in your <span class="hl">browser</span></h1>
+      <button class="btn accent" id="escape-copy" type="button">Copy link</button>
+      <div class="then" id="escape-then">Then paste it into Safari.</div>
+      <div class="foot" id="escape-menu"></div>
+    </div>
+
+    <div class="view" id="ios">
+      <h1>Opening the <span class="hl">App Store</span>…</h1>
+      <a class="btn" id="ios-link" href="#">Get Together</a>
+    </div>
+
+    <div class="view" id="android">
+      <h1>Together is <span class="hl">iPhone only</span></h1>
+      <p>It isn't on Android yet. If you have an iPhone too, it's on the App Store.</p>
+      <a class="btn" id="android-link" href="#">See it on the App Store</a>
+    </div>
+
+    <div class="view" id="desktop">
+      <h1>Get it on your <span class="hl">iPhone</span></h1>
+      <p>Open this link on your iPhone, or find Together on the App Store.</p>
+      <a class="btn" id="desktop-link" href="#">View on the App Store</a>
+    </div>
+  </div>
+
+<script>
+  (function () {
+    var APP_STORE = "https://apps.apple.com/us/app/together-couple-calendar/id6472210543";
+
+    var ua = navigator.userAgent || "";
+    // iPadOS reports itself as a Mac; touch points tell them apart.
+    var isIOS = /iPhone|iPod|iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    var isAndroid = /Android/.test(ua);
+    // In-app browsers, by the token each one actually sends.
+    // TikTok sends musical_ly / Bytedance / aweme, never "TikTok".
+    var inApp = new RegExp([
+      "Instagram", "FBAN", "FBAV", "FB_IAB", "FBIOS", "Messenger",
+      "musical_ly", "Bytedance", "aweme",
+      "Snapchat", "Pinterest", "Line/", "NAVER", "KAKAOTALK",
+      "Twitter", "LinkedInApp", "WhatsApp", "Reddit",
+      "; wv"   // Android's generic WebView marker
+    ].join("|"), "i").test(ua);
+    var preview = /[?&]preview=1/.test(location.search);
+
+    // Optional visit counting. Delete these lines if there's no endpoint.
+    function hit(page) {
+      try { navigator.sendBeacon("https://flvshacazleoplaetyab.functions.supabase.co/track?p=" + page); } catch (e) {}
+    }
+    hit("couplecal");
+    hit(inApp ? "couplecal-inapp" : isAndroid ? "couplecal-android" : isIOS ? "couplecal-ios" : "couplecal-other");
+
+    function show(id) {
+      var views = document.querySelectorAll(".view");
+      for (var i = 0; i < views.length; i++) views[i].style.display = "none";
+      document.getElementById(id).style.display = "block";
+    }
+
+    var escaped = false;
+    function showEscape() {
+      if (escaped) return;
+      escaped = true;
+      show("escape");
+      document.getElementById("escape-then").textContent =
+        isAndroid ? "Then paste it into Chrome." : "Then paste it into Safari.";
+
+      // Instagram and Facebook keep the menu top right; elsewhere it moves
+      // around, so it's named without pointing anywhere.
+      if (/Instagram|FBAN|FBAV|FB_IAB|FBIOS/i.test(ua)) {
+        document.getElementById("iab").style.display = "block";
+        document.getElementById("escape-menu").innerHTML =
+          "Or tap <b>&bull;&bull;&bull;</b> at the top and choose " +
+          (isAndroid ? "<b>Open in Chrome</b>." : "<b>Open in external browser</b>.");
+      } else {
+        document.getElementById("escape-menu").innerHTML =
+          "Or find <b>Open in browser</b> in this app’s menu.";
+      }
+
+      var cbtn = document.getElementById("escape-copy");
+      var link = location.href.split("#")[0].replace(/[?&]preview=1/, "");
+      cbtn.addEventListener("click", function () {
+        function fallback() {
+          // No clipboard API in some webviews: show the link to copy by hand.
+          document.getElementById("escape-then").innerHTML =
+            "Copy this, then paste it into " + (isAndroid ? "Chrome" : "Safari") +
+            ':<br><span style="user-select:all;-webkit-user-select:all;font-weight:700;word-break:break-all">' +
+            link + "</span>";
+          cbtn.textContent = "Couldn’t copy — use the link above";
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(link).then(function () {
+            cbtn.textContent = "Copied ✓";
+          }, fallback);
+        } else {
+          fallback();
+        }
+      });
+    }
+
+    /* 1. In-app browser: get them out first. */
+    if (inApp || preview) {
+      showEscape();
+      // iOS-only scheme that hands the link to Safari, where the app allows it.
+      if (!preview && isIOS) {
+        setTimeout(function () { try { location.href = "x-safari-" + APP_STORE; } catch (e) {} }, 250);
+      }
+      return;
+    }
+
+    /* 2. iPhone: straight to the App Store. */
+    if (isIOS) {
+      document.getElementById("ios-link").href = APP_STORE;
+      show("ios");
+      setTimeout(function () { location.href = APP_STORE; }, 350);
+      // Still visible after the redirect should have happened means a webview
+      // we didn't recognise blocked it: show the escape steps instead.
+      setTimeout(function () {
+        if (document.visibilityState !== "hidden") showEscape();
+      }, 1800);
+      return;
+    }
+
+    /* 3. Android. */
+    if (isAndroid) {
+      document.getElementById("android-link").href = APP_STORE;
+      show("android");
+      return;
+    }
+
+    /* 4. Desktop. */
+    document.getElementById("desktop-link").href = APP_STORE;
+    show("desktop");
+  })();
+</script>
+</body>
+</html>
